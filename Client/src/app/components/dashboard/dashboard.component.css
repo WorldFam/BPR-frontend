@@ -1,0 +1,76 @@
+table {
+  width: 100%;
+}
+
+table th {
+  font-size: 16px;
+  color: grey;
+  border-style: none;
+  border-bottom: 2px solid grey;
+}
+
+.mat-column-position {
+  width: 32px;
+  border-right: 1px solid currentColor;
+  padding-right: 24px;
+  text-align: center;
+}
+
+.mat-row:hover {
+  background: rgba(200,200,200);
+}
+      
+.mat-row:nth-child(odd){
+  background-color: rgb(223,223,223);
+}
+
+.mat-row:nth-child(odd):hover{
+  background: rgba(200,200,200);
+}
+
+.example-container {
+  display: flex;
+  flex-direction: column;
+
+  flex-basis: 300px;
+}
+
+.mat-table {
+  overflow: auto;
+  max-height: 500px;
+}
+
+ .mat-column-name{
+border-right: 5px solid rgb(242,242,242);
+align-self: stretch;
+text-align: center
+
+
+}
+.mat-column-position{
+border-right: 5px solid rgb(242,242,242);
+align-self: stretch;
+text-align: center;
+
+}
+.mat-column-weight{
+border-right: 5px solid rgb(242,242,242);
+align-self: stretch;
+text-align: center;
+} 
+  
+.mat-column-symbol{
+
+text-align: center;
+align-self: stretch;
+}
+.mat-column-weight{
+   align-self: stretch;
+} 
+
+.mat-cell{
+  border-bottom: 1.5px solid rgb(184,185,183);
+}
+
+/* IMPORTED */
+
