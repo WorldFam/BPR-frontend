@@ -3,10 +3,11 @@ table {
 }
 
 table th {
-  font-size: 16px;
-  color: grey;
+  font-size: 17px;
+  color: #282b39;
   border-style: none;
-  border-bottom: 2px solid grey;
+  border-bottom: 3px solid rgb(40,43,56);
+  padding-top: 25px;
 }
 
 .mat-column-position {
@@ -74,3 +75,23 @@ align-self: stretch;
 
 /* IMPORTED */
 
+.example-loading-shade {
+  position: absolute;
+  top: 55px;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.15);
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.example-container {
+  position: relative;
+} 
+
+::ng-deep .mat-sort-header-arrow {
+  color: #282b39;
+}

@@ -1,0 +1,115 @@
+@use '@angular/material' as mat;
+@include mat.core(); 
+
+$primary: (
+    50 : #e5e6e7,
+    100 : #bfbfc3,
+    200 : #94959c,
+    300 : #696b74,
+    400 : #484b56,
+    500 : #282b38,
+    600 : #242632,
+    700 : #1e202b,
+    800 : #181a24,
+    900 : #0f1017,
+    A100 : #5c77ff,
+    A200 : #294cff,
+    A400 : #0029f5,
+    A700 : #0025db,
+    contrast: (
+        50 : #000000,
+        100 : #000000,
+        200 : #000000,
+        300 : #ffffff,
+        400 : #ffffff,
+        500 : #ffffff,
+        600 : #ffffff,
+        700 : #ffffff,
+        800 : #ffffff,
+        900 : #ffffff,
+        A100 : #ffffff,
+        A200 : #ffffff,
+        A400 : #ffffff,
+        A700 : #ffffff,
+    )
+);
+
+$accent: (
+    50 : #ededed,
+    100 : #d3d3d3,
+    200 : #b6b6b6,
+    300 : #989898,
+    400 : #828282,
+    500 : #6c6c6c,
+    600 : #646464,
+    700 : #595959,
+    800 : #4f4f4f,
+    900 : #3d3d3d,
+    A100 : #f5a3a3,
+    A200 : #f07575,
+    A400 : #ff3333,
+    A700 : #ff1a1a,
+    contrast: (
+        50 : #000000,
+        100 : #000000,
+        200 : #000000,
+        300 : #000000,
+        400 : #000000,
+        500 : #ffffff,
+        600 : #ffffff,
+        700 : #ffffff,
+        800 : #ffffff,
+        900 : #ffffff,
+        A100 : #000000,
+        A200 : #000000,
+        A400 : #ffffff,
+        A700 : #ffffff,
+    )
+);
+
+$warn: (
+    50 : #f1e2e2,
+    100 : #ddb6b7,
+    200 : #c78587,
+    300 : #b05457,
+    400 : #9f3033,
+    500 : #8e0b0f,
+    600 : #860a0d,
+    700 : #7b080b,
+    800 : #710608,
+    900 : #5f0304,
+    A100 : #ff9090,
+    A200 : #ff5d5d,
+    A400 : #ff2a2a,
+    A700 : #ff1010,
+    contrast: (
+        50 : #000000,
+        100 : #000000,
+        200 : #000000,
+        300 : #ffffff,
+        400 : #ffffff,
+        500 : #ffffff,
+        600 : #ffffff,
+        700 : #ffffff,
+        800 : #ffffff,
+        900 : #ffffff,
+        A100 : #000000,
+        A200 : #000000,
+        A400 : #ffffff,
+        A700 : #ffffff,
+    )
+);
+
+$theme-primary: mat.define-palette($primary);
+$theme-accent:  mat.define-palette($accent);
+$theme-warn:  mat.define-palette($warn);
+
+$theme: mat.define-light-theme((
+  color: (
+    primary: $theme-primary,
+    accent: $theme-accent,
+    warn: $theme-warn,
+  )
+));
+
+@include mat.all-component-themes($theme);

@@ -20,9 +20,8 @@
             "tsConfig": "tsconfig.app.json",
             "assets": ["src/favicon.ico", "src/assets"],
             "styles": [
-              "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
-              "src/styles.css",
-              "node_modules/highlight.js/styles/monokai-sublime.css"
+              "src/styles.scss",
+              "src/theme.scss"
             ],
             "scripts": [],
             "vendorChunk": true,

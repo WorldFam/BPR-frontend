@@ -2,6 +2,7 @@ import {LiveAnnouncer} from '@angular/cdk/a11y';
 import {AfterViewInit, Component, ViewChild} from '@angular/core';
 import {MatSort, Sort} from '@angular/material/sort';
 import {MatTableDataSource} from '@angular/material/table';
+import {HttpClient} from '@angular/common/http';
 
 @Component({
   selector: 'app-dashboard',
@@ -35,7 +36,17 @@ export class DashboardComponent implements AfterViewInit  {
 
   dataSource = new MatTableDataSource(ELEMENT_DATA);
 
-  constructor(private _liveAnnouncer: LiveAnnouncer) {}
+  private url: string = 'http://localhost:7071/api/TriggerFunction?dateTo=www'
+  items:Document[] = [];
+  isLoadingResults = false;
+
+  constructor(private _liveAnnouncer: LiveAnnouncer,private http:HttpClient) {
+    this.http.get<Document[]>(this.url).subscribe(data => {
+     
+      this.items = data
+  
+      console.log(this.items)})
+  }
 
   @ViewChild(MatSort) sort: MatSort;
 
@@ -55,6 +66,7 @@ export class DashboardComponent implements AfterViewInit  {
       this._liveAnnouncer.announce('Sorting cleared');
     }
   }
+
 }
 
 export interface PeriodicElement {
