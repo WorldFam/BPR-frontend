@@ -1,20 +1,24 @@
 table {
   width: 100%;
+  border-collapse: separate; /* Don't collapse */
 }
 
 table th {
-  font-size: 17px;
-  color: #282b39;
-  border-style: none;
-  border-bottom: 3px solid rgb(40,43,56);
+  font-size: 14px;
+  color: #fff;
+  background-color: #282b39;
+  border-bottom: 2px solid rgb(242,242,242);
   padding-top: 25px;
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-weight: 600;
 }
 
-.mat-column-position {
-  width: 32px;
-  border-right: 1px solid currentColor;
-  padding-right: 24px;
-  text-align: center;
+td{
+  font-family: 'IBM Plex Sans', sans-serif;
+}
+
+.mat-header-cell {
+  justify-content: center;
 }
 
 .mat-row:hover {
@@ -30,47 +34,19 @@ table th {
 }
 
 .example-container {
-  display: flex;
-  flex-direction: column;
-
-  flex-basis: 300px;
-}
-
-.mat-table {
+  height: 500px;
+  max-width: 100%;
   overflow: auto;
-  max-height: 500px;
 }
 
- .mat-column-name{
-border-right: 5px solid rgb(242,242,242);
-align-self: stretch;
-text-align: center
 
-
+[class*="mat-column-"]{
+border-right: 2px solid rgb(242,242,242);
+padding-left: 8px;
 }
-.mat-column-position{
-border-right: 5px solid rgb(242,242,242);
-align-self: stretch;
-text-align: center;
-
-}
-.mat-column-weight{
-border-right: 5px solid rgb(242,242,242);
-align-self: stretch;
-text-align: center;
-} 
-  
-.mat-column-symbol{
-
-text-align: center;
-align-self: stretch;
-}
-.mat-column-weight{
-   align-self: stretch;
-} 
 
 .mat-cell{
-  border-bottom: 1.5px solid rgb(184,185,183);
+  border-bottom: 1px solid rgb(184,185,183);
 }
 
 /* IMPORTED */
@@ -93,5 +69,6 @@ align-self: stretch;
 } 
 
 ::ng-deep .mat-sort-header-arrow {
-  color: #282b39;
+  color: #fff;
 }
+
