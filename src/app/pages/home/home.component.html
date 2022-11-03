@@ -1,7 +1,10 @@
+<app-filter></app-filter>
+
+
 <div class="container" *ngIf="auth.isLoading$ | async; else loaded">
   <app-loading></app-loading>
 </div>
 
 <ng-template #loaded>
-  <app-dashboard></app-dashboard>
+  <div class="table"><app-dashboard></app-dashboard> </div>
 </ng-template>

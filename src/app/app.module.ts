@@ -25,6 +25,7 @@ import {MaterialExampleModule} from '../material.module';
 
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatNativeDateModule} from '@angular/material/core';
+import { FilterComponent } from './components/filter/filter.component';
 
 @NgModule({
   declarations: [
@@ -40,6 +41,7 @@ import {MatNativeDateModule} from '@angular/material/core';
     ErrorComponent,
     Auth0LoginComponent,
     DashboardComponent,
+    FilterComponent,
   ],
   imports: [
     BrowserModule,

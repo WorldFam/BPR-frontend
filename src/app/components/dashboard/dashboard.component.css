@@ -1,5 +1,5 @@
 table {
-  width: 100%;
+  width: 1920px;
   border-collapse: separate; /* Don't collapse */
 }
 
@@ -7,18 +7,13 @@ table th {
   font-size: 14px;
   color: #fff;
   background-color: #282b39;
-  border-bottom: 2px solid rgb(242,242,242);
-  padding-top: 25px;
   font-family: 'IBM Plex Sans', sans-serif;
   font-weight: 600;
+  padding-bottom: 5px;
 }
 
 td{
   font-family: 'IBM Plex Sans', sans-serif;
-}
-
-.mat-header-cell {
-  justify-content: center;
 }
 
 .mat-row:hover {
@@ -34,9 +29,8 @@ td{
 }
 
 .example-container {
-  height: 500px;
-  max-width: 100%;
-  overflow: auto;
+  height: 70vh;
+  overflow-y:scroll;
 }
 
 
@@ -47,6 +41,10 @@ padding-left: 8px;
 
 .mat-cell{
   border-bottom: 1px solid rgb(184,185,183);
+}
+
+.mat-row:hover {
+  cursor: pointer;
 }
 
 /* IMPORTED */
