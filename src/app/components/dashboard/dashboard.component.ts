@@ -23,10 +23,10 @@ interface UMM {
 }
 
 interface UMMTableColumn {
-  columnDef: string;
+  key: string;
   header: UMMHeader;
   sortable: boolean;
-  cell: (umm: UMM) => string;
+  // cell: (umm: UMM) => string | number | Date;
 }
 
 enum UMMHeader {
@@ -46,7 +46,7 @@ enum UMMHeader {
   unitOfMeasure = 'Unit of Measure',
 }
 
-enum UMMColumnDef {
+export enum UMMKey {
   source,
   country,
   biddingZone,
@@ -69,101 +69,119 @@ enum UMMColumnDef {
   styleUrls: ['./dashboard.component.css'],
 })
 export class DashboardComponent implements AfterViewInit {
-  columns: UMMTableColumn[] = [
-    {
-      columnDef: UMMColumnDef[UMMColumnDef.source],
-      header: UMMHeader.source,
-      sortable: true,
-      cell: (umm: UMM) => `${umm.source}`,
-    },
-    {
-      columnDef: UMMColumnDef[UMMColumnDef.country],
-      header: UMMHeader.country,
-      sortable: true,
-      cell: (umm: UMM) => `${umm.country}`,
-    },
-    {
-      columnDef: UMMColumnDef[UMMColumnDef.biddingZone],
-      header: UMMHeader.biddingZone,
-      sortable: true,
-      cell: (umm: UMM) => `${umm.biddingZone}`,
-    },
-    {
-      columnDef: UMMColumnDef[UMMColumnDef.eventStatus],
-      header: UMMHeader.eventStatus,
-      sortable: true,
-      cell: (umm: UMM) => `${umm.eventStatus}`,
-    },
-    {
-      columnDef: UMMColumnDef[UMMColumnDef.typeOfEvent],
-      header: UMMHeader.typeOfEvent,
-      sortable: true,
-      cell: (umm: UMM) => `${umm.typeOfEvent}`,
-    },
-    {
-      columnDef: UMMColumnDef[UMMColumnDef.typeOfUnavailability],
-      header: UMMHeader.typeOfUnavailability,
-      sortable: true,
-      cell: (umm: UMM) => `${umm.typeOfUnavailability}`,
-    },
-    {
-      columnDef: UMMColumnDef[UMMColumnDef.affectedAssetOrUnit],
-      header: UMMHeader.affectedAssetOrUnit,
-      sortable: true,
-      cell: (umm: UMM) => `${umm.affectedAssetOrUnit}`,
-    },
-    {
-      columnDef: UMMColumnDef[UMMColumnDef.published],
-      header: UMMHeader.published,
-      sortable: true,
-      cell: (umm: UMM) => `${umm.published}`,
-    },
-    {
-      columnDef: UMMColumnDef[UMMColumnDef.eventStart],
-      header: UMMHeader.eventStart,
-      sortable: true,
-      cell: (umm: UMM) => `${umm.eventStart}`,
-    },
-    {
-      columnDef: UMMColumnDef[UMMColumnDef.eventEnd],
-      header: UMMHeader.eventEnd,
-      sortable: true,
-      cell: (umm: UMM) => `${umm.eventEnd}`,
-    },
-    {
-      columnDef: UMMColumnDef[UMMColumnDef.availableCapacity],
-      header: UMMHeader.availableCapacity,
-      sortable: false,
-      cell: (umm: UMM) => `${umm.availableCapacity}`,
-    },
-    {
-      columnDef:UMMColumnDef[UMMColumnDef.installedCapacity],
-      header: UMMHeader.installedCapacity,
-      sortable: false,
-      cell: (umm: UMM) => `${umm.installedCapacity}`,
-    },
-    {
-      columnDef: UMMColumnDef[UMMColumnDef.unavailableCapacity],
-      header: UMMHeader.unavailableCapacity,
-      sortable: true,
-      cell: (umm: UMM) => `${umm.unavailableCapacity}`,
-    },
-    {
-      columnDef:  UMMColumnDef[UMMColumnDef.unitOfMeasure],
-      header: UMMHeader.unitOfMeasure,
-      sortable: false,
-      cell: (umm: UMM) => `${umm.unitOfMeasure}`,
-    },
-  ];
-  displayedColumns = this.columns.map((c) => c.columnDef);
+  // columns: UMMTableColumn[] = [
+  //   {
+  //     key: UMMKey[UMMKey.source],
+  //     header: UMMHeader.source,
+  //     sortable: true,
+  //     cell: (umm: UMM) => `${umm.source}`,
+  //   },
+  //   {
+  //     key: UMMKey[UMMKey.country],
+  //     header: UMMHeader.country,
+  //     sortable: true,
+  //     cell: (umm: UMM) => `${umm.country}`,
+  //   },
+  //   {
+  //     key: UMMKey[UMMKey.biddingZone],
+  //     header: UMMHeader.biddingZone,
+  //     sortable: true,
+  //     cell: (umm: UMM) => `${umm.biddingZone}`,
+  //   },
+  //   {
+  //     key: UMMKey[UMMKey.eventStatus],
+  //     header: UMMHeader.eventStatus,
+  //     sortable: true,
+  //     cell: (umm: UMM) => umm.eventStatus,
+  //   },
+  //   {
+  //     key: UMMKey[UMMKey.typeOfEvent],
+  //     header: UMMHeader.typeOfEvent,
+  //     sortable: true,
+  //     cell: (umm: UMM) => `${umm.typeOfEvent}`,
+  //   },
+  //   {
+  //     key: UMMKey[UMMKey.typeOfUnavailability],
+  //     header: UMMHeader.typeOfUnavailability,
+  //     sortable: true,
+  //     cell: (umm: UMM) => `${umm.typeOfUnavailability}`,
+  //   },
+  //   {
+  //     key: UMMKey[UMMKey.affectedAssetOrUnit],
+  //     header: UMMHeader.affectedAssetOrUnit,
+  //     sortable: true,
+  //     cell: (umm: UMM) => `${umm.affectedAssetOrUnit}`,
+  //   },
+  //   {
+  //     key: UMMKey[UMMKey.published],
+  //     header: UMMHeader.published,
+  //     sortable: true,
+  //     cell: (umm: UMM) => `${umm.published}`,
+  //   },
+  //   {
+  //     key: UMMKey[UMMKey.eventStart],
+  //     header: UMMHeader.eventStart,
+  //     sortable: true,
+  //     cell: (umm: UMM) => `${umm.eventStart}`,
+  //   },
+  //   {
+  //     key: UMMKey[UMMKey.eventEnd],
+  //     header: UMMHeader.eventEnd,
+  //     sortable: true,
+  //     cell: (umm: UMM) => `${umm.eventEnd}`,
+  //   },
+  //   {
+  //     key: UMMKey[UMMKey.availableCapacity],
+  //     header: UMMHeader.availableCapacity,
+  //     sortable: false,
+  //     cell: (umm: UMM) => umm.availableCapacity,
+  //   },
+  //   {
+  //     key:UMMKey[UMMKey.installedCapacity],
+  //     header: UMMHeader.installedCapacity,
+  //     sortable: false,
+  //     cell: (umm: UMM) => `${umm.installedCapacity}`,
+  //   },
+  //   {
+  //     key: UMMKey[UMMKey.unavailableCapacity],
+  //     header: UMMHeader.unavailableCapacity,
+  //     sortable: true,
+  //     cell: (umm: UMM) => `${umm.unavailableCapacity}`,
+  //   },
+  //   {
+  //     key:  UMMKey[UMMKey.unitOfMeasure],
+  //     header: UMMHeader.unitOfMeasure,
+  //     sortable: false,
+  //     cell: (umm: UMM) => `${umm.unitOfMeasure}`,
+  //   },
+  // ];
+
+  columns = this.generateColumns()
+  displayedColumns = this.columns.map((c) => c.key);
   dataSource = new MatTableDataSource(UMMJSON);
   isLoadingResults = false;
 
+  
   constructor(private _liveAnnouncer: LiveAnnouncer, private http: HttpClient) {
     // this.http.get<Document[]>(this.url).subscribe(data => {
     //   this.items = data
-    //   console.log(this.items)})
+    //   console.log(this.items)})     
+
   }
+
+  private generateColumns(): UMMTableColumn[] {
+  let columns : UMMTableColumn[] = []
+  Object.entries(UMMHeader).forEach(([key, value]) => {
+    columns.push({
+      key: key,
+      header: value,
+      sortable : true,
+    })
+  });
+  console.log(columns)
+  return columns
+  }
+
 
   @ViewChild(MatSort) sort: MatSort;
 
@@ -184,3 +202,4 @@ export class DashboardComponent implements AfterViewInit {
     }
   }
 }
+
