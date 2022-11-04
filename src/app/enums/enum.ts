@@ -1,0 +1,16 @@
+export enum UMMEntries {
+    source = 'Source',
+    country = 'Country',
+    biddingZone = 'Bidding Zone',
+    eventStatus = 'Event Status',
+    typeOfEvent = 'Type of Event',
+    typeOfUnavailability = 'Type of Unavailability',
+    affectedAssetOrUnit = 'Affected Asset or Unit',
+    published = 'Published',
+    eventStart = 'Event Start',
+    eventEnd = 'Event End',
+    availableCapacity = 'Available Capacity',
+    installedCapacity = 'Intstalled Capacity',
+    unavailableCapacity = 'Unavailable Capacity',
+    unitOfMeasure = 'Unit of Measure',
+}
