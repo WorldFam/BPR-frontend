@@ -70,3 +70,16 @@ padding-left: 8px;
   color: #fff;
 }
 
+::ng-deep .mat-option .mat-pseudo-checkbox{ display: none; }
+
+.mat-option[aria-selected="true"] {
+  background: #282b38 !important;
+  color: #ffffff !important;
+}
+
+.mat-option:hover{
+  background: #282b38 !important;
+  color: #ffffff
+}
+
+
