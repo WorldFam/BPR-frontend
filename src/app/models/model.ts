@@ -9,7 +9,6 @@ export interface UMMTableColumn {
 export interface UMMFilterOption{
     name:string;
     options:string[];
-    defaultValue:string;
 }
 
 export interface UMM {

@@ -1,17 +1,4 @@
-<mat-form-field appearance="fill" *ngFor="let empfilter of ummFilters">
-  <mat-label>{{ empfilter.name }}</mat-label>
-  <mat-select
-    [(value)]="empfilter.defaultValue"
-    (selectionChange)="applyUMMFilter($event, empfilter)"
-  >
-    <mat-option *ngFor="let op of empfilter.options" [value]="op">
-      {{ op }}
-    </mat-option>
-  </mat-select>
-</mat-form-field>
-
-
-<mat-form-field>
+<mat-form-field >
   
 	<mat-select (openedChange)="openedChange($event)" placeholder="Select" [formControl]="selectFormControl" multiple>
 		<mat-select-trigger>
@@ -46,15 +33,14 @@
       <div>No results found!</div>
     </mat-optgroup>
 
- <mat-option #opt (onSelectionChange)="selectionChange($event)" *ngFor="let option of filteredOptions | async" [value]="option">
+ <mat-option #opt (onSelectionChange)="selectionChange($event)" 
+ *ngFor="let option of filteredOptions | async" [value]="option">
   <mat-icon  matSuffix *ngIf="opt.selected">close</mat-icon> {{option}}
   </mat-option>
 </div>
 </mat-select>
 </mat-form-field>
 <div *ngIf="selectFormControl.value">{{ 'You have choosen ' + selectFormControl.value }}</div>
-
-
 
 
 
