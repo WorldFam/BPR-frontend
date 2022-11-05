@@ -79,7 +79,36 @@ padding-left: 8px;
 
 .mat-option:hover{
   background: #282b38 !important;
-  color: #ffffff
+  color: #ffffff;
 }
 
+.mat-option{
+  font-family: 'IBM Plex Sans', sans-serif;
+  border-bottom: 1px solid white;
+  font-size: 16px;
+  background: white;
+}
 
+.additional-selection {
+  opacity: 0.75;
+  font-size: 0.75em;
+}
+.select-container{
+  margin-top:5px;
+}
+
+.input-container{
+  margin-top:5px;
+  margin-bottom:5px;
+}
+
+.mat-divider{
+  background: #282b38 !important;
+}
+
+.input-field{
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-size: 16px;
+  color: #282b38 !important;
+  padding-bottom: 6px;
+}

@@ -24,21 +24,30 @@
     <div class="select-container">
       <mat-option #allSelected (click)="unselectAll()" [value]="0"><mat-icon>cancel</mat-icon>Unselect All</mat-option>
 
+      
+      <div class="input-container">
+        <mat-divider></mat-divider>
+
     <mat-optgroup >
 
-  <mat-form-field style="width:100%;">
-    <input #search autocomplete="off" placeholder="Search" aria-label="Search" matInput [formControl]="searchTextboxControl">
+  <mat-form-field style="width:100%;" [floatLabel]="'never'" appearance="none">
+    <input matInput #search autocomplete="off" class="input-field" placeholder="Search" [formControl]="searchTextboxControl">
     <button [disableRipple]="true" *ngIf="search.value" matSuffix mat-icon-button aria-label="Clear" (click)="clearSearch($event)">
-    <mat-icon >close</mat-icon>
+    <mat-icon color="primary" >close</mat-icon>
   </button>
   </mat-form-field>
     </mat-optgroup>
+  </div>
+
+  <mat-divider></mat-divider>
+
+
     <mat-optgroup *ngIf="(filteredOptions | async).length == 0">
       <div>No results found!</div>
     </mat-optgroup>
 
  <mat-option #opt (onSelectionChange)="selectionChange($event)" *ngFor="let option of filteredOptions | async" [value]="option">
-  <mat-icon *ngIf="opt.selected">close</mat-icon> {{option}}
+  <mat-icon  matSuffix *ngIf="opt.selected">close</mat-icon> {{option}}
   </mat-option>
 </div>
 </mat-select>
