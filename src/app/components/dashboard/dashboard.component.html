@@ -1,6 +1,6 @@
 <mat-form-field>
   
-	<mat-select (openedChange)="openedChange($event)" placeholder="Source" [formControl]="sourceFormControl" multiple >
+	<mat-select (openedChange)="openedChange($event , searchTextboxControl)" placeholder="Source" [formControl]="sourceFormControl" multiple >
 		<mat-select-trigger>
 			{{sourceFormControl.value ? sourceFormControl.value[0] : ''}}
 			<span *ngIf="sourceFormControl.value?.length > 1" class="additional-selection">
@@ -18,8 +18,8 @@
     <mat-optgroup >
 
   <mat-form-field style="width:100%;" [floatLabel]="'never'" appearance="none">
-    <input matInput #search autocomplete="off" class="input-field" placeholder="Search" [formControl]="searchTextboxControl">
-    <button [disableRipple]="true" *ngIf="search.value" matSuffix mat-icon-button aria-label="Clear" (click)="clearSearch($event)">
+    <input matInput autocomplete="off" class="input-field" placeholder="Search" [formControl]="searchTextboxControl">
+    <button [disableRipple]="true" *ngIf="searchTextboxControl.value" matSuffix mat-icon-button aria-label="Clear" (click)="clearSearch($event, searchTextboxControl)">
     <mat-icon color="primary" >close</mat-icon>
   </button>
   </mat-form-field>
@@ -44,7 +44,7 @@
 
 <mat-form-field>
 
-	<mat-select (openedChange)="openedChange($event)" placeholder="Country" [formControl]="countryFormControl" multiple >
+	<mat-select (openedChange)="openedChange($event, searchTextboxControlCountry)" placeholder="Country" [formControl]="countryFormControl" multiple >
 		<mat-select-trigger>
 			{{countryFormControl.value ? countryFormControl.value[0] : ''}}
 			<span *ngIf="countryFormControl.value?.length > 1" class="additional-selection">
@@ -58,7 +58,7 @@
     <mat-optgroup >
   <mat-form-field style="width:100%;" [floatLabel]="'never'" appearance="none">
     <input matInput #search autocomplete="off" class="input-field" placeholder="Search" [formControl]="searchTextboxControlCountry">
-    <button [disableRipple]="true" *ngIf="search.value" matSuffix mat-icon-button aria-label="Clear" (click)="clearSearch($event)">
+    <button [disableRipple]="true" *ngIf="searchTextboxControlCountry.value" matSuffix mat-icon-button aria-label="Clear" (click)="clearSearch($event, searchTextboxControlCountry)">
     <mat-icon color="primary" >close</mat-icon>
   </button>
   </mat-form-field>
@@ -77,10 +77,6 @@
 </mat-form-field>
 <div *ngIf="countryFormControl.value">{{ 'You have choosen ' + countryFormControl.value }}</div>
 
-
-<span class="flag-icon flag-icon-dk">HELLO</span>
-
-
 <div class="example-container">
 
  <div class="example-loading-shade"*ngIf="isLoadingResults">
@@ -94,7 +90,8 @@
       {{column.header}}
     </th> 
     <td mat-cell *matCellDef="let row">
-{{row[column.key]}}
+      <span class="fi fi-{{row[column.key] | lowercase | slice:0:2 }}" *ngIf="column.key === 'country'"></span> {{row[column.key]}}
+      <span class="fi fi-{{row[column.key] | lowercase | slice:3:5 }}" *ngIf="column.key === 'country'"></span>
     </td>
   </ng-container>
 

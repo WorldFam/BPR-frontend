@@ -58,8 +58,7 @@ export class DashboardComponent implements AfterViewInit, OnInit {
     }
   }
 
-
-  sourceList: string[] = ['ut', 'Est cupiditate reiciendis aliquid quia rerum nisi consectetur quia libero.', 'Error nihil ducimus veritatis ab.'];
+  sourceList: string[] = ['ut', 'Est cupiditate reiciendis aliquid quia rerum nisi consectetur quia libero.', 'Error nihil ducimus veritatis ab.','Sunt eligendi odit eligendi animi rerum aspernatur voluptatem aut odit. Accusantium nihil voluptatem corporis voluptas laboriosam qui vitae accusamus. Aut non ut. Sed consequuntur odio maxime. Molestiae qui ducimus. Aut quasi ut ut vel rerum quisquam occaecati ipsam quis.'];
   countryList: string[] = ['autem','reprehenderit','debitis'];
   public filterValues = {
     source: "",
@@ -146,21 +145,17 @@ export class DashboardComponent implements AfterViewInit, OnInit {
     formControl.patchValue([]);
   }
 
-    openedChange(e) {
+    openedChange(e,searchControl) {
       // Set search textbox value as empty while opening selectbox 
-      this.searchTextboxControl.patchValue('');
-      // Focus to search textbox while clicking on selectbox
-      if (e == true) {
-        this.searchTextBox.nativeElement.focus();
-      }
+      searchControl.patchValue('');
     }
   
     /**
      * Clearing search textbox value 
      */
-    clearSearch(event) {
+    clearSearch(event,searchControl) {
       event.stopPropagation();
-      this.searchTextboxControl.patchValue('');
+      searchControl.patchValue('');
     }
   }
 

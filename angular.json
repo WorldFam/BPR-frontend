@@ -21,7 +21,8 @@
             "assets": ["src/favicon.ico", "src/assets"],
             "styles": [
               "src/styles.scss",
-              "src/theme.scss"
+              "src/theme.scss",
+              "node_modules/flag-icons/css/flag-icons.min.css"
             ],
             "scripts": [],
             "vendorChunk": true,
