@@ -1,15 +1,15 @@
-<mat-form-field >
+<mat-form-field>
   
-	<mat-select (openedChange)="openedChange($event)" placeholder="Select" [formControl]="selectFormControl" multiple>
+	<mat-select (openedChange)="openedChange($event)" placeholder="Source" [formControl]="sourceFormControl" multiple >
 		<mat-select-trigger>
-			{{selectFormControl.value ? selectFormControl.value[0] : ''}}
-			<span *ngIf="selectFormControl.value?.length > 1" class="additional-selection">
-        (+{{selectFormControl.value.length - 1}} {{selectFormControl.value?.length === 2 ? 'other' : 'others'}})
+			{{sourceFormControl.value ? sourceFormControl.value[0] : ''}}
+			<span *ngIf="sourceFormControl.value?.length > 1" class="additional-selection">
+        (+{{sourceFormControl.value.length - 1}} {{sourceFormControl.value?.length === 2 ? 'other' : 'others'}})
       </span>
     </mat-select-trigger>
 
     <div class="select-container">
-      <mat-option #allSelected (click)="unselectAll()" [value]="0"><mat-icon>cancel</mat-icon>Unselect All</mat-option>
+      <mat-option (click)="unselectAll(sourceFormControl)" [value]="0"><mat-icon>cancel</mat-icon>Unselect All</mat-option>
 
       
       <div class="input-container">
@@ -33,15 +33,52 @@
       <div>No results found!</div>
     </mat-optgroup>
 
- <mat-option #opt (onSelectionChange)="selectionChange($event)" 
+ <mat-option #opt 
  *ngFor="let option of filteredOptions | async" [value]="option">
   <mat-icon  matSuffix *ngIf="opt.selected">close</mat-icon> {{option}}
   </mat-option>
 </div>
 </mat-select>
 </mat-form-field>
-<div *ngIf="selectFormControl.value">{{ 'You have choosen ' + selectFormControl.value }}</div>
+<div *ngIf="sourceFormControl.value">{{ 'You have choosen ' + sourceFormControl.value }}</div>
 
+<mat-form-field>
+
+	<mat-select (openedChange)="openedChange($event)" placeholder="Country" [formControl]="countryFormControl" multiple >
+		<mat-select-trigger>
+			{{countryFormControl.value ? countryFormControl.value[0] : ''}}
+			<span *ngIf="countryFormControl.value?.length > 1" class="additional-selection">
+        (+{{countryFormControl.value.length - 1}} {{countryFormControl.value?.length === 2 ? 'other' : 'others'}})
+      </span>
+    </mat-select-trigger>
+    <div class="select-container">
+      <mat-option (click)="unselectAll(countryFormControl)" [value]="0"><mat-icon>cancel</mat-icon>Unselect All</mat-option>
+      <div class="input-container">
+        <mat-divider></mat-divider>
+    <mat-optgroup >
+  <mat-form-field style="width:100%;" [floatLabel]="'never'" appearance="none">
+    <input matInput #search autocomplete="off" class="input-field" placeholder="Search" [formControl]="searchTextboxControlCountry">
+    <button [disableRipple]="true" *ngIf="search.value" matSuffix mat-icon-button aria-label="Clear" (click)="clearSearch($event)">
+    <mat-icon color="primary" >close</mat-icon>
+  </button>
+  </mat-form-field>
+    </mat-optgroup>
+  </div>
+  <mat-divider></mat-divider>
+    <mat-optgroup *ngIf="(filteredOptionsCountry | async).length == 0">
+      <div>No results found!</div>
+    </mat-optgroup>
+ <mat-option #opt 
+ *ngFor="let option of filteredOptionsCountry | async" [value]="option">
+  <mat-icon  matSuffix *ngIf="opt.selected">close</mat-icon> {{option}}
+  </mat-option>
+</div>
+</mat-select>
+</mat-form-field>
+<div *ngIf="countryFormControl.value">{{ 'You have choosen ' + countryFormControl.value }}</div>
+
+
+<span class="flag-icon flag-icon-dk">HELLO</span>
 
 
 <div class="example-container">
@@ -57,7 +94,7 @@
       {{column.header}}
     </th> 
     <td mat-cell *matCellDef="let row">
-      {{row[column.key]}}
+{{row[column.key]}}
     </td>
   </ng-container>
 

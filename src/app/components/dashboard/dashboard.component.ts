@@ -63,57 +63,46 @@ export class DashboardComponent implements AfterViewInit, OnInit {
   countryList: string[] = ['autem','reprehenderit','debitis'];
   public filterValues = {
     source: "",
+    country: "",
   };
-
   
-  ummFilters: UMMFilterOption[]=[];
-  filterDictionary= new Map<string,string>();
+  @ViewChild('search') searchTextBox: ElementRef;
+
+  sourceFormControl = new FormControl();
+  countryFormControl = new FormControl();
+
+  searchTextboxControl = new FormControl();
+  searchTextboxControlCountry = new FormControl();
+
+  filteredOptions: Observable<any[]>;
+  filteredOptionsCountry: Observable<any[]>;
 
   ngOnInit(): void {
-    // this.ummFilters.push({name:'source',options:this.sourceList});
-    // this.ummFilters.push({name:'country',options:this.countryList});
-
-    // this.dataSource.filterPredicate = (data, filter) => {
-    //   var map = new Map(JSON.parse(filter));
-    //   console.log(data)
-
-    //   for(let [key,value] of map){
-    //     let isMatch = (data[key as keyof UMM] == value); 
-    //     if(!isMatch) return false;
-    //   }
-    //   return true;
-    // }
-
     this.filteredOptions = this.searchTextboxControl.valueChanges
     .pipe(
       startWith<string>(''),
-      map(name => this._filter(name))
+      map(name => this._filter(name, this.sourceList))
+    );
+
+    this.filteredOptionsCountry = this.searchTextboxControlCountry.valueChanges
+    .pipe(
+      startWith<string>(''),
+      map(name => this._filter(name, this.countryList))
     );
 
       //will be assigned data from httpcall 
-      this.selectFormControl.valueChanges.subscribe(value => {
-        console.log(value + " SUBVALUE")
+      this.sourceFormControl.valueChanges.subscribe(value => {
         this.filterValues.source = value;
         this.dataSource.filter = JSON.stringify(this.filterValues);
       });
   
+      this.countryFormControl.valueChanges.subscribe(value => {
+        this.filterValues.country = value;
+        this.dataSource.filter = JSON.stringify(this.filterValues);
+      });
+
       this.dataSource.filterPredicate = this.createFilters();
   }
-
-  // applyUMMFilter(ob:MatSelectChange,ummfilter:UMMFilterOption) {
-  //   this.filterDictionary.set(ummfilter.name,ob.value);
-  //   var jsonString = JSON.stringify(Array.from(this.filterDictionary.entries()));
-  //   this.dataSource.filter = jsonString;
-  // }
-  @ViewChild('search') searchTextBox: ElementRef;
-
-  selectFormControl = new FormControl();
-  searchTextboxControl = new FormControl();
-  selectedValues = [];
-
-  filteredOptions: Observable<any[]>;
-  @ViewChild('allSelected') private allSelected: MatOption;
-
 
   private createFilters<T>(): (data: T, filter: string) => boolean {
     const filterFunction = function (data: T, filter: string): boolean {
@@ -126,7 +115,7 @@ export class DashboardComponent implements AfterViewInit, OnInit {
       return Object.keys(searchTerms).every((key) => {
         if (Array.isArray(searchTerms[key])) {
           return searchTerms[key]?.length > 0
-            ? searchTerms[key].some((term: string) =>
+            ? searchTerms[key].every((term: string) =>
                 Array.isArray(data[key])
                   ? data[key].includes(term)
                   : data[key] === term
@@ -143,49 +132,18 @@ export class DashboardComponent implements AfterViewInit, OnInit {
   
     return filterFunction;
   }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   
-  private _filter(name: string): String[] {
+  private _filter(name: string, dataList: string[] ): String[] {
     const filterValue = name.toLowerCase();
-    // Set selected values to retain the selected checkbox state 
-    this.setSelectedValues();
-    this.selectFormControl.patchValue(this.selectedValues);
-    let filteredList = this.sourceList.filter(option => option.toLowerCase().indexOf(filterValue) === 0);
-    console.log(filteredList)
+    let filteredList = dataList.filter(option => option.toLowerCase().indexOf(filterValue) === 0);
     return filteredList;
-  }
-
-/**
- * Remove from selected values based on uncheck
- */
-  selectionChange(event) {
-    if (event.isUserInput && event.source.selected == false) {
-      let index = this.selectedValues.indexOf(event.source.value);
-      this.selectedValues.splice(index, 1)
-    }  
   }
 
 /**
  * Remove all selected elements
  */
-  unselectAll() {
-    this.selectFormControl.patchValue([]);
-    this.selectedValues.splice(0);
+  unselectAll(formControl: FormControl) {
+    formControl.patchValue([]);
   }
 
     openedChange(e) {
@@ -203,20 +161,6 @@ export class DashboardComponent implements AfterViewInit, OnInit {
     clearSearch(event) {
       event.stopPropagation();
       this.searchTextboxControl.patchValue('');
-    }
-  
-    /**
-     * Set selected values to retain the state 
-     */
-    setSelectedValues() {
-      console.log('selectFormControl', this.selectFormControl.value);
-      if (this.selectFormControl.value && this.selectFormControl.value.length > 0) {
-        this.selectFormControl.value.forEach((e) => {
-          if (this.selectedValues.indexOf(e) == -1) {
-            this.selectedValues.push(e);
-          }
-        });
-      }
     }
   }
 
