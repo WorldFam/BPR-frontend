@@ -2,19 +2,17 @@ import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { AfterViewInit, Component, ViewChild, OnInit, ElementRef } from '@angular/core';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { HttpClient } from '@angular/common/http';
-import { UMMEntries } from 'src/app/enums/enum';
+import { UmmEntries } from 'src/app/enums/umm-entries';
 import { UMMTableColumn,UMMFilterOption, UMM } from 'src/app/models/model';
 import { FilterComponent } from '../filter/filter.component';
 import { FormGroup, FormControl } from '@angular/forms';
 import { MatSelectChange } from '@angular/material/select';
 import { MatOption } from '@angular/material/core';
-
+import { UrgentMarketMessagesService } from 'src/app/services/urgent-market-messages.service';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
-
-import UMMJSON from './UMM.json';
 
 @Component({
   selector: 'app-dashboard',
@@ -24,18 +22,16 @@ import UMMJSON from './UMM.json';
 export class DashboardComponent implements AfterViewInit, OnInit {
   columns = this.generateColumns();
   displayedColumns = this.columns.map((c) => c.key);
-  dataSource = new MatTableDataSource<UMM>(UMMJSON);
+  dataSource = new MatTableDataSource();
   isLoadingResults = false;
 
-  constructor(private _liveAnnouncer: LiveAnnouncer, private http: HttpClient) {
-    // this.http.get<Document[]>(this.url).subscribe(data => {
-    //   this.items = data
-    //   console.log(this.items)})
+  constructor(private _liveAnnouncer: LiveAnnouncer, private urgentMarketMessage: UrgentMarketMessagesService, private router: Router) {
+   
   }
 
   private generateColumns(): UMMTableColumn[] {
     let columns: UMMTableColumn[] = [];
-    Object.entries(UMMEntries).forEach(([key, value]) => {
+    Object.entries(UmmEntries).forEach(([key, value]) => {
       columns.push({
         key: key,
         header: value,
@@ -58,11 +54,13 @@ export class DashboardComponent implements AfterViewInit, OnInit {
     }
   }
 
-  sourceList: string[] = ['ut', 'Est cupiditate reiciendis aliquid quia rerum nisi consectetur quia libero.', 'Error nihil ducimus veritatis ab.','Sunt eligendi odit eligendi animi rerum aspernatur voluptatem aut odit. Accusantium nihil voluptatem corporis voluptas laboriosam qui vitae accusamus. Aut non ut. Sed consequuntur odio maxime. Molestiae qui ducimus. Aut quasi ut ut vel rerum quisquam occaecati ipsam quis.'];
-  countryList: string[] = ['autem','reprehenderit','debitis'];
-  public filterValues = {
-    source: "",
-    country: "",
+  sourceList: string[] = ['source1', 'source2', 'source3']
+  countryList: string[] = ['country1','country2','country3'];
+
+  filterValues = {
+    source : '',
+    country : '' ,
+
   };
   
   @ViewChild('search') searchTextBox: ElementRef;
@@ -77,6 +75,8 @@ export class DashboardComponent implements AfterViewInit, OnInit {
   filteredOptionsCountry: Observable<any[]>;
 
   ngOnInit(): void {
+    this.loadUMMS();
+
     this.filteredOptions = this.searchTextboxControl.valueChanges
     .pipe(
       startWith<string>(''),
@@ -88,25 +88,36 @@ export class DashboardComponent implements AfterViewInit, OnInit {
       startWith<string>(''),
       map(name => this._filter(name, this.countryList))
     );
-
+      
       //will be assigned data from httpcall 
       this.sourceFormControl.valueChanges.subscribe(value => {
-        this.filterValues.source = value;
-        this.dataSource.filter = JSON.stringify(this.filterValues);
+        this.filterValues.source = value
+        // const params = new HttpParams({fromObject: this.filterValues});
+        // if(this.filterValues.source.includes('source1')){
+        //   params.append('source', value);
+        // }
+        this.urgentMarketMessage.getUMMS(this.filterValues).subscribe(data  => {
+          this.dataSource.data = data;
+        });
+        // console.log(  this.filterValues.source)
+        // this.dataSource.filter = JSON.stringify(this.filterValues);
       });
   
       this.countryFormControl.valueChanges.subscribe(value => {
         this.filterValues.country = value;
-        this.dataSource.filter = JSON.stringify(this.filterValues);
+        this.urgentMarketMessage.getUMMS(this.filterValues).subscribe(data  => {
+          this.dataSource.data = data;
+        });
+        //this.dataSource.filter = JSON.stringify(this.filterValues);
       });
-
+      
+     
       this.dataSource.filterPredicate = this.createFilters();
   }
 
   private createFilters<T>(): (data: T, filter: string) => boolean {
     const filterFunction = function (data: T, filter: string): boolean {
       const searchTerms: Partial<Record<keyof T, string>> = JSON.parse(filter);
-  
       if (searchTerms === null || searchTerms === undefined) {
         return true;
       }
@@ -130,6 +141,20 @@ export class DashboardComponent implements AfterViewInit, OnInit {
     };
   
     return filterFunction;
+  }
+
+  loadUMMS() {
+    return this.urgentMarketMessage.getUMMS(this.filterValues).subscribe(data  => {
+      this.dataSource.data = data;
+    });
+
+  }
+
+  rowClick(umm: UMM) {
+    return this.urgentMarketMessage.getUMM(umm.id).subscribe(data  => {
+      console.log(data)
+      // this.dataSource.data = data;
+    });
   }
   
   private _filter(name: string, dataList: string[] ): String[] {

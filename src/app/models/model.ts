@@ -1,8 +1,8 @@
-import {UMMEntries} from '../enums/enum';
+import {UmmEntries} from '../enums/umm-entries';
 
 export interface UMMTableColumn {
     key: string;
-    header: UMMEntries;
+    header: UmmEntries;
     sortable: boolean;
 }
 
@@ -12,6 +12,7 @@ export interface UMMFilterOption{
 }
 
 export interface UMM {
+    id: string;
     source: string;
     country: string;
     biddingZone: string;

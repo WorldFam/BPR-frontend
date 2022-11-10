@@ -35,12 +35,13 @@ td{
 
 
 [class*="mat-column-"]{
-border-right: 2px solid rgb(242,242,242);
+border-right: 1px solid rgb(242,242,242);
 padding-left: 8px;
 }
 
 .mat-cell{
   border-bottom: 1px solid rgb(184,185,183);
+  vertical-align: middle;
 }
 
 .mat-row:hover {
@@ -70,6 +71,9 @@ padding-left: 8px;
   color: #fff;
 }
 
+
+
+
 ::ng-deep .mat-option .mat-pseudo-checkbox{ display: none; }
 
 .mat-option[aria-selected="true"] {
@@ -97,6 +101,10 @@ padding-left: 8px;
   margin-top:5px;
 }
 
+.capacity-unit{
+  opacity: 0.75;
+}
+
 .input-container{
   margin-top:5px;
   margin-bottom:5px;
@@ -111,4 +119,11 @@ padding-left: 8px;
   font-size: 16px;
   color: #282b38 !important;
   padding-bottom: 6px;
+}
+
+.filter-header{
+  font-weight: bold;
+  text-align: center;
+  margin-bottom:5px;
+
 }

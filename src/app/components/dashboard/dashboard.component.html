@@ -9,6 +9,11 @@
     </mat-select-trigger>
 
     <div class="select-container">
+
+      
+      <div class="filter-header">{{ sourceFormControl.value }}</div>
+      <mat-divider></mat-divider>
+
       <mat-option (click)="unselectAll(sourceFormControl)" [value]="0"><mat-icon>cancel</mat-icon>Unselect All</mat-option>
 
       
@@ -52,6 +57,10 @@
       </span>
     </mat-select-trigger>
     <div class="select-container">
+
+      <div class="filter-header">{{ countryFormControl.value }}</div>
+      <mat-divider></mat-divider>
+
       <mat-option (click)="unselectAll(countryFormControl)" [value]="0"><mat-icon>cancel</mat-icon>Unselect All</mat-option>
       <div class="input-container">
         <mat-divider></mat-divider>
@@ -90,13 +99,21 @@
       {{column.header}}
     </th> 
     <td mat-cell *matCellDef="let row">
+      <span class="capacity-unit" *ngIf="column.key === 'eventStart'">from</span>
+      <span class="capacity-unit" *ngIf="column.key === 'eventEnd'">to</span>
+
       <span class="fi fi-{{row[column.key] | lowercase | slice:0:2 }}" *ngIf="column.key === 'country'"></span> {{row[column.key]}}
       <span class="fi fi-{{row[column.key] | lowercase | slice:3:5 }}" *ngIf="column.key === 'country'"></span>
+
+      <span class="capacity-unit" *ngIf="column.key === 'availableCapacity'">MW</span>
+      <span class="capacity-unit" *ngIf="column.key === 'installedCapacity'">MW</span>
+      <span class="capacity-unit" *ngIf="column.key === 'unavailableCapacity'">MW</span>
+
     </td>
   </ng-container>
 
   <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
-  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="rowClick(row)"></tr>
     
   <tr class="mat-row" *matNoDataRow>
     <td class="mat-cell" colspan="4">No data</td>

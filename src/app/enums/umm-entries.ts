@@ -1,4 +1,4 @@
-export enum UMMEntries {
+export enum UmmEntries {
     source = 'Source',
     country = 'Country',
     biddingZone = 'Bidding Zone',
