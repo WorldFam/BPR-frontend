@@ -7,7 +7,7 @@ import {
   FilterEntity,
 } from 'src/app/models/urgent-market-messages-infrastructure.model';
 import { FilterComponent } from 'src/app/components/filter/filter.component';
-7;
+
 import { InfrastructureConstants } from 'src/app/constants/constants';
 
 import { FILTEROPT } from 'src/app/data/filter.data';
@@ -15,6 +15,7 @@ import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
 
 import { Observable, forkJoin } from 'rxjs';
 import { map, switchMap, toArray, concatMap, take } from 'rxjs/operators';
+
 
 @Component({
   selector: 'app-home',
@@ -33,6 +34,7 @@ export class HomeComponent implements OnInit {
 
   dataSource = new MatTableDataSource();
   isLoadingResults = true;
+  isLoadingOptions = true;
   source = new FormControl();
   filters: any[];
   myControls: FormControl[] = [];
@@ -53,12 +55,13 @@ export class HomeComponent implements OnInit {
   }
 
   loadFilterOptions(): UrgentMarketMessagesInfrastructure<FilterEntity>[] {
-    const forkRequest = FILTEROPT.map((endpoint) => this.urgentMarketMessage.getFilterOptions(endpoint.endpoint));
-    forkJoin(forkRequest).subscribe(data => 
-        data.forEach((option : FilterEntity[], index) => {
-          return FILTEROPT[index].options = option;
-        })
-      );
+    // const forkRequest = FILTEROPT.map((endpoint) => this.urgentMarketMessage.getFilterOptions(endpoint.endpoint));
+    // forkJoin(forkRequest).subscribe(data => 
+    //     data.forEach((option : FilterEntity[], index) => {
+    //       console.log(option)
+    //       return FILTEROPT[index].options = option;
+    //     }), error => console.log(error), () => this.isLoadingOptions = false);
+
     return FILTEROPT;
   }
 

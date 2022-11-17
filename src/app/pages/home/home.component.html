@@ -1,13 +1,22 @@
+<mat-drawer-container class="example-container">
+  <mat-drawer mode="side" opened class="sidebar-container" >
+    <div class="filter" *ngFor="let filter of filters; let i = index">
 
+    <app-filter-opt [options]="filters[i]"
+      (selectedOptions)="filterMessages($event)" [isLoadingOptions]="isLoadingOptions"></app-filter-opt>
+      <mat-divider></mat-divider>
 
-<app-filter-opt *ngFor="let filter of filters; let i = index" [options]="filters[i]" (selectedOptions)="filterMessages($event)"></app-filter-opt>
+    </div>
+  </mat-drawer>
+  <mat-drawer-content>
+    <div class="container" *ngIf="auth.isLoading$ | async; else loaded">
+      <app-loading></app-loading>
+    </div>
 
-<!-- <app-filter-opt [options]="filters" (selectedOptions)="filterMessages($event)"></app-filter-opt> -->
-
-<div class="container" *ngIf="auth.isLoading$ | async; else loaded">
-  <app-loading></app-loading>
-</div>
-
-<ng-template #loaded>
-  <div class="table"><app-dashboard [dataSource]="dataSource" [isLoadingResults]="isLoadingResults"></app-dashboard> </div>
-</ng-template>
+    <ng-template #loaded>
+      <div class="table">
+        <app-dashboard [dataSource]="dataSource" [isLoadingResults]="isLoadingResults"></app-dashboard>
+      </div>
+    </ng-template>
+  </mat-drawer-content>
+</mat-drawer-container>

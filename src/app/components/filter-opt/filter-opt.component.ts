@@ -1,4 +1,11 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  Output,
+  EventEmitter,
+  ViewChild,
+} from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
@@ -18,7 +25,9 @@ export class FilterOptComponent implements OnInit {
   @Input()
   options: UrgentMarketMessagesInfrastructure<FilterEntity>;
 
-  // @Input()
+  @Input()
+  isLoadingOptions: boolean;
+ 
   // name: string;
 
   filterControl = new FormControl();
@@ -26,8 +35,9 @@ export class FilterOptComponent implements OnInit {
   @Output()
   selectedOptions = new EventEmitter<string>();
 
-  filteredOptions: Observable<any[]>;
+  filteredOptions: Observable<FilterEntity[]>;
   searchControl = new FormControl();
+
   ngOnInit(): void {
     this.filteredOptions = this.searchControl.valueChanges.pipe(
       startWith<string>(''),
@@ -35,8 +45,8 @@ export class FilterOptComponent implements OnInit {
     );
 
     //will be assigned data from httpcall
-    this.filterControl.valueChanges.subscribe(value => {
-      this.selectedOptions.emit(value)
+    this.filterControl.valueChanges.subscribe((value) => {
+      this.selectedOptions.emit(value);
       // this.filterValues.source = value
       // const params = new HttpParams({fromObject: this.filterValues});
       // if(this.filterValues.source.includes('source1')){
@@ -50,19 +60,21 @@ export class FilterOptComponent implements OnInit {
     });
   }
 
-  private _filter<T>(name: string, infrastructure: UrgentMarketMessagesInfrastructure<T>): FilterEntity[] {
-    const filterValue = name.toUpperCase();   
-    let filterList = infrastructure.options.filter((option : any) => {
+  private _filter<T>(
+    name: string,
+    infrastructure: UrgentMarketMessagesInfrastructure<T>
+  ): FilterEntity[] {
+    const filterValue = name.toUpperCase();
+    let filterList = infrastructure.options.filter((option: any) => {
       // type Keys = keyof FilterEntity
       // let newKey: Keys
       // newKey =  "value"
-      
+
       // console.log(      option[newKey])
-       return option.name.indexOf(filterValue) === 0
-    }
-    );
+      return option.name.indexOf(filterValue) === 0;
+    });
     return filterList;
-  } 
+  }
 
   /**
    * Remove all selected elements
@@ -71,7 +83,7 @@ export class FilterOptComponent implements OnInit {
     formControl.patchValue([]);
   }
 
-  openedChange(e, formControl: { patchValue: (arg0: string) => void }) {
+  openedChange(event, formControl: { patchValue: (arg0: string) => void }) {
     // Set search textbox value as empty while opening selectbox
     formControl.patchValue('');
   }

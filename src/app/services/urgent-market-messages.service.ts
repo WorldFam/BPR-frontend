@@ -10,7 +10,7 @@ import { retry, catchError } from 'rxjs/operators';
 })
 export class UrgentMarketMessagesService {
 
-  private baseURL: string = 'https://a1d52936-9706-419b-8e15-4c3968d27a87.mock.pstmn.io';
+  private baseURL: string = 'https://stoplight.io/mocks/bpr-infrastructure/infrastructure/109335189';
  
   constructor(private http: HttpClient) {}
 

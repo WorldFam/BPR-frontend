@@ -1,14 +1,15 @@
 
-<mat-form-field>
-    <mat-select (openedChange)="openedChange($event , searchControl)" placeholder="{{options.name}}"
-     [formControl]="filterControl" multiple>
+<mat-form-field floatLabel="never" appearance="none">
+    <mat-select #filterSelect (openedChange)="openedChange($event , searchControl)" placeholder="{{options.name}}"
+     [formControl]="filterControl" multiple >
       <mat-select-trigger>
-        {{filterControl.value ? filterControl.value[0].name  : ''}}
+        {{filterControl.value ? filterControl.value[0] : ''}}
         <span *ngIf="filterControl.value?.length > 1" class="additional-selection">
           (+{{filterControl.value.length - 1}} {{filterControl.value?.length === 2 ? 'other' : 'others'}})
         </span>
       </mat-select-trigger>
       <div class="select-container">
+        <div class="filter-header" (click)="filterSelect.close()">{{ options.name }}</div>
         <mat-divider></mat-divider>
         <mat-option (click)="unselectAll(filterControl)" [value]="0">
           <mat-icon>cancel</mat-icon>Unselect All
@@ -16,7 +17,7 @@
         <div class="input-container">
           <mat-divider></mat-divider>
           <mat-optgroup>
-            <mat-form-field style="width:100%;" [floatLabel]="'never'" appearance="none">
+            <mat-form-field style="width:100%;" floatLabel="never" appearance="none">
               <input matInput autocomplete="off" class="input-field" placeholder="Search"
                 [formControl]="searchControl">
               <button [disableRipple]="true" *ngIf="searchControl.value" matSuffix mat-icon-button
@@ -27,9 +28,14 @@
           </mat-optgroup>
         </div>
         <mat-divider></mat-divider>
-        <mat-optgroup *ngIf="(filteredOptions | async).length == 0">
-          <div>No results found!</div>
+
+        <mat-optgroup *ngIf="isLoadingOptions">
+           <div class="select-placeholder-container"> <span>Loading...</span><mat-spinner matPrefix class="spinner" diameter="20"></mat-spinner> </div> 
         </mat-optgroup>
+      
+        <!-- <mat-optgroup *ngIf="(filteredOptions | async).length == 0 && isLoadingOptions">
+          <div>No results found!</div>
+        </mat-optgroup> --> 
         <mat-option #opt *ngFor="let option of filteredOptions | async" [value]="option">
           <mat-icon matSuffix *ngIf="opt.selected">close</mat-icon> {{option.name}}
         </mat-option>
