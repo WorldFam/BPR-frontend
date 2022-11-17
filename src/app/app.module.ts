@@ -26,7 +26,10 @@ import {MaterialExampleModule} from '../material.module';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatNativeDateModule} from '@angular/material/core';
 import { FilterComponent } from './components/filter/filter.component';
-
+import { FilterOptComponent } from './components/filter-opt/filter-opt.component';
+import { FilterDateComponent } from './components/filter-date/filter-date.component';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from "@angular/material/form-field";
 @NgModule({
   declarations: [
     AppComponent,
@@ -42,6 +45,8 @@ import { FilterComponent } from './components/filter/filter.component';
     Auth0LoginComponent,
     DashboardComponent,
     FilterComponent,
+    FilterOptComponent,
+    FilterDateComponent,
   ],
   imports: [
     BrowserModule,
@@ -55,6 +60,8 @@ import { FilterComponent } from './components/filter/filter.component';
     MatNativeDateModule,
     ReactiveFormsModule,
     MaterialExampleModule,
+    MatFormFieldModule,
+    MatInputModule,
     AuthModule.forRoot({
       ...env.auth
     }),

@@ -1,122 +1,34 @@
-<mat-form-field>
-  
-	<mat-select (openedChange)="openedChange($event , searchTextboxControl)" placeholder="Source" [formControl]="sourceFormControl" multiple >
-		<mat-select-trigger>
-			{{sourceFormControl.value ? sourceFormControl.value[0] : ''}}
-			<span *ngIf="sourceFormControl.value?.length > 1" class="additional-selection">
-        (+{{sourceFormControl.value.length - 1}} {{sourceFormControl.value?.length === 2 ? 'other' : 'others'}})
-      </span>
-    </mat-select-trigger>
-
-    <div class="select-container">
-
-      
-      <div class="filter-header">{{ sourceFormControl.value }}</div>
-      <mat-divider></mat-divider>
-
-      <mat-option (click)="unselectAll(sourceFormControl)" [value]="0"><mat-icon>cancel</mat-icon>Unselect All</mat-option>
-
-      
-      <div class="input-container">
-        <mat-divider></mat-divider>
-
-    <mat-optgroup >
-
-  <mat-form-field style="width:100%;" [floatLabel]="'never'" appearance="none">
-    <input matInput autocomplete="off" class="input-field" placeholder="Search" [formControl]="searchTextboxControl">
-    <button [disableRipple]="true" *ngIf="searchTextboxControl.value" matSuffix mat-icon-button aria-label="Clear" (click)="clearSearch($event, searchTextboxControl)">
-    <mat-icon color="primary" >close</mat-icon>
-  </button>
-  </mat-form-field>
-    </mat-optgroup>
-  </div>
-
-  <mat-divider></mat-divider>
-
-
-    <mat-optgroup *ngIf="(filteredOptions | async).length == 0">
-      <div>No results found!</div>
-    </mat-optgroup>
-
- <mat-option #opt 
- *ngFor="let option of filteredOptions | async" [value]="option">
-  <mat-icon  matSuffix *ngIf="opt.selected">close</mat-icon> {{option}}
-  </mat-option>
-</div>
-</mat-select>
-</mat-form-field>
-<div *ngIf="sourceFormControl.value">{{ 'You have choosen ' + sourceFormControl.value }}</div>
-
-<mat-form-field>
-
-	<mat-select (openedChange)="openedChange($event, searchTextboxControlCountry)" placeholder="Country" [formControl]="countryFormControl" multiple >
-		<mat-select-trigger>
-			{{countryFormControl.value ? countryFormControl.value[0] : ''}}
-			<span *ngIf="countryFormControl.value?.length > 1" class="additional-selection">
-        (+{{countryFormControl.value.length - 1}} {{countryFormControl.value?.length === 2 ? 'other' : 'others'}})
-      </span>
-    </mat-select-trigger>
-    <div class="select-container">
-
-      <div class="filter-header">{{ countryFormControl.value }}</div>
-      <mat-divider></mat-divider>
-
-      <mat-option (click)="unselectAll(countryFormControl)" [value]="0"><mat-icon>cancel</mat-icon>Unselect All</mat-option>
-      <div class="input-container">
-        <mat-divider></mat-divider>
-    <mat-optgroup >
-  <mat-form-field style="width:100%;" [floatLabel]="'never'" appearance="none">
-    <input matInput #search autocomplete="off" class="input-field" placeholder="Search" [formControl]="searchTextboxControlCountry">
-    <button [disableRipple]="true" *ngIf="searchTextboxControlCountry.value" matSuffix mat-icon-button aria-label="Clear" (click)="clearSearch($event, searchTextboxControlCountry)">
-    <mat-icon color="primary" >close</mat-icon>
-  </button>
-  </mat-form-field>
-    </mat-optgroup>
-  </div>
-  <mat-divider></mat-divider>
-    <mat-optgroup *ngIf="(filteredOptionsCountry | async).length == 0">
-      <div>No results found!</div>
-    </mat-optgroup>
- <mat-option #opt 
- *ngFor="let option of filteredOptionsCountry | async" [value]="option">
-  <mat-icon  matSuffix *ngIf="opt.selected">close</mat-icon> {{option}}
-  </mat-option>
-</div>
-</mat-select>
-</mat-form-field>
-<div *ngIf="countryFormControl.value">{{ 'You have choosen ' + countryFormControl.value }}</div>
-
 <div class="example-container">
 
- <div class="example-loading-shade"*ngIf="isLoadingResults">
+  <div class="example-loading-shade" *ngIf="isLoadingResults">
     <mat-spinner *ngIf="isLoadingResults" color="primary"></mat-spinner>
   </div>
 
-<table mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)" color="primary">
-  <ng-container *ngFor="let column of columns" [matColumnDef]="column.key">
-    <th mat-header-cell *matHeaderCellDef   [mat-sort-header]="column.key"
-    [disabled]="!column.sortable">
-      {{column.header}}
-    </th> 
-    <td mat-cell *matCellDef="let row">
-      <span class="capacity-unit" *ngIf="column.key === 'eventStart'">from</span>
-      <span class="capacity-unit" *ngIf="column.key === 'eventEnd'">to</span>
+  <table mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)" color="primary">
+    <ng-container *ngFor="let column of columns" [matColumnDef]="column.key">
+      <th mat-header-cell *matHeaderCellDef [mat-sort-header]="column.key" [disabled]="!column.sortable">
+        {{column.header}}
+      </th>
+      <td mat-cell *matCellDef="let row">
+        <span class="capacity-unit" *ngIf="column.key === 'eventStart'">from</span>
+        <span class="capacity-unit" *ngIf="column.key === 'eventEnd'">to</span>
 
-      <span class="fi fi-{{row[column.key] | lowercase | slice:0:2 }}" *ngIf="column.key === 'country'"></span> {{row[column.key]}}
-      <span class="fi fi-{{row[column.key] | lowercase | slice:3:5 }}" *ngIf="column.key === 'country'"></span>
+        <span class="fi fi-{{row[column.key] | lowercase | slice:0:2 }}" *ngIf="column.key === 'country'"></span>
+        {{row[column.key]}}
+        <span class="fi fi-{{row[column.key] | lowercase | slice:3:5 }}" *ngIf="column.key === 'country'"></span>
 
-      <span class="capacity-unit" *ngIf="column.key === 'availableCapacity'">MW</span>
-      <span class="capacity-unit" *ngIf="column.key === 'installedCapacity'">MW</span>
-      <span class="capacity-unit" *ngIf="column.key === 'unavailableCapacity'">MW</span>
+        <span class="capacity-unit" *ngIf="column.key === 'availableCapacity'">MW</span>
+        <span class="capacity-unit" *ngIf="column.key === 'installedCapacity'">MW</span>
+        <span class="capacity-unit" *ngIf="column.key === 'unavailableCapacity'">MW</span>
 
-    </td>
-  </ng-container>
+      </td>
+    </ng-container>
 
-  <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
-  <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="rowClick(row)"></tr>
-    
-  <tr class="mat-row" *matNoDataRow>
-    <td class="mat-cell" colspan="4">No data</td>
-  </tr>   
-</table>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="rowClick(row)"></tr>
+
+    <tr class="mat-row" *matNoDataRow>
+      <td class="mat-cell" colspan="4">No data</td>
+    </tr>
+  </table>
 </div>

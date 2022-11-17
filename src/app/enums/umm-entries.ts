@@ -14,3 +14,13 @@ export enum UmmEntries {
     unavailableCapacity = 'Unavailable Capacity',
     unitOfMeasure = 'Unit of Measure',
 }
+
+export enum Infrastructure {
+    fuelTypes = 'fuel-types',
+    areas ='areas',
+    status ='status',
+    sources ='sources',
+    eventTypes ='event-types',
+    unavailabilityTypes ='unavailability-types',
+    assets ='assets',
+}

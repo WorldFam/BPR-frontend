@@ -1,10 +1,13 @@
-<app-filter></app-filter>
 
+
+<app-filter-opt *ngFor="let filter of filters; let i = index" [options]="filters[i]" (selectedOptions)="filterMessages($event)"></app-filter-opt>
+
+<!-- <app-filter-opt [options]="filters" (selectedOptions)="filterMessages($event)"></app-filter-opt> -->
 
 <div class="container" *ngIf="auth.isLoading$ | async; else loaded">
   <app-loading></app-loading>
 </div>
 
 <ng-template #loaded>
-  <div class="table"><app-dashboard></app-dashboard> </div>
+  <div class="table"><app-dashboard [dataSource]="dataSource" [isLoadingResults]="isLoadingResults"></app-dashboard> </div>
 </ng-template>

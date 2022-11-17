@@ -1,0 +1,218 @@
+[
+    {
+        "name": "AL",
+        "code": "10YAL-KESH-----5"
+    },
+    {
+        "name": "AT",
+        "code": "10YAT-APG------L"
+    },
+    {
+        "name": "BA",
+        "code": "10YBA-JPCC-----D"
+    },
+    {
+        "name": "BE",
+        "code": "10YBE----------2"
+    },
+    {
+        "name": "BG",
+        "code": "10YCA-BULGARIA-R"
+    },
+    {
+        "name": "BY",
+        "code": "10Y1001A1001A51S"
+    },
+    {
+        "name": "CH",
+        "code": "10YCH-SWISSGRIDZ"
+    },
+    {
+        "name": "CZ",
+        "code": "10YCZ-CEPS-----N"
+    },
+    {
+        "name": "DE-50Hertz",
+        "code": "10YDE-VE-------2"
+    },
+    {
+        "name": "DE-Amprion",
+        "code": "10YDE-RWENET---I"
+    },
+    {
+        "name": "DE-LU",
+        "code": "10Y1001A1001A82H"
+    },
+    {
+        "name": "DE-TenneT",
+        "code": "10YDE-EON------1"
+    },
+    {
+        "name": "DE-TransnetBW",
+        "code": "10YDE-ENBW-----N"
+    },
+    {
+        "name": "DK1",
+        "code": "10YDK-1--------W"
+    },
+    {
+        "name": "DK1A",
+        "code": "10YDK-1-------AA"
+    },
+    {
+        "name": "DK2",
+        "code": "10YDK-2--------M"
+    },
+    {
+        "name": "EE",
+        "code": "10Y1001A1001A39I"
+    },
+    {
+        "name": "ES",
+        "code": "10YES-REE------0"
+    },
+    {
+        "name": "FI",
+        "code": "10YFI-1--------U"
+    },
+    {
+        "name": "FR",
+        "code": "10YFR-RTE------C"
+    },
+    {
+        "name": "GB",
+        "code": "10YGB----------A"
+    },
+    {
+        "name": "GR",
+        "code": "10YGR-HTSO-----Y"
+    },
+    {
+        "name": "HR",
+        "code": "10YHR-HEP------M"
+    },
+    {
+        "name": "HU",
+        "code": "10YHU-MAVIR----U"
+    },
+    {
+        "name": "IE",
+        "code": "10Y1001A1001A59C"
+    },
+    {
+        "name": "IT",
+        "code": "10YIT-GRTN-----B"
+    },
+    {
+        "name": "KAL",
+        "code": "10Y1001A1001A50U"
+    },
+    {
+        "name": "LT",
+        "code": "10YLT-1001A0008Q"
+    },
+    {
+        "name": "LU",
+        "code": "10YLU-CEGEDEL-NQ"
+    },
+    {
+        "name": "LV",
+        "code": "10YLV-1001A00074"
+    },
+    {
+        "name": "ME",
+        "code": "10YCS-CG-TSO---S"
+    },
+    {
+        "name": "MK",
+        "code": "10YMK-MEPSO----8"
+    },
+    {
+        "name": "NL",
+        "code": "10YNL----------L"
+    },
+    {
+        "name": "NO1",
+        "code": "10YNO-1--------2"
+    },
+    {
+        "name": "NO1A",
+        "code": "10Y1001A1001A64J"
+    },
+    {
+        "name": "NO2",
+        "code": "10YNO-2--------T"
+    },
+    {
+        "name": "NO2A",
+        "code": "10Y1001C--001219"
+    },
+    {
+        "name": "NO3",
+        "code": "10YNO-3--------J"
+    },
+    {
+        "name": "NO4",
+        "code": "10YNO-4--------9"
+    },
+    {
+        "name": "NO5",
+        "code": "10Y1001A1001A48H"
+    },
+    {
+        "name": "PL",
+        "code": "10YPL-AREA-----S"
+    },
+    {
+        "name": "PLC",
+        "code": "10Y1001C--00038X"
+    },
+    {
+        "name": "PT",
+        "code": "10YPT-REN------W"
+    },
+    {
+        "name": "RO",
+        "code": "10YRO-TEL------P"
+    },
+    {
+        "name": "RS",
+        "code": "10YCS-SERBIATSOV"
+    },
+    {
+        "name": "RU",
+        "code": "10Y1001A1001A49F"
+    },
+    {
+        "name": "SE1",
+        "code": "10Y1001A1001A44P"
+    },
+    {
+        "name": "SE2",
+        "code": "10Y1001A1001A45N"
+    },
+    {
+        "name": "SE3",
+        "code": "10Y1001A1001A46L"
+    },
+    {
+        "name": "SE3LS",
+        "code": "46Y000000000007M"
+    },
+    {
+        "name": "SE4",
+        "code": "10Y1001A1001A47J"
+    },
+    {
+        "name": "SI",
+        "code": "10YSI-ELES-----O"
+    },
+    {
+        "name": "SK",
+        "code": "10YSK-SEPS-----K"
+    },
+    {
+        "name": "TR",
+        "code": "10YTR-TEIAS----W"
+    }
+]

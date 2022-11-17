@@ -10,8 +10,8 @@ import { retry, catchError } from 'rxjs/operators';
 })
 export class UrgentMarketMessagesService {
 
-  private baseURL: string = 'https://636d0bd2ab4814f2b276f566.mockapi.io/Umm';
-
+  private baseURL: string = 'https://a1d52936-9706-419b-8e15-4c3968d27a87.mock.pstmn.io';
+ 
   constructor(private http: HttpClient) {}
 
   httpOptions = {
@@ -23,23 +23,26 @@ export class UrgentMarketMessagesService {
     }),
   };
 
-  public getUMMS<T>(filterValues: { source: string; country: string; }): Observable<T[]> {
+  public getFilterOptions<T>(endpoint): Observable<T[]> {
+    return this.http.get<T[]>(this.baseURL+`/infrastructure/${endpoint}`, {headers: this.httpOptions.headers}).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  public getUMMS<T>(filterValues?: { source: string; country: string; }): Observable<T[]> {
     const params = new HttpParams({ fromObject: filterValues })  
-    console.log(params.toString()) 
-    return this.http.get<T[]>(this.baseURL, {headers: this.httpOptions.headers, params: params}).pipe(
-      retry(1), catchError(this.handleError)
+    return this.http.get<T[]>(this.baseURL+`/messages`, {headers: this.httpOptions.headers, params: params}).pipe(
+       catchError(this.handleError)
     );
   }
   
-  public getUMM<T>(id: T): Observable<T> {
-    console.log(this.baseURL+`/${id}`)
-    return this.http.get<T>(this.baseURL+`/${id}`,{headers: this.httpOptions.headers}).pipe(
-      retry(1), catchError(this.handleError)
+  public getUMM<T>(id: string): Observable<T> {
+    return this.http.get<T>(this.baseURL+`/messages/${id}`,{headers: this.httpOptions.headers}).pipe(
+      catchError(this.handleError)
     );
   }
 
    handleError(error: any) {
-    console.log('EORR')
     let errorMessage = '';
     if (error.error instanceof ErrorEvent) {
       // Get client-side error
