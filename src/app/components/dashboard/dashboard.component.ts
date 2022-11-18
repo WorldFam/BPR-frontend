@@ -2,8 +2,8 @@ import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { AfterViewInit, Component, ViewChild, OnInit, Input, Output, EventEmitter  } from '@angular/core';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { UmmEntries } from 'src/app/enums/umm-entries';
-import { UMMTableColumn,UMMFilterOption, UMM } from 'src/app/models/model';
+import { UmmEntries, UmmEntriesHeaders } from 'src/app/enums/umm-entries';
+import { UMMTableColumn, UMM } from 'src/app/models/model';
 import { UrgentMarketMessagesService } from 'src/app/services/urgent-market-messages.service';
 import { Router } from '@angular/router';
 
@@ -17,6 +17,8 @@ export class DashboardComponent implements AfterViewInit, OnInit {
   columns = this.generateColumns();
   displayedColumns = this.columns.map((c) => c.key);
 
+  columnHead = this.generateColumnsHeaders();
+  columnHeaders = this.columnHead.map((c) => c.key);
 
   @Input() 
   dataSource = new MatTableDataSource();
@@ -36,6 +38,19 @@ export class DashboardComponent implements AfterViewInit, OnInit {
         sortable: true,
       });
     });
+    return columns;
+  }
+
+  private generateColumnsHeaders(): UMMTableColumn[] {
+    let columns: UMMTableColumn[] = [];
+    Object.entries(UmmEntriesHeaders).forEach(([key, value]) => {
+      columns.push({
+        key: key,
+        header: value,
+        sortable: key === 'capacity1' ? false : true,
+      });
+    });
+    console.log(columns)
     return columns;
   }
 

@@ -1,8 +1,8 @@
-import {UmmEntries} from '../enums/umm-entries';
+import {UmmEntries, UmmEntriesHeaders} from '../enums/umm-entries';
 
 export interface UMMTableColumn {
     key: string;
-    header: UmmEntries;
+    header: UmmEntries| UmmEntriesHeaders;
     sortable: boolean;
 }
 

@@ -15,7 +15,7 @@ import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
 
 import { Observable, forkJoin } from 'rxjs';
 import { map, switchMap, toArray, concatMap, take } from 'rxjs/operators';
-
+import UMMJSON from 'src/app/data/UMM.json';
 
 @Component({
   selector: 'app-home',
@@ -28,7 +28,7 @@ export class HomeComponent implements OnInit {
     private urgentMarketMessage: UrgentMarketMessagesService,
     fb: FormBuilder
   ) {
-    // this.loadMessages()
+    this.loadMessages()
     // this.loadFilterOptions();
   }
 
@@ -48,20 +48,25 @@ export class HomeComponent implements OnInit {
   }
 
   loadMessages() {
-    return this.urgentMarketMessage.getUMMS().subscribe((data) => {
+    // return this.urgentMarketMessage.getUMMS().subscribe((data) => {
       this.isLoadingResults = false;
-      this.dataSource.data = data;
-    });
+    //   this.dataSource.data = data;
+    // });
+    return this.dataSource.data = UMMJSON;
   }
 
   loadFilterOptions(): UrgentMarketMessagesInfrastructure<FilterEntity>[] {
-    // const forkRequest = FILTEROPT.map((endpoint) => this.urgentMarketMessage.getFilterOptions(endpoint.endpoint));
-    // forkJoin(forkRequest).subscribe(data => 
-    //     data.forEach((option : FilterEntity[], index) => {
-    //       console.log(option)
-    //       return FILTEROPT[index].options = option;
-    //     }), error => console.log(error), () => this.isLoadingOptions = false);
-
+    // const forkRequest = FILTEROPT.map((endpoint) =>
+    //   this.urgentMarketMessage.getFilterOptions(endpoint.endpoint)
+    // );
+    // forkJoin(forkRequest).subscribe(
+    //   (data) =>
+    //     data.forEach((option: FilterEntity[], index) => {
+    //       return (FILTEROPT[index].options = option);
+    //     }),
+    //   (error) => console.log(error),
+    //   () => (this.isLoadingOptions = false)
+    // );
     return FILTEROPT;
   }
 

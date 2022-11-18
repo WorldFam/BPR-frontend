@@ -9,7 +9,25 @@ table th {
   background-color: #282b39;
   font-family: 'IBM Plex Sans', sans-serif;
   font-weight: 600;
-  padding-bottom: 5px;
+  vertical-align: middle;
+}
+
+tr.mat-header-row {
+  height: 20px !important;
+}
+
+::ng-deep .mat-sort-header-container {
+  display:flex;
+  justify-content:center;
+}
+
+::ng-deep .table thead th {
+  border-bottom: none;
+  border-top:1px solid #fff
+}
+
+.mat-column-capacity1 {
+  height: 30px;
 }
 
 td{

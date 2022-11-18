@@ -6,7 +6,10 @@
 
   <table mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)" color="primary">
     <ng-container *ngFor="let column of columns" [matColumnDef]="column.key">
-      <th mat-header-cell *matHeaderCellDef [mat-sort-header]="column.key" [disabled]="!column.sortable">
+      <th mat-header-cell *matHeaderCellDef [mat-sort-header]="column.key" [disabled]="!column.sortable"
+        [ngStyle]="{'display':  column.key === 'availableCapacity' || column.key === 'installedCapacity' || column.key ===  'unavailableCapacity' ?  'flex-column' :'none', 
+       'padding': column.key === 'availableCapacity' || column.key === 'installedCapacity' || column.key ===  'unavailableCapacity' ? '10px' : 'none'
+      }">
         {{column.header}}
       </th>
       <td mat-cell *matCellDef="let row">
@@ -24,6 +27,16 @@
       </td>
     </ng-container>
 
+    <ng-container *ngFor="let columnH of columnHead" [matColumnDef]="columnH.key">
+      <th mat-header-cell class="col-head" *matHeaderCellDef [mat-sort-header]="columnH.key" [disabled]="!columnH.sortable"
+        [ngStyle]="{'border-top': columnH.key === 'capacity1' ? '1px' : 'none'}"
+        [attr.rowspan]="columnH.key === 'capacity1' ? 1 : 2" [attr.colspan]="columnH.key === 'capacity1' ? 3 : 1">
+        {{columnH.header}}
+      </th>
+    </ng-container>
+
+
+    <tr mat-header-row *matHeaderRowDef="columnHeaders; sticky: true"></tr>
     <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="rowClick(row)"></tr>
 

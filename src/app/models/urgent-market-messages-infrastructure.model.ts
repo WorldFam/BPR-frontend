@@ -2,6 +2,7 @@
 export interface UrgentMarketMessagesInfrastructure<T>{
     name: string;
     endpoint: string;
+    expanded: boolean;
     options: FilterEntity[];
 }
 

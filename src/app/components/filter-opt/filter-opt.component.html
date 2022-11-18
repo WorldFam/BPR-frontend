@@ -11,10 +11,12 @@
       <div class="select-container">
         <div class="filter-header" (click)="filterSelect.close()">{{ options.name }}</div>
         <mat-divider></mat-divider>
+
         <mat-option (click)="unselectAll(filterControl)" [value]="0">
           <mat-icon>cancel</mat-icon>Unselect All
         </mat-option>
-        <div class="input-container">
+
+        <div class="input-container" *ngIf="options.expanded">
           <mat-divider></mat-divider>
           <mat-optgroup>
             <mat-form-field style="width:100%;" floatLabel="never" appearance="none">
@@ -27,8 +29,9 @@
             </mat-form-field>
           </mat-optgroup>
         </div>
-        <mat-divider></mat-divider>
 
+        <mat-divider></mat-divider>
+      
         <mat-optgroup *ngIf="isLoadingOptions">
            <div class="select-placeholder-container"> <span>Loading...</span><mat-spinner matPrefix class="spinner" diameter="20"></mat-spinner> </div> 
         </mat-optgroup>
