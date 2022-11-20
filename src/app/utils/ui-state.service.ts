@@ -5,25 +5,23 @@ export class UiStateService {
 
   private state: UIState;
 
-  constructor() {}
-
   setState(state: UIState) {
     this.state = state;
     console.log(this.state)
-    localStorage.setItem(state.key, JSON.stringify( this.state.tabState));
+    localStorage.setItem(state.key, JSON.stringify( this.state.state));
   }
 
-  getState(state : UIState): UIState {
-    const states = localStorage.getItem(state.key)
-    if(states) {
-      return {tabState: JSON.parse(localStorage.getItem(state.key))   }
+  getState(props : UIState): UIState {
+    const state = localStorage.getItem(props.key)
+    if(state) {
+      return {state: JSON.parse(localStorage.getItem(props.key)) }
     }
-    return {tabState: state.defaultValue}
+    return {state: props.defaultValue}
   }
 }
 
 export interface UIState {
-  tabState: string;
+  state: string;
   key?: string;
   defaultValue?: string;
 }
