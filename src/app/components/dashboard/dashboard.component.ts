@@ -25,7 +25,7 @@ export class DashboardComponent implements AfterViewInit, OnInit {
   @Input() 
   isLoadingResults : boolean;
 
-  constructor(private _liveAnnouncer: LiveAnnouncer, private urgentMarketMessage: UrgentMarketMessagesService, private router: Router) {
+  constructor(private _liveAnnouncer: LiveAnnouncer, private urgentMarketMessage: UrgentMarketMessagesService) {
     
   }
 

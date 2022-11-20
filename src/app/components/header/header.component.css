@@ -1,0 +1,29 @@
+.en-logo{
+    width: 100%;
+    max-width: 200px;
+    height: auto;
+  }
+
+mat-toolbar{
+    background: rgba(0, 0, 0, 0.05);
+    justify-content: space-between;
+}
+.nav-toolbar{
+    height: 50px;
+}
+
+.head-toolbar{
+background-color:#282b38 ;
+
+}
+.spacer {
+    flex: 1 1 auto;
+  }
+  
+.nav-spacer{
+    width: 20px;
+}
+.mat-flat-button{
+    border-radius: 0;
+
+}

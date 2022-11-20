@@ -6,29 +6,30 @@ table {
 table th {
   font-size: 14px;
   color: #fff;
-  background-color: #282b39;
+  background-color: #282b38;
   font-family: 'IBM Plex Sans', sans-serif;
-  font-weight: 600;
+  font-weight: 500;
   vertical-align: middle;
+}
+
+.mat-sort-header-container {
+  display:flex;
+}
+
+:host ::ng-deep .mat-sort-header-disabled .mat-sort-header-container{
+  justify-content: center !important;
 }
 
 tr.mat-header-row {
   height: 20px !important;
 }
 
-::ng-deep .mat-sort-header-container {
-  display:flex;
-  justify-content:center;
-}
 
 ::ng-deep .table thead th {
   border-bottom: none;
   border-top:1px solid #fff
 }
 
-.mat-column-capacity1 {
-  height: 30px;
-}
 
 td{
   font-family: 'IBM Plex Sans', sans-serif;

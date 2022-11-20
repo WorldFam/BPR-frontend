@@ -1,0 +1,21 @@
+<mat-toolbar>
+
+
+    <mat-toolbar-row class="head-toolbar">
+        <img class="en-logo" src="../../assets/logo.png" alt="Angular logo" />
+    </mat-toolbar-row>
+
+    <mat-toolbar-row class="nav-toolbar">
+        <span class="spacer"></span>
+
+        <span>
+            <app-nav-bar (activeState)="setTab($event)"></app-nav-bar>
+        </span>
+
+        <div class="nav-spacer"></div>
+        <button mat-flat-button color="primary" matBadge="8" matBadgePosition="after" matBadgeColor="warn">Refresh
+            <mat-icon>refresh</mat-icon>
+        </button>
+    </mat-toolbar-row>
+
+</mat-toolbar>

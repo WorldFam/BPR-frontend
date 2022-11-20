@@ -1,3 +1,4 @@
-<mat-toolbar>
-    <img src="../../assets/logo.png" alt="Angular logo" />
-</mat-toolbar>
+<mat-button-toggle-group appearance="legacy" [formControl]="tabControl" (change)="setTab($event)">
+    <mat-button-toggle value="dashboard">Dashboard</mat-button-toggle>
+    <mat-button-toggle value="map">Map</mat-button-toggle>
+</mat-button-toggle-group>
