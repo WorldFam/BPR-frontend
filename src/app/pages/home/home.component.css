@@ -1,9 +1,18 @@
-.filter{
-padding: 0px 10px 0px 10px; 
-}
 
 .sidebar-container{
-    background: rgba(0, 0, 0, 0.05);
+    background: #F5F5F5;
+    border: none;
+    padding-left: 15px;
+}
+
+.filter-field{
+    padding: 0px 10px 0px 10px; 
+}
+
+.filter-container{
+    background-color: #EBEBEB;
+    border-radius: 5px;
+    padding-top: 10px;
 }
 
 .table{

@@ -25,11 +25,14 @@ import {MaterialExampleModule} from '../material.module';
 
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatNativeDateModule} from '@angular/material/core';
-import { FilterComponent } from './components/filter/filter.component';
 import { FilterOptComponent } from './components/filter-opt/filter-opt.component';
 import { FilterDateComponent } from './components/filter-date/filter-date.component';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from "@angular/material/form-field";
+import { HeaderComponent } from './components/header/header.component';
+import { MapComponent } from './components/map/map.component';
+import { SidebarComponent } from './components/sidebar/sidebar.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -44,9 +47,11 @@ import { MatFormFieldModule } from "@angular/material/form-field";
     ErrorComponent,
     Auth0LoginComponent,
     DashboardComponent,
-    FilterComponent,
     FilterOptComponent,
     FilterDateComponent,
+    HeaderComponent,
+    MapComponent,
+    SidebarComponent,
   ],
   imports: [
     BrowserModule,

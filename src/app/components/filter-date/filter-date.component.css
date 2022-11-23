@@ -1,0 +1,44 @@
+
+
+.mat-date-container{
+    padding-left: 10px; 
+    font-size: 14px;
+    font-weight:500;
+    color: #282b38; 
+}
+.mat-date-field{
+    width: 190px;
+     
+}
+
+  ::ng-deep .mat-datepicker-content {
+    background-color: #f1eeee;
+    border-radius: 0px !important;
+  }
+
+/* ::ng-deep.mat-datepicker-content .mat-calendar{
+    width: unset !important;
+    height: unset !important;
+} */
+
+.mat-datepicker-toggle {
+    color: #282b38 !important;
+}
+
+.mat-date-range-input{
+    font-size: 12px;
+}
+
+mat-form-field label {
+    font-size: 20px;
+    display: block;
+  }
+
+mat-form-field.mat-form-field-should-float label {
+    font-size: 20px;
+  }
+  :ng-deep mat-datepicker-toggle.mat-datepicker-toggle button.mat-focus-indicator.mat-icon-button.mat-button-base {
+    display: inherit;
+    vertical-align: baseline !important;
+        padding-top: 20px;
+  }

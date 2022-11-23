@@ -4,7 +4,6 @@ import {
   Input,
   Output,
   EventEmitter,
-  ViewChild,
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
@@ -28,12 +27,11 @@ export class FilterOptComponent implements OnInit {
   @Input()
   isLoadingOptions: boolean;
  
-  // name: string;
-
   filterControl = new FormControl();
+  filteredValue: string;
 
   @Output()
-  selectedOptions = new EventEmitter<string>();
+  selectedOptions = new EventEmitter<FilterEntity[]>();
 
   filteredOptions: Observable<FilterEntity[]>;
   searchControl = new FormControl();
@@ -43,9 +41,23 @@ export class FilterOptComponent implements OnInit {
       startWith<string>(''),
       map((name) => this._filter(name, this.options))
     );
-
+     
     //will be assigned data from httpcall
-    this.filterControl.valueChanges.subscribe((value) => {
+    this.filterControl.valueChanges.subscribe((value : FilterEntity[]) => {
+
+      if(value.length !== 0){
+      this.filteredValue = value[0].name
+      }else {
+        this.filteredValue = '';
+      }
+      console.log(value.length)
+
+      console.log(this.options.options.length)
+
+      // if(value.length === this.options.options.length){
+      //   this.filteredValue = "All " + this.options.name;
+      // }
+      
       this.selectedOptions.emit(value);
       // this.filterValues.source = value
       // const params = new HttpParams({fromObject: this.filterValues});

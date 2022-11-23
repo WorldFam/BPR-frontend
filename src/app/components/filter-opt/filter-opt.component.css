@@ -2,36 +2,21 @@
 
 .mat-option[aria-selected="true"] {
   background: #282b38 !important;
-  color: #ffffff !important;
-}
-
-.mat-option:hover{
-  background: #282b38 !important;
-  color: #ffffff;
+  color: white !important;
 }
 
 .mat-option{
-  font-family: 'IBM Plex Sans', sans-serif;
-  border-bottom: 1px solid white;
   font-size: 14px;
-  background: white;
+  background: #f1eeee;
 }
 
 .additional-selection {
     opacity: 0.75;
     font-size: 0.75em;
   }
-  .select-container{
-    margin-top:5px;
-  }
-  
+
   .capacity-unit{
     opacity: 0.75;
-  }
-  
-  .input-container{
-    margin-top:5px;
-    margin-bottom:5px;
   }
   
   .mat-divider{
@@ -47,9 +32,9 @@
   }
   
   .filter-header{
-    font-weight: bold;
+    background-color: #282b38;
+    color: white;
     text-align: center;
-    margin-bottom:5px;
     cursor: pointer;
   }
 
@@ -74,3 +59,13 @@
 ::ng-deep .mat-select-arrow {
   color: #282b38;
 }
+::ng-deep .mat-select-panel {
+  background-color: #f1eeee;
+  border-radius: 0px !important;
+}
+
+::ng-deep .mat-form-field{
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-size: 14px;
+}
+

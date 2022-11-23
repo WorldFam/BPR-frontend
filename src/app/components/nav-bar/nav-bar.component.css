@@ -1,10 +1,8 @@
 :host .mat-button-toggle-group{
-  font-size: 14px;
   outline: none !important;
   -webkit-box-shadow: none !important;
   box-shadow: none !important;
   border-radius: 0;
-
 }
 
 .mat-button-toggle{

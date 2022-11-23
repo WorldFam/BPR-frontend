@@ -1,14 +1,19 @@
 <mat-drawer-container class="example-container">
-  <mat-drawer mode="side" opened class="sidebar-container" >
-    <div class="filter" *ngFor="let filter of filters; let i = index">
+  <mat-drawer mode="side" opened class="sidebar-container">
+    <div class="filter-container">
+      <app-filter-date [name]="'Publication Date'"></app-filter-date>
+      <app-filter-date [name]="'Event Date'"></app-filter-date>
+
+      <mat-divider></mat-divider>
+    <div class="filter-field" *ngFor="let filter of filters; let i = index">
 
     <app-filter-opt [options]="filters[i]"
       (selectedOptions)="filterMessages($event)" [isLoadingOptions]="isLoadingOptions"></app-filter-opt>
-      <mat-divider></mat-divider>
-
     </div>
+  </div>
   </mat-drawer>
   <mat-drawer-content>
+
     <div class="container" *ngIf="auth.isLoading$ | async; else loaded">
       <app-loading></app-loading>
     </div>
@@ -20,3 +25,4 @@
     </ng-template>
   </mat-drawer-content>
 </mat-drawer-container>
+

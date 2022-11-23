@@ -1,6 +1,6 @@
 <app-auth0-login *ngIf="!isAuthenticated"></app-auth0-login>
 
 <div class="d-flex flex-column h-100" *ngIf="isAuthenticated">
-  <app-nav-bar></app-nav-bar>
+  <app-header></app-header>
     <router-outlet></router-outlet>
 </div>

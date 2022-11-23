@@ -1,28 +1,38 @@
 
-import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges } from '@angular/core';
-import { DashboardComponent } from '../dashboard/dashboard.component';
-import { MapComponent } from '../map/map.component';
-import { BehaviorSubject, Subscription } from 'rxjs';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
-import {FormControl} from '@angular/forms';
 import { MatButtonToggleChange } from '@angular/material/button-toggle';
-
+import { UiStateService,UIState } from 'src/app/utils/ui-state.service'
 @Component({
   selector: 'app-nav-bar',
   templateUrl: './nav-bar.component.html',
   styleUrls: ['./nav-bar.component.css'],
 })
-export class NavBarComponent  {
-  
-  tabControl = new FormControl('dashboard')
+export class NavBarComponent implements OnInit {
+  tabControl: string;
+  key: string = 'tabState'
+  defaultValue: string = 'dashboard'
 
-  constructor(
+  constructor(private uiStateService: UiStateService,
     private router: Router
-  ) {}
-  
-  
-  setTab(tab:  MatButtonToggleChange) {
-    this.router.navigate([`/${tab.value}`]);
+  ) {
+  }
+ 
+  ngOnInit() {
+    const state = this.uiStateService.getState(this.getCurrentTabState());
+    this.tabControl = state.state;
   }
 
+  setTabState(tabEvent: MatButtonToggleChange) {
+    this.router.navigate([`/${tabEvent.value}`]);
+    const currentState = this.getCurrentTabState()
+    this.uiStateService.setState(currentState);
+    }
+
+  getCurrentTabState(): UIState {
+   return { state: this.tabControl, key: this.key, defaultValue: this.defaultValue }
+  }
+
+  
 }
+

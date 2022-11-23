@@ -6,7 +6,6 @@ import {
   UrgentMarketMessagesInfrastructure,
   FilterEntity,
 } from 'src/app/models/urgent-market-messages-infrastructure.model';
-import { FilterComponent } from 'src/app/components/filter/filter.component';
 
 import { InfrastructureConstants } from 'src/app/constants/constants';
 
@@ -38,6 +37,11 @@ export class HomeComponent implements OnInit {
   source = new FormControl();
   filters: any[];
   myControls: FormControl[] = [];
+  activeState: string;
+
+  setStateAsActive(state) {
+    this.activeState = state;
+  }
 
   ngOnInit() {
     this.source.valueChanges.subscribe((data) => {
@@ -97,11 +101,27 @@ export class HomeComponent implements OnInit {
   //   return urgentList;
   // }
 
-  filterMessages(params: string) {
+  filterMessages(params: FilterEntity) {
+    console.log(params)
     // this.filterValues.country = params
     // console.log(this.filterValues.country)
     // return this.urgentMarketMessage.getUMMS().subscribe(data  => {
     //   this.loadMessages();
     // });
+  }
+
+  tabs = [
+    {label: 'Home', content: 'Content for Home tab.'},
+    {label: 'Profile', content: 'Content for Profile tab.'},
+    {label: 'Contact', content: 'Content for Contact tab.'}
+  ];
+  index: number = 1;
+
+  activatePrev() {
+    this.index = (this.index === 0) ? this.tabs.length - 1 : this.index - 1;
+  }
+
+  activateNext() {
+    this.index = (this.index === this.tabs.length - 1) ? 0 : this.index + 1;
   }
 }

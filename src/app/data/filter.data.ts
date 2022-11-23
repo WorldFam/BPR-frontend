@@ -2,48 +2,48 @@ import {
   UrgentMarketMessagesInfrastructure,
   FilterEntity,
 } from '../models/urgent-market-messages-infrastructure.model';
-import { Infrastructure } from 'src/app/enums/umm-entries';
+import { Infrastructure, InfrastructureEndpoint } from 'src/app/enums/umm-entries';
 
 export const FILTEROPT: UrgentMarketMessagesInfrastructure<FilterEntity>[] = [
   {
     name: Infrastructure.areas,
-    endpoint: Infrastructure.areas,
+    endpoint: InfrastructureEndpoint.areas,
     expanded: true,
     options: [],
   },
   {
     name: Infrastructure.assets,
-    endpoint: Infrastructure.assets,
+    endpoint: InfrastructureEndpoint.assets,
     expanded: true,
     options: [],
   },
   {
     name: Infrastructure.eventTypes,
-    endpoint: Infrastructure.eventTypes,
+    endpoint: InfrastructureEndpoint.eventTypes,
     expanded: false,
     options: [],
   },
   {
     name: Infrastructure.fuelTypes,
-    endpoint: Infrastructure.fuelTypes,
+    endpoint: InfrastructureEndpoint.fuelTypes,
     expanded: true,
     options: [],
   },
   {
     name: Infrastructure.sources,
-    endpoint: Infrastructure.sources,
+    endpoint: InfrastructureEndpoint.sources,
     expanded: false,
     options: [],
   },
   {
     name: Infrastructure.status,
-    endpoint: Infrastructure.status,
+    endpoint: InfrastructureEndpoint.status,
     expanded: false,
     options: [],
   },
   {
     name: Infrastructure.unavailabilityTypes,
-    endpoint: Infrastructure.unavailabilityTypes,
+    endpoint: InfrastructureEndpoint.unavailabilityTypes,
     expanded: false,
     options: [],
   },

@@ -30,7 +30,7 @@ export enum UmmEntriesHeaders {
     unitOfMeasure1 = 'Unit of Measure',
 }
 
-export enum Infrastructure {
+export enum InfrastructureEndpoint {
     fuelTypes = 'fuel-types',
     areas ='areas',
     status ='status',
@@ -38,4 +38,14 @@ export enum Infrastructure {
     eventTypes ='event-types',
     unavailabilityTypes ='unavailability-types',
     assets ='assets',
+}
+
+export enum Infrastructure {
+    fuelTypes = 'Fuel Types',
+    areas ='Areas',
+    status ='Status',
+    sources ='Sources',
+    eventTypes ='Event Types',
+    unavailabilityTypes ='Unavailability Types',
+    assets ='Assets',
 }

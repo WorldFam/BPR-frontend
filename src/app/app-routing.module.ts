@@ -6,6 +6,8 @@ import { ExternalApiComponent } from './pages/external-api/external-api.componen
 import { ErrorComponent } from './pages/error/error.component';
 import { AuthGuard } from '@auth0/auth0-angular';
 import { Auth0LoginComponent } from './pages/auth0-login/auth0-login.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { MapComponent } from './components/map/map.component';
 const routes: Routes = [
   {
     path: 'profile',
@@ -22,10 +24,15 @@ const routes: Routes = [
     component: ErrorComponent,
   },
   {
-    path:'',
+    path:'dashboard',
     component: HomeComponent,
     pathMatch: 'full',
     canActivate: [AuthGuard],
+  },
+  
+  {
+    path: 'map',
+    component: MapComponent,
   },
 ];
 
