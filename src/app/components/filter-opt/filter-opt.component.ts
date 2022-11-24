@@ -5,13 +5,13 @@ import {
   Output,
   EventEmitter,
 } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormControl,FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 
 import {
   UrgentMarketMessagesInfrastructure,
-  FilterEntity,
+  FilterEntity
 } from 'src/app/models/urgent-market-messages-infrastructure.model';
 import { __values } from 'tslib';
 
@@ -22,7 +22,7 @@ import { __values } from 'tslib';
 })
 export class FilterOptComponent implements OnInit {
   @Input()
-  options: UrgentMarketMessagesInfrastructure<FilterEntity>;
+  filter: UrgentMarketMessagesInfrastructure<FilterEntity>;
 
   @Input()
   isLoadingOptions: boolean;
@@ -30,35 +30,41 @@ export class FilterOptComponent implements OnInit {
   filterControl = new FormControl();
   filteredValue: string;
 
-  @Output()
-  selectedOptions = new EventEmitter<FilterEntity[]>();
+  // @Output()
+  // selectedOptions = new EventEmitter<FormGroup>();
 
   filteredOptions: Observable<FilterEntity[]>;
   searchControl = new FormControl();
 
+  @Input()
+  form: FormGroup
+
   ngOnInit(): void {
     this.filteredOptions = this.searchControl.valueChanges.pipe(
       startWith<string>(''),
-      map((name) => this._filter(name, this.options))
+      map((name) => this._filter(name, this.filter))
     );
-     
+   
+    this.filterControl = this.getFilterValue();
+    
     //will be assigned data from httpcall
     this.filterControl.valueChanges.subscribe((value : FilterEntity[]) => {
 
+      console.log(value)
       if(value.length !== 0){
       this.filteredValue = value[0].name
       }else {
         this.filteredValue = '';
       }
-      console.log(value.length)
-
-      console.log(this.options.options.length)
 
       // if(value.length === this.options.options.length){
       //   this.filteredValue = "All " + this.options.name;
       // }
       
-      this.selectedOptions.emit(value);
+      // let filtered = {key: this.filter.endpoint, values: value.map(value => value.code)}
+      // this.selectedOptions.emit(this.form.value);
+
+
       // this.filterValues.source = value
       // const params = new HttpParams({fromObject: this.filterValues});
       // if(this.filterValues.source.includes('source1')){
@@ -72,9 +78,11 @@ export class FilterOptComponent implements OnInit {
     });
   }
 
+  getFilterValue = () => this.form.get(this.filter.endpoint) as FormControl;
+
   private _filter<T>(
     name: string,
-    infrastructure: UrgentMarketMessagesInfrastructure<T>
+    infrastructure: UrgentMarketMessagesInfrastructure<FilterEntity>
   ): FilterEntity[] {
     const filterValue = name.toUpperCase();
     let filterList = infrastructure.options.filter((option: any) => {
@@ -82,7 +90,6 @@ export class FilterOptComponent implements OnInit {
       // let newKey: Keys
       // newKey =  "value"
 
-      // console.log(      option[newKey])
       return option.name.indexOf(filterValue) === 0;
     });
     return filterList;

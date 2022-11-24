@@ -1,47 +1,46 @@
-
+<form [formGroup]="form">
 <mat-form-field floatLabel="never" appearance="none">
-    <mat-select #filterSelect (openedChange)="openedChange($event , searchControl)" placeholder="All {{options.name}}"
-     [formControl]="filterControl" multiple >
-      <mat-select-trigger>
-        {{filterControl.value ? filteredValue : ''}}
-        <span *ngIf="filterControl.value?.length > 1" class="additional-selection">
-          (+{{filterControl.value.length - 1}} {{filterControl.value?.length === 2 ? 'other' : 'others'}})
-        </span>
-      </mat-select-trigger>
-      <div class="select-container">
-        <div class="filter-header" (click)="filterSelect.close()">{{ options.name }}</div>
-        <mat-divider></mat-divider>
+  <mat-select #filterSelect (openedChange)="openedChange($event , searchControl)" placeholder="All {{filter.name}}"
+    formControlName="{{filter.endpoint}}"  multiple>
+    <mat-select-trigger>
+      {{filterControl.value ? filteredValue : ''}}
+      <span *ngIf="filterControl.value?.length > 1" class="additional-selection">
+        (+{{filterControl.value.length - 1}} {{filterControl.value?.length === 2 ? 'other' : 'others'}})
+      </span>
+    </mat-select-trigger>
+    <div class="select-container">
+      <div class="filter-header" (click)="filterSelect.close()">{{ filter.name }}</div>
+      <mat-divider></mat-divider>
 
-        <mat-option (click)="unselectAll(filterControl)" [value]="{ code: 00 , name: ''}">
-          <mat-icon>cancel</mat-icon>Unselect All
-        </mat-option>
+      <mat-option (click)="unselectAll(filterControl)" [value]="{ code: 00 , name: ''}">
+        <mat-icon>cancel</mat-icon>Unselect All
+      </mat-option>
 
-        <mat-divider></mat-divider>
-        <div class="input-container" *ngIf="options.expanded">
-          <mat-optgroup>
-            <mat-form-field style="width:100%;" floatLabel="never" appearance="none">
-              <input matInput autocomplete="off" class="input-field" placeholder="Search"
-                [formControl]="searchControl">
-              <button [disableRipple]="true" *ngIf="searchControl.value" matSuffix mat-icon-button
-                aria-label="Clear" (click)="clearSearch($event, searchControl)">
-                <mat-icon color="primary">close</mat-icon>
-              </button>
-            </mat-form-field>
-          </mat-optgroup>
-        </div>
-        <mat-divider></mat-divider>
-
-      
-        <mat-optgroup *ngIf="isLoadingOptions">
-           <div class="select-placeholder-container"> <span>Loading...</span><mat-spinner matPrefix class="spinner" diameter="20"></mat-spinner> </div> 
+      <mat-divider></mat-divider>
+      <div class="input-container" *ngIf="filter.expanded">
+        <mat-optgroup>
+          <mat-form-field style="width:100%;" floatLabel="never" appearance="none">
+            <input matInput autocomplete="off" class="input-field" placeholder="Search" [formControl]="searchControl">
+            <button [disableRipple]="true" *ngIf="searchControl.value" matSuffix mat-icon-button aria-label="Clear"
+              (click)="clearSearch($event, searchControl)">
+              <mat-icon color="primary">close</mat-icon>
+            </button>
+          </mat-form-field>
         </mat-optgroup>
-      
-        <!-- <mat-optgroup *ngIf="(filteredOptions | async).length == 0 && isLoadingOptions">
-          <div>No results found!</div>
-        </mat-optgroup> --> 
-        <mat-option #opt *ngFor="let option of filteredOptions | async" [value]="option">
-          <mat-icon matSuffix *ngIf="opt.selected">close</mat-icon> {{option.name}}
-        </mat-option>
       </div>
-    </mat-select>
-  </mat-form-field>
+      <mat-divider></mat-divider>
+
+
+      <mat-optgroup *ngIf="isLoadingOptions">
+        <div class="select-placeholder-container"> <span>Loading...</span>
+          <mat-spinner matPrefix class="spinner" diameter="20"></mat-spinner>
+        </div>
+      </mat-optgroup>
+
+      <mat-option #opt *ngFor="let option of filteredOptions | async" [value]="option">
+        <mat-icon matSuffix *ngIf="opt.selected">close</mat-icon> {{option.name}}
+      </mat-option>
+    </div>
+  </mat-select>
+</mat-form-field>
+</form>

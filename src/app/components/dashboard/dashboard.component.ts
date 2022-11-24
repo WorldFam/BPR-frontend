@@ -50,7 +50,6 @@ export class DashboardComponent implements AfterViewInit, OnInit {
         sortable: key === 'capacity1' ? false : true,
       });
     });
-    console.log(columns)
     return columns;
   }
 
