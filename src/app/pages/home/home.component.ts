@@ -4,17 +4,15 @@ import { UrgentMarketMessagesService } from 'src/app/services/urgent-market-mess
 import { MatTableDataSource } from '@angular/material/table';
 import {
   UrgentMarketMessagesInfrastructure,
-  FilterEntity,
+  FilterEntity,FilterParams, EntityParams
 } from 'src/app/models/urgent-market-messages-infrastructure.model';
-
-import { InfrastructureConstants } from 'src/app/constants/constants';
+import { HttpParams } from '@angular/common/http';
 
 import { FILTEROPT } from 'src/app/data/filter.data';
-import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
 
-import { Observable, forkJoin } from 'rxjs';
-import { map, switchMap, toArray, concatMap, take } from 'rxjs/operators';
+import { forkJoin } from 'rxjs';
 import UMMJSON from 'src/app/data/UMM.json';
+import { FormArray, FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-home',
@@ -25,31 +23,60 @@ export class HomeComponent implements OnInit {
   constructor(
     public auth: AuthService,
     private urgentMarketMessage: UrgentMarketMessagesService,
-    fb: FormBuilder
+    private formBuilder: FormBuilder, 
   ) {
     this.loadMessages()
-    // this.loadFilterOptions();
   }
 
   dataSource = new MatTableDataSource();
   isLoadingResults = true;
   isLoadingOptions = true;
-  source = new FormControl();
-  filters: any[];
-  myControls: FormControl[] = [];
+
+  filters: UrgentMarketMessagesInfrastructure<FilterEntity>[];
+
   activeState: string;
+  form = new FormGroup({});
 
   setStateAsActive(state) {
     this.activeState = state;
   }
 
   ngOnInit() {
-    this.source.valueChanges.subscribe((data) => {
-      console.log(data);
-    });
-
     this.filters = this.loadFilterOptions();
+
+    this.filters.forEach((filter) => {
+      // console.log(this.formControlNames[index])
+
+      this.form.addControl(filter.endpoint, new FormControl([], {nonNullable: true}))
+    })
+
+    this.form.valueChanges.subscribe((data: FilterEntity ) => {
+      let filterValue : FilterParams = {}
+
+      // send only code 
+      Object.entries(data).forEach(([key, value]) => {
+        data[key] = value.map((item) => item.code);
+      })
+
+      Object.assign(filterValue, data)
+      this.filterMessages(filterValue)
+    })
+
+
+
+    // this.form.valueChanges.subscribe(data => {console.log(data)})
   }
+
+
+
+ 
+  // getAllAsFormArray(): Observable<FormArray> {
+  //   return this.getAll().pipe(map((albums: Album[]) => {
+  //     // Maps all the albums into a formGroup defined in tge album.model.ts
+  //     const fgs = albums.map(Album.asFormGroup);
+  //     return new FormArray(fgs);
+  //   }));
+  // }
 
   loadMessages() {
     // return this.urgentMarketMessage.getUMMS().subscribe((data) => {
@@ -59,18 +86,23 @@ export class HomeComponent implements OnInit {
     return this.dataSource.data = UMMJSON;
   }
 
+  clearFilters(){
+    this.form.reset()
+  }
+
   loadFilterOptions(): UrgentMarketMessagesInfrastructure<FilterEntity>[] {
-    // const forkRequest = FILTEROPT.map((endpoint) =>
-    //   this.urgentMarketMessage.getFilterOptions(endpoint.endpoint)
-    // );
-    // forkJoin(forkRequest).subscribe(
-    //   (data) =>
-    //     data.forEach((option: FilterEntity[], index) => {
-    //       return (FILTEROPT[index].options = option);
-    //     }),
-    //   (error) => console.log(error),
-    //   () => (this.isLoadingOptions = false)
-    // );
+    const forkRequest = FILTEROPT.map((endpoint) =>
+      this.urgentMarketMessage.getFilterOptions(endpoint.endpoint)
+    );
+    forkJoin(forkRequest).subscribe(
+      (data) =>
+        data.forEach((option: FilterEntity[], index) => {
+          return (FILTEROPT[index].options = option);
+        }),
+      (error) => console.log(error),
+      () => (this.isLoadingOptions = false)
+    );
+    console.log(FILTEROPT)
     return FILTEROPT;
   }
 
@@ -101,27 +133,48 @@ export class HomeComponent implements OnInit {
   //   return urgentList;
   // }
 
-  filterMessages(params: FilterEntity) {
-    console.log(params)
-    // this.filterValues.country = params
-    // console.log(this.filterValues.country)
-    // return this.urgentMarketMessage.getUMMS().subscribe(data  => {
-    //   this.loadMessages();
+  filterMessages(filterValues : FilterParams) {
+    
+    // let key;
+    // let value; 
+    // Object.keys(filterValues).forEach(keys => key = keys)
+    // Object.values(filterValues).forEach(values => value = values)
+    // console.log(key)
+    // console.log(value)
+
+    let params = new HttpParams({fromObject: filterValues});
+    
+    console.log(params.toString())
+
+
+    // if(params.has(key)){
+    //   params.append(key,value)
+    // }
+    
+    // console.log(params.toString())
+
+    // params.values.forEach((value) => {
+    //   filterParams[params.key] = value.code;
+    //   console.log(filterParams)
+      // this.urgentMarketMessage.getUMMS(filterParams).subscribe((data) => {
+      //   this.isLoadingResults = false;
+      //   this.dataSource.data = data;
+      // });
+    // })
+
+    
+
+    
+    // this.filterValues.key = params.key
+    // this.filterValues.key = params.key
+    
+    // params.value[params.value.length - 1]
+
+    // this.urgentMarketMessage.getUMMS(filterParams).subscribe((data) => {
+    //   this.isLoadingResults = false;
+    //   this.dataSource.data = data;
     // });
-  }
 
-  tabs = [
-    {label: 'Home', content: 'Content for Home tab.'},
-    {label: 'Profile', content: 'Content for Profile tab.'},
-    {label: 'Contact', content: 'Content for Contact tab.'}
-  ];
-  index: number = 1;
-
-  activatePrev() {
-    this.index = (this.index === 0) ? this.tabs.length - 1 : this.index - 1;
   }
-
-  activateNext() {
-    this.index = (this.index === this.tabs.length - 1) ? 0 : this.index + 1;
-  }
+  //https://stoplight.io/mocks/bpr-infrastructure/infrastructure/109335189?areas=10YAT-APG------L&areas=10YAT-APG------W
 }

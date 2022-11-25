@@ -5,12 +5,11 @@
       <app-filter-date [name]="'Event Date'"></app-filter-date>
 
       <mat-divider></mat-divider>
-    <div class="filter-field" *ngFor="let filter of filters; let i = index">
-
-    <app-filter-opt [options]="filters[i]"
-      (selectedOptions)="filterMessages($event)" [isLoadingOptions]="isLoadingOptions"></app-filter-opt>
-    </div>
-  </div>
+        <div class="filter-field" *ngFor="let filter of filters; let i = index">
+          <app-filter-opt [filter]="filter" [form]="form" [isLoadingOptions]="isLoadingOptions"></app-filter-opt>
+        </div>
+        <button mat-flat-button color="primary" class="text-center align-middle" (click)="clearFilters()">Clear All</button>
+      </div>
   </mat-drawer>
   <mat-drawer-content>
 
@@ -25,4 +24,3 @@
     </ng-template>
   </mat-drawer-content>
 </mat-drawer-container>
-

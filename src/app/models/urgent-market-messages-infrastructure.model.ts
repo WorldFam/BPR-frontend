@@ -3,15 +3,18 @@ export interface UrgentMarketMessagesInfrastructure<T>{
     name: string;
     endpoint: string;
     expanded: boolean;
-    options: FilterEntity[];
+    options: T[];
 }
-
-// export type FilterEntries = {
-//    [key: string]: string;
-// }
-
 
 export interface FilterEntity  {
     name : string;
     code : string;
 }
+
+export interface EntityParams  {
+    [key: string]: FilterEntity[];
+}
+
+export type FilterParams = {
+    [key: string]: string[];
+ }

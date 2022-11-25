@@ -17,5 +17,10 @@
 
 .table{
     padding: 0px 15px 0px 15px; 
+}
 
+.mat-flat-button{
+    border-radius: 0;
+    display: block;
+margin: auto;
 }
