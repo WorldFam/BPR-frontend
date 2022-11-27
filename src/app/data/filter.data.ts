@@ -1,10 +1,11 @@
 import {
-  UrgentMarketMessagesInfrastructure,
-  FilterEntity,
+  OptionFilter,
+  FilterParams,
+  DateFilter
 } from '../models/urgent-market-messages-infrastructure.model';
 import { Infrastructure, InfrastructureEndpoint } from 'src/app/enums/umm-entries';
 
-export const FILTEROPT: UrgentMarketMessagesInfrastructure<FilterEntity>[] = [
+export const OptionFilters: OptionFilter<FilterParams>[] = [
   {
     name: Infrastructure.areas,
     endpoint: InfrastructureEndpoint.areas,
@@ -46,5 +47,19 @@ export const FILTEROPT: UrgentMarketMessagesInfrastructure<FilterEntity>[] = [
     endpoint: InfrastructureEndpoint.unavailabilityTypes,
     expanded: false,
     options: [],
+  }
+];
+
+
+export const DateFilters: DateFilter[] = [
+  {
+    name: Infrastructure.publicationDate,
+    endpoint: InfrastructureEndpoint.publicationDate,
+    rangePicker: false
   },
+  {
+    name: Infrastructure.eventDate,
+    endpoint: InfrastructureEndpoint.eventDate,
+    rangePicker: true
+  }
 ];

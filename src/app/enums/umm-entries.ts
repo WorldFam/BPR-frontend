@@ -31,6 +31,8 @@ export enum UmmEntriesHeaders {
 }
 
 export enum InfrastructureEndpoint {
+    publicationDate = 'publication-date',
+    eventDate = 'event-date',
     fuelTypes = 'fuel-types',
     areas ='areas',
     status ='status',
@@ -41,6 +43,8 @@ export enum InfrastructureEndpoint {
 }
 
 export enum Infrastructure {
+    publicationDate = 'Publication Date',
+    eventDate = 'Event Date',
     fuelTypes = 'Fuel Types',
     areas ='Areas',
     status ='Status',

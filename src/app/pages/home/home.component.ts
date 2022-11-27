@@ -3,16 +3,24 @@ import { AuthService } from '@auth0/auth0-angular';
 import { UrgentMarketMessagesService } from 'src/app/services/urgent-market-messages.service';
 import { MatTableDataSource } from '@angular/material/table';
 import {
-  UrgentMarketMessagesInfrastructure,
-  FilterEntity,FilterParams, EntityParams
+  OptionFilter,
+  DateFilter,
+  FilterParams,
+  QueryString,
+  Filter,
+  DateFilterParams,
 } from 'src/app/models/urgent-market-messages-infrastructure.model';
 import { HttpParams } from '@angular/common/http';
 
-import { FILTEROPT } from 'src/app/data/filter.data';
-
-import { forkJoin } from 'rxjs';
+import { OptionFilters, DateFilters } from 'src/app/data/filter.data';
+import { combineLatest, forkJoin, merge } from 'rxjs';
 import UMMJSON from 'src/app/data/UMM.json';
-import { FormArray, FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormControl } from '@angular/forms';
+import {
+  Infrastructure,
+  InfrastructureEndpoint,
+} from 'src/app/enums/umm-entries';
+import { map, mergeAll, startWith } from 'rxjs/operators';
 
 @Component({
   selector: 'app-home',
@@ -22,159 +30,142 @@ import { FormArray, FormGroup, FormBuilder, FormControl, Validators } from '@ang
 export class HomeComponent implements OnInit {
   constructor(
     public auth: AuthService,
-    private urgentMarketMessage: UrgentMarketMessagesService,
-    private formBuilder: FormBuilder, 
+    private urgentMarketMessage: UrgentMarketMessagesService
   ) {
-    this.loadMessages()
+    this.loadMessages();
   }
 
   dataSource = new MatTableDataSource();
   isLoadingResults = true;
   isLoadingOptions = true;
 
-  filters: UrgentMarketMessagesInfrastructure<FilterEntity>[];
+  optionFilters: OptionFilter<FilterParams>[];
+  dateFilters: DateFilter[];
 
   activeState: string;
-  form = new FormGroup({});
+  optionFormGroup = new FormGroup({});
+  dateFormGroup = new FormGroup({});
 
   setStateAsActive(state) {
     this.activeState = state;
   }
 
   ngOnInit() {
-    this.filters = this.loadFilterOptions();
+    this.optionFilters = this.loadOptionFilters();
+    this.dateFilters = DateFilters;
 
-    this.filters.forEach((filter) => {
-      // console.log(this.formControlNames[index])
+    this.addDateControls();
+    this.addOptionControls();
 
-      this.form.addControl(filter.endpoint, new FormControl([], {nonNullable: true}))
-    })
-
-    this.form.valueChanges.subscribe((data: FilterEntity ) => {
-      let filterValue : FilterParams = {}
-
-      // send only code 
-      Object.entries(data).forEach(([key, value]) => {
-        data[key] = value.map((item) => item.code);
-      })
-
-      Object.assign(filterValue, data)
-      this.filterMessages(filterValue)
-    })
-
-
-
-    // this.form.valueChanges.subscribe(data => {console.log(data)})
+    combineLatest([
+      this.optionFormGroup.valueChanges.pipe(
+        startWith(this.optionFormGroup.value)
+      ),
+      this.dateFormGroup.valueChanges.pipe(startWith(this.dateFormGroup.value)),
+    ]).subscribe(([option, date]) => {
+      let filterOptions: QueryString = this.filterOptions(option as FilterParams);
+      let filterDate: QueryString = this.filterDate(date as DateFilterParams);
+      let combinedData: QueryString = {...filterDate,...filterOptions};
+      this.filterMessages(combinedData);
+    });
   }
 
+  filterDate(data: DateFilterParams): QueryString {
+    let filterValue: QueryString = {};
 
+    Object.entries(data).forEach(([key, value]) => {
+      let dateNotSet: boolean = Object.values(data[key]).every(
+        (value) => value === null
+      );
+      if (dateNotSet) {
+        filterValue[key] = [];
+      } else {
+        filterValue[key] = JSON.stringify(value);
+      }
+    });
 
- 
-  // getAllAsFormArray(): Observable<FormArray> {
-  //   return this.getAll().pipe(map((albums: Album[]) => {
-  //     // Maps all the albums into a formGroup defined in tge album.model.ts
-  //     const fgs = albums.map(Album.asFormGroup);
-  //     return new FormArray(fgs);
-  //   }));
-  // }
+    return filterValue;
+  }
+
+  filterOptions(data: FilterParams): QueryString {
+    let filterValue: QueryString = {};
+
+    Object.entries(data).forEach(([key, value]) => {
+      filterValue[key] = value.map((item) => item.code);
+    });
+
+    return filterValue;
+  }
+
+  addDateControls() {
+    let date = new Date();
+    const weekDays = 7;
+
+    DateFilters.forEach((filter) => {
+      if (filter.endpoint === InfrastructureEndpoint.publicationDate) {
+        this.dateFormGroup.addControl(
+          filter.endpoint,
+          new FormGroup({
+            start: new FormControl(null, { nonNullable: true }),
+            end: new FormControl(null, { nonNullable: true }),
+          })
+        );
+      } else
+        this.dateFormGroup.addControl(
+          filter.endpoint,
+          new FormGroup({
+            start: new FormControl(new Date(date), { nonNullable: true }),
+            end: new FormControl(
+              new Date(date.setDate(date.getDate() + weekDays)),
+              { nonNullable: true }
+            ),
+          })
+        );
+    });
+  }
+
+  addOptionControls() {
+    OptionFilters.forEach((filter) => {
+      this.optionFormGroup.addControl(
+        filter.endpoint,
+        new FormControl([], { nonNullable: true })
+      );
+    });
+  }
 
   loadMessages() {
     // return this.urgentMarketMessage.getUMMS().subscribe((data) => {
-      this.isLoadingResults = false;
+    this.isLoadingResults = false;
     //   this.dataSource.data = data;
     // });
-    return this.dataSource.data = UMMJSON;
+    return (this.dataSource.data = UMMJSON);
   }
 
-  clearFilters(){
-    this.form.reset()
+  clearFilters() {
+    this.optionFormGroup.reset();
+    this.dateFormGroup.reset();
   }
 
-  loadFilterOptions(): UrgentMarketMessagesInfrastructure<FilterEntity>[] {
-    const forkRequest = FILTEROPT.map((endpoint) =>
-      this.urgentMarketMessage.getFilterOptions(endpoint.endpoint)
+  loadOptionFilters(): OptionFilter<FilterParams>[] {
+    const forkRequest = OptionFilters.map((filter) =>
+      this.urgentMarketMessage.getFilterOptions(filter.endpoint)
     );
     forkJoin(forkRequest).subscribe(
       (data) =>
-        data.forEach((option: FilterEntity[], index) => {
-          return (FILTEROPT[index].options = option);
+        data.forEach((option: FilterParams[], index) => {
+          return (OptionFilters[index].options = option);
         }),
       (error) => console.log(error),
       () => (this.isLoadingOptions = false)
     );
-    console.log(FILTEROPT)
-    return FILTEROPT;
+    return OptionFilters;
   }
 
-  // loadFilterOptions() :  UrgentMarketMessagesInfrastructureClass[]{
-  //   let urgentList: UrgentMarketMessagesInfrastructureClass[] = [];
+  filterMessages(filterValuesObject) {
+    let params = new HttpParams({
+      fromObject: filterValuesObject,
+    });
 
-  //   Infrastructure.forEach(endpoint => this.urgentMarketMessage.getFilterOptions(endpoint).subscribe(data => {
-  //     data.map((res : SetFilter[]) => {
-  //       console.log(res)
-  //       const urgent = new UrgentMarketMessagesInfrastructureClass(endpoint,res);
-  //        return urgentList.push(urgent)
-  //     })
-  //   }));
-  //   console.log(urgentList)
-  //   return urgentList;
-  // }
-
-  // loadFilterOptions() :  UrgentMarketMessagesInfrastructureClass[]{
-  //   let urgentList: UrgentMarketMessagesInfrastructureClass[] = [];
-  //   Infrastructure.forEach(endpoint => this.urgentMarketMessage.getFilterOptions(endpoint).pipe(
-  //     map((res) => {
-  //       console.log(res)
-  //       const urgent = new UrgentMarketMessagesInfrastructureClass(endpoint,[]);
-  //       //fill the person props from response
-  //       return urgentList.push(urgent)
-  //     })));
-  //   //console.log(urgentList)
-  //   return urgentList;
-  // }
-
-  filterMessages(filterValues : FilterParams) {
-    
-    // let key;
-    // let value; 
-    // Object.keys(filterValues).forEach(keys => key = keys)
-    // Object.values(filterValues).forEach(values => value = values)
-    // console.log(key)
-    // console.log(value)
-
-    let params = new HttpParams({fromObject: filterValues});
-    
-    console.log(params.toString())
-
-
-    // if(params.has(key)){
-    //   params.append(key,value)
-    // }
-    
-    // console.log(params.toString())
-
-    // params.values.forEach((value) => {
-    //   filterParams[params.key] = value.code;
-    //   console.log(filterParams)
-      // this.urgentMarketMessage.getUMMS(filterParams).subscribe((data) => {
-      //   this.isLoadingResults = false;
-      //   this.dataSource.data = data;
-      // });
-    // })
-
-    
-
-    
-    // this.filterValues.key = params.key
-    // this.filterValues.key = params.key
-    
-    // params.value[params.value.length - 1]
-
-    // this.urgentMarketMessage.getUMMS(filterParams).subscribe((data) => {
-    //   this.isLoadingResults = false;
-    //   this.dataSource.data = data;
-    // });
-
+    console.log(params.toString());
   }
-  //https://stoplight.io/mocks/bpr-infrastructure/infrastructure/109335189?areas=10YAT-APG------L&areas=10YAT-APG------W
 }

@@ -2,13 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpParams } from '@angular/common/http';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
-import { UMM } from 'src/app/models/model';
 import { retry, catchError } from 'rxjs/operators';
-import UMMJSON from 'src/app/data/UMM.json';
-import {
-  FilterParams,
-} from '../models/urgent-market-messages-infrastructure.model';
-import { throws } from 'assert';
 
 @Injectable({
   providedIn: 'root',
