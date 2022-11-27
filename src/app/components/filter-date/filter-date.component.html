@@ -1,14 +1,20 @@
-<div class="mat-date-container">
-  <div>{{name}}</div>
-  <mat-form-field appearance="none" class="mat-date-field">
+<form [formGroup]="form">
+  <div class="mat-date-container" formGroupName="{{filter.endpoint}}">
+    <div>{{filter.name}}</div>
+    <mat-form-field appearance="none" class="mat-date-field">
+      <mat-date-range-input [rangePicker]="picker" #dateRangeInput [disabled]="true" [separator]="separator">
+        <input matStartDate placeholder="Start date" formControlName="start" #startDate>
+        <input matEndDate placeholder="End date" formControlName="end" #endDate>
+      </mat-date-range-input>
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-date-range-picker #picker [disabled]="false">
+        <mat-date-range-picker-actions>
+          <button mat-button matDateRangePickerCancel>Cancel</button>
+          <button mat-flat-button color="primary" matDateRangePickerApply
+            (click)="dateChanged(startDate, endDate)">Apply</button>
+        </mat-date-range-picker-actions>
+      </mat-date-range-picker>
 
-    <mat-date-range-input [rangePicker]="picker">
-      <input matStartDate placeholder="Start date">
-      <input matEndDate  placeholder="End date">
-    </mat-date-range-input>
-    <!-- <input matInput [matDatepicker]="picker" [formControl]="date"> -->
-
-    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-    <mat-date-range-picker #picker></mat-date-range-picker>
-  </mat-form-field>
-</div>
+    </mat-form-field>
+  </div>
+</form>

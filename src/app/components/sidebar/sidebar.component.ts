@@ -6,8 +6,8 @@ import {
   EventEmitter,
 } from '@angular/core';
 import {
-  UrgentMarketMessagesInfrastructure,
-  FilterEntity,
+  OptionFilter,
+  FilterParams,
 } from 'src/app/models/urgent-market-messages-infrastructure.model';
 import { __values } from 'tslib';
 @Component({

@@ -10,10 +10,9 @@ import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 
 import {
-  UrgentMarketMessagesInfrastructure,
-  FilterEntity
+  OptionFilter,
+  FilterParams
 } from 'src/app/models/urgent-market-messages-infrastructure.model';
-import { __values } from 'tslib';
 
 @Component({
   selector: 'app-filter-opt',
@@ -22,7 +21,7 @@ import { __values } from 'tslib';
 })
 export class FilterOptComponent implements OnInit {
   @Input()
-  filter: UrgentMarketMessagesInfrastructure<FilterEntity>;
+  filter: OptionFilter<FilterParams>;
 
   @Input()
   isLoadingOptions: boolean;
@@ -30,10 +29,7 @@ export class FilterOptComponent implements OnInit {
   filterControl = new FormControl();
   filteredValue: string;
 
-  // @Output()
-  // selectedOptions = new EventEmitter<FormGroup>();
-
-  filteredOptions: Observable<FilterEntity[]>;
+  filteredOptions: Observable<FilterParams[]>;
   searchControl = new FormControl();
 
   @Input()
@@ -48,9 +44,7 @@ export class FilterOptComponent implements OnInit {
     this.filterControl = this.getFilterValue();
     
     //will be assigned data from httpcall
-    this.filterControl.valueChanges.subscribe((value : FilterEntity[]) => {
-
-      console.log(value)
+    this.filterControl.valueChanges.subscribe((value : FilterParams[]) => {
       if(value.length !== 0){
       this.filteredValue = value[0].name
       }else {
@@ -82,8 +76,8 @@ export class FilterOptComponent implements OnInit {
 
   private _filter<T>(
     name: string,
-    infrastructure: UrgentMarketMessagesInfrastructure<FilterEntity>
-  ): FilterEntity[] {
+    infrastructure: OptionFilter<FilterParams>
+  ): FilterParams[] {
     const filterValue = name.toUpperCase();
     let filterList = infrastructure.options.filter((option: any) => {
       // type Keys = keyof FilterEntity
