@@ -57,20 +57,27 @@ export class HomeComponent implements OnInit {
     this.addDateControls();
     this.addOptionControls();
 
-    combineLatest([
-      this.optionFormGroup.valueChanges.pipe(
-        startWith(this.optionFormGroup.value)
-      ),
-      this.dateFormGroup.valueChanges.pipe(startWith(this.dateFormGroup.value)),
-    ]).subscribe(([option, date]) => {
-      let filterOptions: QueryString = this.filterOptions(option as FilterParams);
-      let filterDate: QueryString = this.filterDate(date as DateFilterParams);
-      let combinedData: QueryString = {...filterDate,...filterOptions};
-      this.filterMessages(combinedData);
+    merge(
+      this.optionFormGroup.valueChanges,
+      this.dateFormGroup.valueChanges
+    ).subscribe(() => {
+      let filterOptionQuery: QueryString = this.convertOptionsToQuery(
+        this.optionFormGroup.value as FilterParams
+      );
+      let filterDateQuery: QueryString = this.convertDateToQuery(
+        this.dateFormGroup.value as DateFilterParams
+      );
+      let mergedFilterQuery: QueryString = {
+        ...filterOptionQuery,
+        ...filterDateQuery,
+      };
+
+      console.log(mergedFilterQuery)
+      this.urgentMarketMessage.getUMMS(mergedFilterQuery);
     });
   }
 
-  filterDate(data: DateFilterParams): QueryString {
+  convertDateToQuery(data: DateFilterParams): QueryString {
     let filterValue: QueryString = {};
 
     Object.entries(data).forEach(([key, value]) => {
@@ -87,7 +94,7 @@ export class HomeComponent implements OnInit {
     return filterValue;
   }
 
-  filterOptions(data: FilterParams): QueryString {
+  convertOptionsToQuery(data: FilterParams): QueryString {
     let filterValue: QueryString = {};
 
     Object.entries(data).forEach(([key, value]) => {
@@ -159,13 +166,5 @@ export class HomeComponent implements OnInit {
       () => (this.isLoadingOptions = false)
     );
     return OptionFilters;
-  }
-
-  filterMessages(filterValuesObject) {
-    let params = new HttpParams({
-      fromObject: filterValuesObject,
-    });
-
-    console.log(params.toString());
   }
 }

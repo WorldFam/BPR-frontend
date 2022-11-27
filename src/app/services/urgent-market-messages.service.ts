@@ -30,11 +30,12 @@ export class UrgentMarketMessagesService {
       .pipe(catchError(this.handleError));
   }
 
- 
+  public getUMMS<T>(queryParams?): Observable<T[]> {
+    let params = new HttpParams({
+      fromObject: queryParams,
+    });
 
-  public getUMMS<T>(filterValues?): Observable<T[]> {
-    let params = new HttpParams({fromObject: filterValues});
-
+    console.log(params.toString())
     return this.http
       .get<T[]>(this.baseURL + `/messages`, {
         headers: this.httpOptions.headers,
