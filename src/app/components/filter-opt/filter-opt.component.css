@@ -1,71 +1,67 @@
-::ng-deep .mat-option .mat-pseudo-checkbox{ display: none; }
+::ng-deep .mat-option .mat-pseudo-checkbox {
+  display: none;
+}
 
 .mat-option[aria-selected="true"] {
   background: #282b38 !important;
   color: white !important;
 }
 
-.mat-option{
+.mat-option {
   font-size: 14px;
   background: #f1eeee;
 }
 
 .additional-selection {
-    opacity: 0.75;
-    font-size: 0.75em;
-  }
+  opacity: 0.75;
+  font-size: 0.75em;
+}
 
-  .capacity-unit{
-    opacity: 0.75;
-  }
-  
-  .mat-divider{
-    background: #282b38 !important;
-  }
-  
-  .input-field{
-    font-family: 'IBM Plex Sans', sans-serif;
-    font-size: 14px;
-    color: #282b38 !important;
-    padding-bottom: 6px;
+.capacity-unit {
+  opacity: 0.75;
+}
 
-  }
-  
-  .filter-header{
-    background-color: #282b38;
-    color: white;
-    text-align: center;
-    cursor: pointer;
-  }
+.mat-divider {
+  background: #282b38 !important;
+}
 
-  .select-placeholder-container {
-    display: flex;
-    align-items: center;
-    color: #282b38;
-  }
-  
-  .select-placeholder-container > span {
-    flex: 1;
-  }
-  
-  .hide-dummy-option {
-    display: none !important;
-  }
- 
-  ::ng-deep .mat-select-placeholder {
-    color: #282b38;
+.input-field {
+
+  color: #282b38 !important;
+  padding-bottom: 6px;
+
+}
+
+.filter-header {
+  background-color: #282b38;
+  color: white;
+  text-align: center;
+  cursor: pointer;
+}
+
+.select-placeholder-container {
+  display: flex;
+  align-items: center;
+  color: #282b38;
+}
+
+.select-placeholder-container>span {
+  flex: 1;
+}
+
+::ng-deep .mat-select-placeholder {
+  color: #282b38;
 }
 
 ::ng-deep .mat-select-arrow {
   color: #282b38;
 }
+
 ::ng-deep .mat-select-panel {
   background-color: #f1eeee;
   border-radius: 0px !important;
 }
 
-::ng-deep .mat-form-field{
-  font-family: 'IBM Plex Sans', sans-serif;
-  font-size: 14px;
+::ng-deep .mat-form-field {
+  display: block !important;
 }
-

@@ -1,6 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { FormGroup } from '@angular/forms';
-import { InfrastructureEndpoint } from 'src/app/enums/umm-entries';
+import { FormGroup, FormControl } from '@angular/forms';
 import { DateFilter } from 'src/app/models/urgent-market-messages-infrastructure.model';
 
 @Component({
@@ -9,7 +8,15 @@ import { DateFilter } from 'src/app/models/urgent-market-messages-infrastructure
   styleUrls: ['./filter-date.component.css'],
 })
 export class FilterDateComponent implements OnInit {
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.dateControl.disable();
+    this.dateControl.setValue(
+      this.setDate(
+        this.localizeDate(this.filter.defaultStartDate),
+        this.localizeDate(this.filter.defaultEndDate)
+      )
+    );
+  }
 
   @Input()
   form: FormGroup;
@@ -18,19 +25,26 @@ export class FilterDateComponent implements OnInit {
   filter: DateFilter;
 
   separator = '-';
+  dateControl = new FormControl();
 
-  dateChanged(startDate, endDate) {
-    if (!endDate.value) {
-      endDate.value = startDate.value;
-      this.form.setValue({ end: startDate.value });
-    }
-
-    if (this.filter.endpoint === InfrastructureEndpoint.publicationDate) {
-      if (!endDate.value) {
-        this.separator = '';
-      } else {
-        this.separator = '-';
-      }
-    }
+  dateChanged(startDate: { value: string }, endDate: { value: string }) {
+    this.dateControl.setValue(this.setDate(startDate.value, endDate.value));
   }
+
+  setDate(startDate: string, endDate: string) {
+    if (startDate === null && endDate === null) {
+      return 'All';
+    }
+
+    else if (endDate === '') {
+      return 'Today';
+    }
+
+    return startDate + this.separator + endDate;
+  }
+
+  localizeDate = (date: Date) => {
+    if(date === null) return null;
+    return date.toLocaleDateString();
+  };
 }

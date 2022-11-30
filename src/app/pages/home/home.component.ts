@@ -7,20 +7,15 @@ import {
   DateFilter,
   FilterParams,
   QueryString,
-  Filter,
   DateFilterParams,
 } from 'src/app/models/urgent-market-messages-infrastructure.model';
-import { HttpParams } from '@angular/common/http';
 
 import { OptionFilters, DateFilters } from 'src/app/data/filter.data';
-import { combineLatest, forkJoin, merge } from 'rxjs';
+import { forkJoin, merge } from 'rxjs';
 import UMMJSON from 'src/app/data/UMM.json';
 import { FormGroup, FormControl } from '@angular/forms';
-import {
-  Infrastructure,
-  InfrastructureEndpoint,
-} from 'src/app/enums/umm-entries';
-import { map, mergeAll, startWith } from 'rxjs/operators';
+import { InfrastructureEndpoint } from 'src/app/enums/umm-entries';
+import { distinctUntilChanged, throttleTime } from 'rxjs/operators';
 
 @Component({
   selector: 'app-home',
@@ -57,24 +52,23 @@ export class HomeComponent implements OnInit {
     this.addDateControls();
     this.addOptionControls();
 
-    merge(
-      this.optionFormGroup.valueChanges,
-      this.dateFormGroup.valueChanges
-    ).subscribe(() => {
-      let filterOptionQuery: QueryString = this.convertOptionsToQuery(
-        this.optionFormGroup.value as FilterParams
-      );
-      let filterDateQuery: QueryString = this.convertDateToQuery(
-        this.dateFormGroup.value as DateFilterParams
-      );
-      let mergedFilterQuery: QueryString = {
-        ...filterOptionQuery,
-        ...filterDateQuery,
-      };
+    merge(this.optionFormGroup.valueChanges, this.dateFormGroup.valueChanges)
+      .pipe(distinctUntilChanged(), throttleTime(10))
+      .subscribe(() => {
+        let filterOptionQuery: QueryString = this.convertOptionsToQuery(
+          this.optionFormGroup.value as FilterParams
+        );
+        let filterDateQuery: QueryString = this.convertDateToQuery(
+          this.dateFormGroup.value as DateFilterParams
+        );
+        let mergedFilterQuery: QueryString = {
+          ...filterOptionQuery,
+          ...filterDateQuery,
+        };
 
-      console.log(mergedFilterQuery)
-      this.urgentMarketMessage.getUMMS(mergedFilterQuery);
-    });
+        console.log(mergedFilterQuery);
+        this.urgentMarketMessage.getUMMS(mergedFilterQuery);
+      });
   }
 
   convertDateToQuery(data: DateFilterParams): QueryString {
@@ -105,27 +99,25 @@ export class HomeComponent implements OnInit {
   }
 
   addDateControls() {
-    let date = new Date();
-    const weekDays = 7;
-
     DateFilters.forEach((filter) => {
       if (filter.endpoint === InfrastructureEndpoint.publicationDate) {
         this.dateFormGroup.addControl(
           filter.endpoint,
           new FormGroup({
-            start: new FormControl(null, { nonNullable: true }),
-            end: new FormControl(null, { nonNullable: true }),
+            start: new FormControl(filter.defaultStartDate, {
+              nonNullable: true,
+            }),
+            end: new FormControl(filter.defaultEndDate, { nonNullable: true }),
           })
         );
       } else
         this.dateFormGroup.addControl(
           filter.endpoint,
           new FormGroup({
-            start: new FormControl(new Date(date), { nonNullable: true }),
-            end: new FormControl(
-              new Date(date.setDate(date.getDate() + weekDays)),
-              { nonNullable: true }
-            ),
+            start: new FormControl(filter.defaultStartDate, {
+              nonNullable: true,
+            }),
+            end: new FormControl(filter.defaultEndDate, { nonNullable: true }),
           })
         );
     });

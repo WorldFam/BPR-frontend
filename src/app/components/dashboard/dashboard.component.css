@@ -1,5 +1,5 @@
 table {
-  width: 1920px;
+  width: 100%;
   border-collapse: separate; /* Don't collapse */
 }
 
@@ -48,7 +48,8 @@ td{
 }
 
 .example-container {
-  height: 70vh;
+  display: block;
+  height: calc(100vh - 80px);
   overflow-y:scroll;
 }
 

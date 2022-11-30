@@ -7,3 +7,5 @@ export const InfrastructureConstants: string[] = [
     'status', // HardCode = code : string , name : string 
     'unavailability-types', // text : string, value : number 
 ];
+
+export const weekDaysNumber = 7;

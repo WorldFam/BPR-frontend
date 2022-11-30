@@ -2,10 +2,11 @@
   <div class="mat-date-container" formGroupName="{{filter.endpoint}}">
     <div>{{filter.name}}</div>
     <mat-form-field appearance="none" class="mat-date-field">
-      <mat-date-range-input [rangePicker]="picker" #dateRangeInput [disabled]="true" [separator]="separator">
-        <input matStartDate placeholder="Start date" formControlName="start" #startDate>
-        <input matEndDate placeholder="End date" formControlName="end" #endDate>
+      <mat-date-range-input [rangePicker]="picker" [hidden]="true">
+        <input matStartDate formControlName="start" #startDate>
+        <input matEndDate formControlName="end" #endDate>
       </mat-date-range-input>
+      <input matInput [formControl]="dateControl">
       <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
       <mat-date-range-picker #picker [disabled]="false">
         <mat-date-range-picker-actions>

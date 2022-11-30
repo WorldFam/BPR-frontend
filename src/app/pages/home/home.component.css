@@ -1,26 +1,29 @@
-
-.sidebar-container{
+.sidebar-container {
     background: #F5F5F5;
     border: none;
     padding-left: 15px;
 }
 
-.filter-field{
-    padding: 0px 10px 0px 10px; 
+.filter-field {
+    padding: 0px 10px 0px 10px;
 }
 
-.filter-container{
+.filter-container {
     background-color: #EBEBEB;
-    border-radius: 5px;
-    padding-top: 10px;
+    border-radius: 0px;
+    padding-block: 10px;
 }
 
-.table{
-    padding: 0px 15px 0px 15px; 
+.table {
+    padding: 0px 15px 0px 15px;
 }
 
-.mat-flat-button{
+.home-component {
+    background-color: #F5F5F5;
+}
+
+.mat-flat-button {
     border-radius: 0;
     display: block;
-margin: auto;
+    margin: auto;
 }

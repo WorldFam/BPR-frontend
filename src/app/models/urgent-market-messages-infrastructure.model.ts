@@ -10,7 +10,8 @@ export interface OptionFilter<T> extends Filter{
 }
 
 export interface DateFilter extends Filter{
-    rangePicker: boolean
+    defaultStartDate :  Date
+    defaultEndDate: Date
 }
 
 export interface DateFilterParams  {

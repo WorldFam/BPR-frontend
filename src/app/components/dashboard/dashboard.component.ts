@@ -5,8 +5,6 @@ import { MatTableDataSource } from '@angular/material/table';
 import { UmmEntries, UmmEntriesHeaders } from 'src/app/enums/umm-entries';
 import { UMMTableColumn, UMM } from 'src/app/models/model';
 import { UrgentMarketMessagesService } from 'src/app/services/urgent-market-messages.service';
-import { Router } from '@angular/router';
-
 
 @Component({
   selector: 'app-dashboard',
