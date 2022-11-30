@@ -1,54 +1,54 @@
 import {
   OptionFilter,
-  FilterParams,
   DateFilter,
-} from '../models/urgent-market-messages-infrastructure.model';
+} from '../models/filter-infrastructure.model';
+import { OptionFilterParams } from '../models/filter-params.model';
 import {
-  Infrastructure,
-  InfrastructureEndpoint,
-} from 'src/app/enums/umm-entries';
+  FilterInfrastructure,
+  FilterInfrastructureEndpoint,
+} from 'src/app/enums/filter-infrastructure';
 
-import { weekDaysNumber } from 'src/app/constants/constants'
-export const OptionFilters: OptionFilter<FilterParams>[] = [
+import { weekDaysNumber } from 'src/app/constants/constants';
+export const OptionFilters: OptionFilter<OptionFilterParams>[] = [
   {
-    name: Infrastructure.areas,
-    endpoint: InfrastructureEndpoint.areas,
+    name: FilterInfrastructure.areas,
+    endpoint: FilterInfrastructureEndpoint.areas,
     expanded: true,
     options: [],
   },
   {
-    name: Infrastructure.assets,
-    endpoint: InfrastructureEndpoint.assets,
+    name: FilterInfrastructure.assets,
+    endpoint: FilterInfrastructureEndpoint.assets,
     expanded: true,
     options: [],
   },
   {
-    name: Infrastructure.eventTypes,
-    endpoint: InfrastructureEndpoint.eventTypes,
+    name: FilterInfrastructure.eventTypes,
+    endpoint: FilterInfrastructureEndpoint.eventTypes,
     expanded: false,
     options: [],
   },
   {
-    name: Infrastructure.fuelTypes,
-    endpoint: InfrastructureEndpoint.fuelTypes,
+    name: FilterInfrastructure.fuelTypes,
+    endpoint: FilterInfrastructureEndpoint.fuelTypes,
     expanded: true,
     options: [],
   },
   {
-    name: Infrastructure.sources,
-    endpoint: InfrastructureEndpoint.sources,
+    name: FilterInfrastructure.sources,
+    endpoint: FilterInfrastructureEndpoint.sources,
     expanded: false,
     options: [],
   },
   {
-    name: Infrastructure.status,
-    endpoint: InfrastructureEndpoint.status,
+    name: FilterInfrastructure.status,
+    endpoint: FilterInfrastructureEndpoint.status,
     expanded: false,
     options: [],
   },
   {
-    name: Infrastructure.unavailabilityTypes,
-    endpoint: InfrastructureEndpoint.unavailabilityTypes,
+    name: FilterInfrastructure.unavailabilityTypes,
+    endpoint: FilterInfrastructureEndpoint.unavailabilityTypes,
     expanded: false,
     options: [],
   },
@@ -56,21 +56,20 @@ export const OptionFilters: OptionFilter<FilterParams>[] = [
 
 export const DateFilters: DateFilter[] = [
   {
-    name: Infrastructure.publicationDate,
-    endpoint: InfrastructureEndpoint.publicationDate,
+    name: FilterInfrastructure.publicationDate,
+    endpoint: FilterInfrastructureEndpoint.publicationDate,
     defaultStartDate: null,
     defaultEndDate: null,
   },
   {
-    name: Infrastructure.eventDate,
-    endpoint: InfrastructureEndpoint.eventDate,
+    name: FilterInfrastructure.eventDate,
+    endpoint: FilterInfrastructureEndpoint.eventDate,
     defaultStartDate: new Date(),
-    defaultEndDate: getNextWeekDate()
+    defaultEndDate: getNextWeekDate(),
   },
 ];
 
-
 function getNextWeekDate() {
- let date = new Date();
- return new Date(date.setDate(date.getDate() + weekDaysNumber));
+  let date = new Date();
+  return new Date(date.setDate(date.getDate() + weekDaysNumber));
 }

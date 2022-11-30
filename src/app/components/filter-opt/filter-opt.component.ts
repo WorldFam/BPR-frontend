@@ -1,18 +1,9 @@
-import {
-  Component,
-  OnInit,
-  Input,
-  Output,
-  EventEmitter,
-} from '@angular/core';
-import { FormControl,FormGroup } from '@angular/forms';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
-
-import {
-  OptionFilter,
-  FilterParams
-} from 'src/app/models/urgent-market-messages-infrastructure.model';
+import { OptionFilter } from 'src/app/models/filter-infrastructure.model';
+import { OptionFilterParams } from 'src/app/models/filter-params.model';
 
 @Component({
   selector: 'app-filter-opt',
@@ -21,43 +12,42 @@ import {
 })
 export class FilterOptComponent implements OnInit {
   @Input()
-  filter: OptionFilter<FilterParams>;
+  filter: OptionFilter<OptionFilterParams>;
 
   @Input()
   isLoadingOptions: boolean;
- 
+
   filterControl = new FormControl();
   filteredValue: string;
 
-  filteredOptions: Observable<FilterParams[]>;
+  filteredOptions: Observable<OptionFilterParams[]>;
   searchControl = new FormControl();
 
   @Input()
-  form: FormGroup
+  form: FormGroup;
 
   ngOnInit(): void {
     this.filteredOptions = this.searchControl.valueChanges.pipe(
       startWith<string>(''),
       map((name) => this._filter(name, this.filter))
     );
-   
+
     this.filterControl = this.getFilterValue();
-    
+
     //will be assigned data from httpcall
-    this.filterControl.valueChanges.subscribe((value : FilterParams[]) => {
-      if(value.length !== 0){
-      this.filteredValue = value[0].name
-      }else {
+    this.filterControl.valueChanges.subscribe((value: OptionFilterParams[]) => {
+      if (value.length !== 0) {
+        this.filteredValue = value[0].name;
+      } else {
         this.filteredValue = '';
       }
 
       // if(value.length === this.options.options.length){
       //   this.filteredValue = "All " + this.options.name;
       // }
-      
+
       // let filtered = {key: this.filter.endpoint, values: value.map(value => value.code)}
       // this.selectedOptions.emit(this.form.value);
-
 
       // this.filterValues.source = value
       // const params = new HttpParams({fromObject: this.filterValues});
@@ -76,8 +66,8 @@ export class FilterOptComponent implements OnInit {
 
   private _filter<T>(
     name: string,
-    infrastructure: OptionFilter<FilterParams>
-  ): FilterParams[] {
+    infrastructure: OptionFilter<OptionFilterParams>
+  ): OptionFilterParams[] {
     const filterValue = name.toUpperCase();
     let filterList = infrastructure.options.filter((option: any) => {
       // type Keys = keyof FilterEntity

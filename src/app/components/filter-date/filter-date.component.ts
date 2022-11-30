@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
-import { DateFilter } from 'src/app/models/urgent-market-messages-infrastructure.model';
+import { DateFilter } from 'src/app/models/filter-infrastructure.model';
 
 @Component({
   selector: 'app-filter-date',

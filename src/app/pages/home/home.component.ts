@@ -5,16 +5,17 @@ import { MatTableDataSource } from '@angular/material/table';
 import {
   OptionFilter,
   DateFilter,
-  FilterParams,
+} from 'src/app/models/filter-infrastructure.model';
+import {
+  OptionFilterParams,
   QueryString,
   DateFilterParams,
-} from 'src/app/models/urgent-market-messages-infrastructure.model';
-
+} from 'src/app/models/filter-params.model';
 import { OptionFilters, DateFilters } from 'src/app/data/filter.data';
 import { forkJoin, merge } from 'rxjs';
-import UMMJSON from 'src/app/data/UMM.json';
+import UMMJSON from 'src/app/UMM.json';
 import { FormGroup, FormControl } from '@angular/forms';
-import { InfrastructureEndpoint } from 'src/app/enums/umm-entries';
+import { FilterInfrastructureEndpoint } from 'src/app/enums/filter-infrastructure';
 import { distinctUntilChanged, throttleTime } from 'rxjs/operators';
 
 @Component({
@@ -34,7 +35,7 @@ export class HomeComponent implements OnInit {
   isLoadingResults = true;
   isLoadingOptions = true;
 
-  optionFilters: OptionFilter<FilterParams>[];
+  optionFilters: OptionFilter<OptionFilterParams>[];
   dateFilters: DateFilter[];
 
   activeState: string;
@@ -56,7 +57,7 @@ export class HomeComponent implements OnInit {
       .pipe(distinctUntilChanged(), throttleTime(10))
       .subscribe(() => {
         let filterOptionQuery: QueryString = this.convertOptionsToQuery(
-          this.optionFormGroup.value as FilterParams
+          this.optionFormGroup.value as OptionFilterParams
         );
         let filterDateQuery: QueryString = this.convertDateToQuery(
           this.dateFormGroup.value as DateFilterParams
@@ -88,7 +89,7 @@ export class HomeComponent implements OnInit {
     return filterValue;
   }
 
-  convertOptionsToQuery(data: FilterParams): QueryString {
+  convertOptionsToQuery(data: OptionFilterParams): QueryString {
     let filterValue: QueryString = {};
 
     Object.entries(data).forEach(([key, value]) => {
@@ -100,7 +101,7 @@ export class HomeComponent implements OnInit {
 
   addDateControls() {
     DateFilters.forEach((filter) => {
-      if (filter.endpoint === InfrastructureEndpoint.publicationDate) {
+      if (filter.endpoint === FilterInfrastructureEndpoint.publicationDate) {
         this.dateFormGroup.addControl(
           filter.endpoint,
           new FormGroup({
@@ -145,13 +146,13 @@ export class HomeComponent implements OnInit {
     this.dateFormGroup.reset();
   }
 
-  loadOptionFilters(): OptionFilter<FilterParams>[] {
+  loadOptionFilters(): OptionFilter<OptionFilterParams>[] {
     const forkRequest = OptionFilters.map((filter) =>
       this.urgentMarketMessage.getFilterOptions(filter.endpoint)
     );
     forkJoin(forkRequest).subscribe(
       (data) =>
-        data.forEach((option: FilterParams[], index) => {
+        data.forEach((option: OptionFilterParams[], index) => {
           return (OptionFilters[index].options = option);
         }),
       (error) => console.log(error),
