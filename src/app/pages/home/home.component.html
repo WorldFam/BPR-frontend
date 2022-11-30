@@ -1,27 +1,42 @@
 <mat-drawer-container class="home-component">
   <mat-drawer mode="side" opened class="sidebar-container">
     <div class="filter-container">
-
       <div class="filter-field" *ngFor="let filter of dateFilters">
-      <app-filter-date [form]="dateFormGroup" [filter]="filter"></app-filter-date>
-    </div>
+        <app-filter-date
+          [form]="dateFormGroup"
+          [filter]="filter"
+        ></app-filter-date>
+      </div>
 
       <mat-divider></mat-divider>
-        <div class="filter-field" *ngFor="let filter of optionFilters">
-          <app-filter-opt [form]="optionFormGroup" [filter]="filter" [isLoadingOptions]="isLoadingOptions"></app-filter-opt>
-        </div>
-        <button mat-flat-button color="primary" class="text-center align-middle" (click)="clearFilters()">Clear All</button>
+      <div class="filter-field" *ngFor="let filter of optionFilters">
+        <app-filter-opt
+          [form]="optionFormGroup"
+          [filter]="filter"
+          [isLoadingOptions]="isLoadingOptions"
+        ></app-filter-opt>
       </div>
+      <button
+        mat-flat-button
+        color="primary"
+        class="text-center align-middle"
+        (click)="clearFilters()"
+      >
+        Clear All
+      </button>
+    </div>
   </mat-drawer>
   <mat-drawer-content>
-
     <div class="container" *ngIf="auth.isLoading$ | async; else loaded">
       <app-loading></app-loading>
     </div>
 
     <ng-template #loaded>
       <div class="table">
-        <app-dashboard [dataSource]="dataSource" [isLoadingResults]="isLoadingResults"></app-dashboard>
+        <app-dashboard
+          [dataSource]="dataSource"
+          [isLoadingResults]="isLoadingResults"
+        ></app-dashboard>
       </div>
     </ng-template>
   </mat-drawer-content>
