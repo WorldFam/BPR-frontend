@@ -1,7 +1,7 @@
 import { Component, AfterViewInit } from '@angular/core';
 import * as L from 'leaflet';
 //kimport { filter } from 'rxjs';
-import { MarkerService } from '../../services/marker.service';
+//import { MarkerService } from '../../services/marker.service';
 //import { MarkersWithColors } from '../markersWithColors';
 import { ShapeService } from '../../services/shape.service';
 
@@ -29,19 +29,30 @@ export class MapComponent implements AfterViewInit {
   private map: any;
   private states: any;
   private filteredCountries: any[] = [];
-  
+  private countries: any;
   //Sides
   private initStatesLayer() {
     this.states.features.forEach((element: any) => {
-      if (element.properties.name === 'Lithuania') {
-        console.log(element);
-        return this.filteredCountries.push(element);
+      if (this.countries != null) {
+        this.countries.forEach((country) => {
+          if (element.properties.name === country) {
+            //console.log(element);
+            return this.filteredCountries.push(element);
+          }
+          return [];
+        });
       }
-      return [];
     });
+    
+    // function createCustomIcon() {
+    //   return L.divIcon({
+    //     html: '<div class="map_marker"></div>',
+    //     className: 'dummy',
+    //   });
+    // }
 
     const stateLayer = L.geoJSON(this.filteredCountries, {
-      style: (feature) => ({
+      style: () => ({
         weight: 3,
         opacity: 0.5,
         color: '#FF0000',
@@ -72,14 +83,19 @@ export class MapComponent implements AfterViewInit {
   }
 
   constructor(
-    private markerService: MarkerService,
+    //private markerService: MarkerService,
     private shapeService: ShapeService
   ) {}
 
   ngAfterViewInit(): void {
     this.initMap();
-    this.markerService.setTransformerMarkers(this.map);
-    this.markerService.setGeneratorMarkers(this.map);
+    //this.markerService.setTransformerMarkers(this.map);
+    // this.markerService.setGeneratorMarkers(this.map);
+    this.shapeService.getCountry().subscribe(
+      (retrievedCountryList) => (this.countries = retrievedCountryList),
+      (err) => console.error('Error' + err),
+      () => console.log('Fetching finished :)')
+    );
     this.shapeService.getStateShapes().subscribe((states) => {
       this.states = states;
       this.initStatesLayer();
