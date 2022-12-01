@@ -5,10 +5,7 @@ import {
   Output,
   EventEmitter,
 } from '@angular/core';
-import {
-  OptionFilter,
-  FilterParams,
-} from 'src/app/models/urgent-market-messages-infrastructure.model';
+
 import { __values } from 'tslib';
 @Component({
   selector: 'app-sidebar',
