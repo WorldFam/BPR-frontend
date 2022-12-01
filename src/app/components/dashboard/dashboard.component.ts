@@ -12,9 +12,9 @@ import {
   UrgentMarketMessageTableColumn,
   TableColumn,
 } from 'src/app/models/umm-entries.model';
-import { UrgentMarketMessagesService } from 'src/app/services/urgent-market-messages.service';
+import { UrgentMarketMessagesService } from 'src/app/services/table/urgent-market-messages.service';
 import { UrgentMarketMessageTableColumns } from 'src/app/data/table.data';
-import { UrgentMarketMessageEntry } from 'src/app/enums/umm-entries';
+
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -41,7 +41,7 @@ export class DashboardComponent implements AfterViewInit, OnInit {
     let columns: UrgentMarketMessageTableColumn<TableColumn>[] = [];
 
     UrgentMarketMessageTableColumns.forEach((column) => {
-      if (column.subcolumns !== undefined) {
+      if (column.hasOwnProperty('subcolumns')) {
         column.subcolumns.forEach((subcolumn) => {
           columns.push({
             key: subcolumn.key,

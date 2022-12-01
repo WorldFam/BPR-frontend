@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpParams } from '@angular/common/http';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
-import { retry, catchError } from 'rxjs/operators';
+import { catchError } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -35,7 +35,6 @@ export class UrgentMarketMessagesService {
       fromObject: queryParams,
     });
 
-    console.log(params.toString())
     return this.http
       .get<T[]>(this.baseURL + `/messages`, {
         headers: this.httpOptions.headers,

@@ -7,8 +7,8 @@
   <table mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)" color="primary">
     <ng-container *ngFor="let column of columns" [matColumnDef]="column.key">
       <th mat-header-cell *matHeaderCellDef [mat-sort-header]="column.key" [disabled]="!column.sortable"
-        [ngStyle]="{'display':  column.key === 'available' || column.key === 'installed' || column.key ===  'unavailable' ?  'flex-column' :'none', 
-       'padding': column.key === 'available' || column.key === 'installed' || column.key === 'unavailable' ? '5px' : 'none'}">
+        [ngStyle]="{'display':  column.key === 'availableCapacity' || column.key === 'installedCapacity' || column.key ===  'unavailableCapacity' ?  'flex-column' :'none', 
+       'padding': column.key === 'availableCapacity' || column.key === 'installedCapacity' || column.key === 'unavailableCapacity' ? '5px' : 'none'}">
         {{column.header}}
       </th>
       <td mat-cell *matCellDef="let row">
@@ -19,15 +19,15 @@
         {{row[column.key]}}
         <span class="fi fi-{{row[column.key] | lowercase | slice:3:5 }}" *ngIf="column.key === 'country'"></span>
 
-        <span class="capacity-unit" *ngIf="column.key === 'available'">MW</span>
-        <span class="capacity-unit" *ngIf="column.key === 'installed'">MW</span>
-        <span class="capacity-unit" *ngIf="column.key === 'unavailable'">MW</span>
+        <span class="capacity-unit" *ngIf="column.key === 'availableCapacity'">MW</span>
+        <span class="capacity-unit" *ngIf="column.key === 'installedCapacity'">MW</span>
+        <span class="capacity-unit" *ngIf="column.key === 'unavailableCapacity'">MW</span>
 
       </td>
     </ng-container>
 
     <ng-container *ngFor="let header of headers" [matColumnDef]="header.header">
-      <th mat-header-cell class="col-head" *matHeaderCellDef [mat-sort-header]="header.header"
+      <th mat-header-cell *matHeaderCellDef [mat-sort-header]="header.key"
         [disabled]="!header.sortable"
         [ngStyle]="{'border-top': header.key === 'capacity' ? '1px' : 'none'}"
         [attr.rowspan]="header.key === 'capacity' ? 1 : 2" [attr.colspan]="header.key === 'capacity' ? 3 : 1">

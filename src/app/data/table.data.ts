@@ -61,18 +61,18 @@ export const UrgentMarketMessageTableColumns: UrgentMarketMessageTableColumn<Tab
     sortable: false,
     subcolumns: [
       {
-        key: getColumnKey(UrgentMarketMessageEntry.available),
-        header: UrgentMarketMessageEntry.available,
+        key: getColumnKey(UrgentMarketMessageEntry.availableCapacity),
+        header: UrgentMarketMessageEntry.availableCapacity,
         sortable: true,
       },
       {
-        key: getColumnKey(UrgentMarketMessageEntry.installed),
-        header: UrgentMarketMessageEntry.installed,
+        key: getColumnKey(UrgentMarketMessageEntry.installedCapacity),
+        header: UrgentMarketMessageEntry.installedCapacity,
         sortable: true,
       },
       {
-        key: getColumnKey(UrgentMarketMessageEntry.unavailable),
-        header: UrgentMarketMessageEntry.unavailable,
+        key: getColumnKey(UrgentMarketMessageEntry.unavailableCapacity),
+        header: UrgentMarketMessageEntry.unavailableCapacity,
         sortable: true,
       },
     ],

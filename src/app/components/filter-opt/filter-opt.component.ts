@@ -33,32 +33,12 @@ export class FilterOptComponent implements OnInit {
     );
 
     this.filterControl = this.getFilterValue();
-
-    //will be assigned data from httpcall
     this.filterControl.valueChanges.subscribe((value: OptionFilterParams[]) => {
       if (value.length !== 0) {
         this.filteredValue = value[0].name;
       } else {
         this.filteredValue = '';
       }
-
-      // if(value.length === this.options.options.length){
-      //   this.filteredValue = "All " + this.options.name;
-      // }
-
-      // let filtered = {key: this.filter.endpoint, values: value.map(value => value.code)}
-      // this.selectedOptions.emit(this.form.value);
-
-      // this.filterValues.source = value
-      // const params = new HttpParams({fromObject: this.filterValues});
-      // if(this.filterValues.source.includes('source1')){
-      //   params.append('source', value);
-      // }
-      // this.urgentMarketMessage.getUMMS(this.filterValues).subscribe(data  => {
-      //   this.dataSource.data = data;
-      // });
-      // console.log(  this.filterValues.source)
-      // this.dataSource.filter = JSON.stringify(this.filterValues);
     });
   }
 
@@ -70,30 +50,19 @@ export class FilterOptComponent implements OnInit {
   ): OptionFilterParams[] {
     const filterValue = name.toUpperCase();
     let filterList = infrastructure.options.filter((option: any) => {
-      // type Keys = keyof FilterEntity
-      // let newKey: Keys
-      // newKey =  "value"
-
       return option.name.indexOf(filterValue) === 0;
     });
     return filterList;
   }
 
-  /**
-   * Remove all selected elements
-   */
   unselectAll(formControl: FormControl) {
     formControl.patchValue([]);
   }
 
   openedChange(event, formControl: { patchValue: (arg0: string) => void }) {
-    // Set search textbox value as empty while opening selectbox
     formControl.patchValue('');
   }
 
-  /**
-   * Clearing search textbox value
-   */
   clearSearch(event, searchControl) {
     event.stopPropagation();
     searchControl.patchValue('');

@@ -31,7 +31,7 @@
       </div>
 
 
-      <mat-optgroup *ngIf="isLoadingOptions">
+      <mat-optgroup *ngIf="(filteredOptions | async).length == 0">
         <div class="select-placeholder-container"> <span>Loading...</span>
           <mat-spinner matPrefix class="spinner" diameter="20"></mat-spinner>
         </div>

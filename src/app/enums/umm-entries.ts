@@ -10,9 +10,9 @@ export enum UrgentMarketMessageEntry {
     eventStart = 'Event Start',
     eventEnd = 'Event End',
     capacity = 'Capacity',
-    available = 'Available',
-    installed = 'Installed',
-    unavailable = 'Unavailable',
+    availableCapacity = 'Available',
+    installedCapacity = 'Installed',
+    unavailableCapacity = 'Unavailable',
     unitOfMeasure = 'Unit of Measure',
 }
 

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '@auth0/auth0-angular';
-import { UrgentMarketMessagesService } from 'src/app/services/urgent-market-messages.service';
+import { UrgentMarketMessagesService } from 'src/app/services/table/urgent-market-messages.service';
 import { MatTableDataSource } from '@angular/material/table';
 import {
   OptionFilter,
