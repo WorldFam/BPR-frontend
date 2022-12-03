@@ -1,4 +1,4 @@
-export enum UrgentMarketMessageEntry {
+export enum UnavailabilityMarketMessageColumnDef {
     source = 'Source',
     country = 'Country',
     biddingZone = 'Bidding Zone',

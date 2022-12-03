@@ -9,11 +9,11 @@ import {
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import {
-  UrgentMarketMessageTableColumn,
+  UnavailabilityMarketMessageTableColumn,
   TableColumn,
 } from 'src/app/models/umm-entries.model';
-import { UrgentMarketMessagesService } from 'src/app/services/table/urgent-market-messages.service';
-import { UrgentMarketMessageTableColumns } from 'src/app/data/table.data';
+import { UnavailabilityMarketMessagesService } from 'src/app/services/table/unavailability-market-messages.service';
+import { UnavailabilityMarketMessageTableColumns } from 'src/app/data/table.data';
 
 @Component({
   selector: 'app-dashboard',
@@ -34,13 +34,13 @@ export class DashboardComponent implements AfterViewInit, OnInit {
 
   constructor(
     private _liveAnnouncer: LiveAnnouncer,
-    private urgentMarketMessage: UrgentMarketMessagesService
+    private urgentMarketMessage: UnavailabilityMarketMessagesService
   ) {}
 
-  private generateColumns(): UrgentMarketMessageTableColumn<TableColumn>[] {
-    let columns: UrgentMarketMessageTableColumn<TableColumn>[] = [];
+  private generateColumns(): UnavailabilityMarketMessageTableColumn<TableColumn>[] {
+    let columns: UnavailabilityMarketMessageTableColumn<TableColumn>[] = [];
 
-    UrgentMarketMessageTableColumns.forEach((column) => {
+    UnavailabilityMarketMessageTableColumns.forEach((column) => {
       if (column.hasOwnProperty('subcolumns')) {
         column.subcolumns.forEach((subcolumn) => {
           columns.push({
@@ -61,10 +61,10 @@ export class DashboardComponent implements AfterViewInit, OnInit {
     return columns;
   }
 
-  generateHeaders(): UrgentMarketMessageTableColumn<TableColumn>[]{
-    let headers: UrgentMarketMessageTableColumn<TableColumn>[] = [];
+  generateHeaders(): UnavailabilityMarketMessageTableColumn<TableColumn>[]{
+    let headers: UnavailabilityMarketMessageTableColumn<TableColumn>[] = [];
 
-    UrgentMarketMessageTableColumns.forEach((column) => {
+    UnavailabilityMarketMessageTableColumns.forEach((column) => {
       headers.push({
         key: column.key,
         header: column.header,
@@ -122,8 +122,10 @@ export class DashboardComponent implements AfterViewInit, OnInit {
   }
 
   rowClick(umm) {
-    return this.urgentMarketMessage.getUMM(umm.id).subscribe((data) => {
-      // this.dataSource.data = data;
-    });
+    console.log(umm)
+    // return this.urgentMarketMessage.getUMM(umm.id).subscribe((data) => {
+
+    //   // this.dataSource.data = data;
+    // });
   }
 }

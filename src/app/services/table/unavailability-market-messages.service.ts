@@ -3,13 +3,17 @@ import { HttpParams } from '@angular/common/http';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { apiVersion } from 'src/app/constants/constants';
 
 @Injectable({
   providedIn: 'root',
 })
-export class UrgentMarketMessagesService {
+export class UnavailabilityMarketMessagesService {
   private baseURL: string =
     'https://stoplight.io/mocks/bpr-infrastructure/infrastructure/109335189';
+    
+/// Inlucede for production
+/// + apiVersion;
 
   constructor(private http: HttpClient) {}
 

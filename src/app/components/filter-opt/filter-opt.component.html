@@ -37,7 +37,7 @@
         </div>
       </mat-optgroup>
 
-      <mat-option #opt *ngFor="let option of filteredOptions | async" [value]="option">
+      <mat-option #opt *ngFor="let option of filteredOptions | async" [value]="option" [disabled]="option.code === 'null'">
         <mat-icon matSuffix *ngIf="opt.selected">close</mat-icon> {{option.name}}
       </mat-option>
     </div>

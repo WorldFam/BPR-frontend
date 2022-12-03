@@ -29,7 +29,7 @@ export class FilterOptComponent implements OnInit {
   ngOnInit(): void {
     this.filteredOptions = this.searchControl.valueChanges.pipe(
       startWith<string>(''),
-      map((name) => this._filter(name, this.filter))
+      map((name) => this._filter(name))
     );
 
     this.filterControl = this.getFilterValue();
@@ -45,14 +45,12 @@ export class FilterOptComponent implements OnInit {
   getFilterValue = () => this.form.get(this.filter.endpoint) as FormControl;
 
   private _filter<T>(
-    name: string,
-    infrastructure: OptionFilter<OptionFilterParams>
+    name: string, 
   ): OptionFilterParams[] {
-    const filterValue = name.toUpperCase();
-    let filterList = infrastructure.options.filter((option: any) => {
-      return option.name.indexOf(filterValue) === 0;
-    });
-    return filterList;
+    let filterList = this.filter.options.filter(
+      (filter) => filter.name.toLowerCase().indexOf(name.toLowerCase()) === 0
+    );
+    return filterList.length ? filterList : [{ name: 'No Item found', code: 'null' }];
   }
 
   unselectAll(formControl: FormControl) {

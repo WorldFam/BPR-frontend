@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '@auth0/auth0-angular';
-import { UrgentMarketMessagesService } from 'src/app/services/table/urgent-market-messages.service';
+import { UnavailabilityMarketMessagesService } from 'src/app/services/table/unavailability-market-messages.service';
 import { MatTableDataSource } from '@angular/material/table';
 import {
   OptionFilter,
@@ -15,7 +15,7 @@ import { OptionFilters, DateFilters } from 'src/app/data/filter.data';
 import { forkJoin, merge } from 'rxjs';
 import UMMJSON from 'src/app/UMM.json';
 import { FormGroup, FormControl } from '@angular/forms';
-import { FilterInfrastructureEndpoint } from 'src/app/enums/filter-infrastructure';
+import { FilterInfrastructureQueryKeys } from 'src/app/enums/filter-infrastructure';
 import { distinctUntilChanged, throttleTime } from 'rxjs/operators';
 
 @Component({
@@ -26,7 +26,7 @@ import { distinctUntilChanged, throttleTime } from 'rxjs/operators';
 export class HomeComponent implements OnInit {
   constructor(
     public auth: AuthService,
-    private urgentMarketMessage: UrgentMarketMessagesService
+    private urgentMarketMessage: UnavailabilityMarketMessagesService
   ) {
     this.loadMessages();
   }
@@ -101,7 +101,7 @@ export class HomeComponent implements OnInit {
 
   addDateControls() {
     DateFilters.forEach((filter) => {
-      if (filter.endpoint === FilterInfrastructureEndpoint.publicationDate) {
+      if (filter.endpoint === FilterInfrastructureQueryKeys.publicationDate) {
         this.dateFormGroup.addControl(
           filter.endpoint,
           new FormGroup({
