@@ -45,12 +45,6 @@ export class MapComponent implements AfterViewInit {
       }
     });
 
-    // function createCustomIcon() {
-    //   return L.divIcon({
-    //     html: '<div class="map_marker"></div>',
-    //     className: 'dummy',
-    //   });
-    // }
 
     const stateLayer = L.geoJSON(this.filteredCountries, {
       style: () => ({
@@ -90,11 +84,7 @@ export class MapComponent implements AfterViewInit {
 
   ngAfterViewInit(): void {
     this.initMap();
-    // this.shapeService.getCountry().subscribe(
-    //   (retrievedCountryList) => (this.countries = retrievedCountryList),
-    //   (err) => console.error('Error' + err),
-    //   () => console.log('Fetching finished :)')
-    // );
+    
     this.shapeService.getStateShapes().subscribe((states) => {
       this.states = states;
     });
