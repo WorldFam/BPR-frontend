@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { UrgentMarketMessagesService } from './urgent-market-messages.service';
+import { UnavailabilityMarketMessagesService } from './unavailability-market-messages.service';
 
 describe('UrgentMarketMessagesService', () => {
-  let service: UrgentMarketMessagesService;
+  let service: UnavailabilityMarketMessagesService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(UrgentMarketMessagesService);
+    service = TestBed.inject(UnavailabilityMarketMessagesService);
   });
 
   it('should be created', () => {

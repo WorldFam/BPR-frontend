@@ -3,7 +3,7 @@ import * as L from 'leaflet';
 //kimport { filter } from 'rxjs';
 //import { MarkerService } from '../../services/marker.service';
 //import { MarkersWithColors } from '../markersWithColors';
-import { ShapeService } from '../../services/shape.service';
+import { ShapeService } from '../../services/map/shape.service';
 import { WebsocetConnectionService } from '../../services/websocet-connection.service';
 
 const iconRetinaUrl = 'assets/marker-icon-2x.png';

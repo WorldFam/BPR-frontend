@@ -1,11 +1,9 @@
-import { Component, NgModule } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { HomeComponent } from './pages/home/home.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { ErrorComponent } from './pages/error/error.component';
 import { AuthGuard } from '@auth0/auth0-angular';
-import { Auth0LoginComponent } from './pages/auth0-login/auth0-login.component';
-import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { MapComponent } from './components/map/map.component';
 const routes: Routes = [
   {
@@ -18,9 +16,13 @@ const routes: Routes = [
     component: ErrorComponent,
   },
   {
+    path: '',
+    redirectTo : 'dashboard',
+    pathMatch: 'full',
+  },
+  {
     path:'dashboard',
     component: HomeComponent,
-    pathMatch: 'full',
     canActivate: [AuthGuard],
   },
   {

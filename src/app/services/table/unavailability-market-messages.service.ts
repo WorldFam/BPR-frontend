@@ -2,14 +2,18 @@ import { Injectable } from '@angular/core';
 import { HttpParams } from '@angular/common/http';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
-import { retry, catchError } from 'rxjs/operators';
+import { catchError } from 'rxjs/operators';
+import { apiVersion } from 'src/app/constants/constants';
 
 @Injectable({
   providedIn: 'root',
 })
-export class UrgentMarketMessagesService {
+export class UnavailabilityMarketMessagesService {
   private baseURL: string =
     'https://stoplight.io/mocks/bpr-infrastructure/infrastructure/109335189';
+    
+/// Inlucede for production
+/// + apiVersion;
 
   constructor(private http: HttpClient) {}
 
@@ -35,7 +39,6 @@ export class UrgentMarketMessagesService {
       fromObject: queryParams,
     });
 
-    console.log(params.toString())
     return this.http
       .get<T[]>(this.baseURL + `/messages`, {
         headers: this.httpOptions.headers,
