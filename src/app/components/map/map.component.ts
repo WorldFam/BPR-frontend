@@ -1,9 +1,10 @@
 import { Component, AfterViewInit } from '@angular/core';
 import * as L from 'leaflet';
 //kimport { filter } from 'rxjs';
-import { MarkerService } from '../../services/map/marker.service';
+//import { MarkerService } from '../../services/marker.service';
 //import { MarkersWithColors } from '../markersWithColors';
 import { ShapeService } from '../../services/map/shape.service';
+import { WebsocetConnectionService } from '../../services/websocet-connection.service';
 
 const iconRetinaUrl = 'assets/marker-icon-2x.png';
 const iconUrl = 'assets/marker-icon.png';
@@ -29,19 +30,24 @@ export class MapComponent implements AfterViewInit {
   private map: any;
   private states: any;
   private filteredCountries: any[] = [];
-  
+  private countries: any;
   //Sides
   private initStatesLayer() {
     this.states.features.forEach((element: any) => {
-      if (element.properties.name === 'Lithuania') {
-        console.log(element);
-        return this.filteredCountries.push(element);
+      if (this.countries != null) {
+        this.countries.forEach((country) => {
+          console.log(country + ' AM I COMING');
+          if (element.properties.name === country) {
+            return this.filteredCountries.push(element);
+          }
+          return [];
+        });
       }
-      return [];
     });
 
+
     const stateLayer = L.geoJSON(this.filteredCountries, {
-      style: (feature) => ({
+      style: () => ({
         weight: 3,
         opacity: 0.5,
         color: '#FF0000',
@@ -72,17 +78,31 @@ export class MapComponent implements AfterViewInit {
   }
 
   constructor(
-    private markerService: MarkerService,
-    private shapeService: ShapeService
+    private shapeService: ShapeService,
+    private WebsocetConnectionService: WebsocetConnectionService
   ) {}
 
   ngAfterViewInit(): void {
     this.initMap();
-    this.markerService.setTransformerMarkers(this.map);
-    this.markerService.setGeneratorMarkers(this.map);
+    
     this.shapeService.getStateShapes().subscribe((states) => {
       this.states = states;
-      this.initStatesLayer();
     });
+
+    // this.WebsocetConnectionService.getUriAndConnectToPubSub().subscribe(
+    //   (value: string) =>
+    this.WebsocetConnectionService.getPubSubCountryData(
+      'wss://bpr.webpubsub.azure.com:443/client/hubs/BPR?access_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYmYiOjE2NzAxNjUyMzMsImV4cCI6MTY3MDE2ODgzMywiaWF0IjoxNjcwMTY1MjMzLCJhdWQiOiJodHRwczovL2Jwci53ZWJwdWJzdWIuYXp1cmUuY29tL2NsaWVudC9odWJzL0JQUiJ9.XajZ82Zjb_-GVT5-PRXo4z1z8aKQIszqhSmzuQsyU3M'
+      // value['uri']
+    ).subscribe(
+      (data) => {
+        this.countries = data;
+        this.initStatesLayer();
+      },
+      (err) => console.error('ERROR WHEN GETTING OBJECTS' + err)
+    );
+    //   (err) => console.error('AN ERROR WHOOPSE' + err),
+    //   () => console.log('I have done my job here websocket :) ')
+    // );
   }
 }

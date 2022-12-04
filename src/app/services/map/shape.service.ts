@@ -9,4 +9,8 @@ export class ShapeService {
   getStateShapes() {
     return this.http.get('../../assets/data/custom.geo.json');
   }
+  getCountry() {
+    return this.http.get('http://localhost:7071/api/RetrieveCountry');
+  }
+  
 }
