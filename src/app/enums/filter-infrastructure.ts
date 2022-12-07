@@ -11,20 +11,6 @@ export enum FilterInfrastructureQueryKeys {
     biddingZones ='bidding-zones',
 }
 
-export enum FilterInfrastructureQueryKeyUpdated {
-    published = 'published',
-    eventDate = 'event-date', /// "eventStart" & "eventEnd"
-    fuelType = 'fuelType',
-    affectedAssetOrUnit ='affectedAssetOrUnit',
-    eventStatus ='eventStatus',
-    sourceFrom ='sourceFrom',
-    documentType ='documentType', 
-    unavailabilityTypes ='unavailability-types', /// businessType <--- From API ()
-    countryName ='countryName',
-    biddingZones ='biddingZone',
-}
-
-
 export enum FilterInfrastructure {
     publicationDate = 'Publication Date',
     eventDate = 'Event Date',

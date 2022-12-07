@@ -12,7 +12,7 @@ import {
   UnavailabilityMarketMessageTableColumn,
   TableColumn,
 } from 'src/app/models/umm-entries.model';
-import { UnavailabilityMarketMessagesService } from 'src/app/services/table/unavailability-market-messages.service';
+import { UnavailabilityMarketMessagesService } from 'src/app/services/dashboard/unavailability-market-messages.service';
 import { UnavailabilityMarketMessageTableColumns } from 'src/app/data/table.data';
 
 @Component({

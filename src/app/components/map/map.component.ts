@@ -4,7 +4,7 @@ import * as L from 'leaflet';
 //import { MarkerService } from '../../services/marker.service';
 //import { MarkersWithColors } from '../markersWithColors';
 import { ShapeService } from '../../services/map/shape.service';
-import { WebsocetConnectionService } from '../../services/websocet-connection.service';
+import { WebSocketConnectionService } from '../../services/websocket-connection.service';
 
 const iconRetinaUrl = 'assets/marker-icon-2x.png';
 const iconUrl = 'assets/marker-icon.png';
@@ -45,7 +45,6 @@ export class MapComponent implements AfterViewInit {
       }
     });
 
-
     const stateLayer = L.geoJSON(this.filteredCountries, {
       style: () => ({
         weight: 3,
@@ -79,21 +78,18 @@ export class MapComponent implements AfterViewInit {
 
   constructor(
     private shapeService: ShapeService,
-    private WebsocetConnectionService: WebsocetConnectionService
+    private webSocketConnectionService: WebSocketConnectionService
   ) {}
 
   ngAfterViewInit(): void {
     this.initMap();
-    
+
     this.shapeService.getStateShapes().subscribe((states) => {
       this.states = states;
     });
 
-    // this.WebsocetConnectionService.getUriAndConnectToPubSub().subscribe(
-    //   (value: string) =>
-    this.WebsocetConnectionService.getPubSubCountryData(
+    this.webSocketConnectionService.subscribeToWebSocket(
       'wss://bpr.webpubsub.azure.com:443/client/hubs/BPR?access_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYmYiOjE2NzAxNjUyMzMsImV4cCI6MTY3MDE2ODgzMywiaWF0IjoxNjcwMTY1MjMzLCJhdWQiOiJodHRwczovL2Jwci53ZWJwdWJzdWIuYXp1cmUuY29tL2NsaWVudC9odWJzL0JQUiJ9.XajZ82Zjb_-GVT5-PRXo4z1z8aKQIszqhSmzuQsyU3M'
-      // value['uri']
     ).subscribe(
       (data) => {
         this.countries = data;
@@ -101,8 +97,5 @@ export class MapComponent implements AfterViewInit {
       },
       (err) => console.error('ERROR WHEN GETTING OBJECTS' + err)
     );
-    //   (err) => console.error('AN ERROR WHOOPSE' + err),
-    //   () => console.log('I have done my job here websocket :) ')
-    // );
   }
 }

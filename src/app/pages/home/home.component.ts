@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '@auth0/auth0-angular';
-import { UnavailabilityMarketMessagesService } from 'src/app/services/table/unavailability-market-messages.service';
+import { UnavailabilityMarketMessagesService } from 'src/app/services/dashboard/unavailability-market-messages.service';
 import { MatTableDataSource } from '@angular/material/table';
 import {
   OptionFilter,
@@ -17,7 +17,8 @@ import UMMJSON from 'src/app/UMM.json';
 import { FormGroup, FormControl } from '@angular/forms';
 import { FilterInfrastructureQueryKeys } from 'src/app/enums/filter-infrastructure';
 import { distinctUntilChanged, throttleTime } from 'rxjs/operators';
-
+import { WebSocketConnectionService } from 'src/app/services/websocket-connection.service';
+import { IUnavailabilityMarketMessage }  from 'src/app/models/api/unavailability-market-message.model'
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -26,7 +27,8 @@ import { distinctUntilChanged, throttleTime } from 'rxjs/operators';
 export class HomeComponent implements OnInit {
   constructor(
     public auth: AuthService,
-    private urgentMarketMessage: UnavailabilityMarketMessagesService
+    private urgentMarketMessage: UnavailabilityMarketMessagesService,
+    private webSocketConnectionService: WebSocketConnectionService
   ) {
     this.loadMessages();
   }
@@ -37,11 +39,12 @@ export class HomeComponent implements OnInit {
 
   optionFilters: OptionFilter<OptionFilterParams>[];
   dateFilters: DateFilter[];
+  mergedFilterQuery: QueryString ;
 
   activeState: string;
   optionFormGroup = new FormGroup({});
   dateFormGroup = new FormGroup({});
-
+  data : IUnavailabilityMarketMessage[]
   setStateAsActive(state) {
     this.activeState = state;
   }
@@ -62,13 +65,10 @@ export class HomeComponent implements OnInit {
         let filterDateQuery: QueryString = this.convertDateToQuery(
           this.dateFormGroup.value as DateFilterParams
         );
-        let mergedFilterQuery: QueryString = {
+        this.mergedFilterQuery  = {
           ...filterOptionQuery,
           ...filterDateQuery,
         };
-
-        console.log(mergedFilterQuery);
-        this.urgentMarketMessage.getUMMS(mergedFilterQuery);
       });
   }
 
@@ -134,16 +134,25 @@ export class HomeComponent implements OnInit {
   }
 
   loadMessages() {
-    // return this.urgentMarketMessage.getUMMS().subscribe((data) => {
-    this.isLoadingResults = false;
-    //   this.dataSource.data = data;
-    // });
-    return (this.dataSource.data = UMMJSON);
+    
+    // let uri : string = 'wss://bpr.webpubsub.azure.com:443/client/hubs/BPR?access_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYmYiOjE2NzAxNjUyMzMsImV4cCI6MTY3MDE2ODgzMywiaWF0IjoxNjcwMTY1MjMzLCJhdWQiOiJodHRwczovL2Jwci53ZWJwdWJzdWIuYXp1cmUuY29tL2NsaWVudC9odWJzL0JQUiJ9.XajZ82Zjb_-GVT5-PRXo4z1z8aKQIszqhSmzuQsyU3M'
+
+    // this.webSocketConnectionService
+    //   .subscribeToWebSocket(uri)
+    //   .subscribe(
+    //     (data : UnavailabilityMarketMessagesService[])=> {
+    //       this.dataSource.data = data;
+    //     },
+    //     (err) => console.error(err)
+    //   );
+
+    this.data = UMMJSON as unknown as IUnavailabilityMarketMessage[]
+    this.dataSource.data = this.data;
+    console.log(this.dataSource.data)
   }
 
-  clearFilters() {
-    this.optionFormGroup.reset();
-    this.dateFormGroup.reset();
+  filter() {
+    this.urgentMarketMessage.getUMMS(this.mergedFilterQuery); 
   }
 
   loadOptionFilters(): OptionFilter<OptionFilterParams>[] {
