@@ -15,9 +15,8 @@
         <span class="capacity-unit" *ngIf="column.key === 'eventStart'">from</span>
         <span class="capacity-unit" *ngIf="column.key === 'eventEnd'">to</span>
 
-        <span class="fi fi-{{row[column.key] | lowercase | slice:0:2 }}" *ngIf="column.key === 'country'"></span>
+        <span class="fi fi-{{row['countryCode'] | lowercase | slice:0:2 }}" *ngIf="column.key === 'country'"></span>
         {{row[column.key]}}
-        <span class="fi fi-{{row[column.key] | lowercase | slice:3:5 }}" *ngIf="column.key === 'country'"></span>
 
       </td>
     </ng-container>

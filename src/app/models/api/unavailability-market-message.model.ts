@@ -1,20 +1,21 @@
   export interface IUnavailabilityMarketMessage {
     mRID: string
-    Source: string
-    RevisionNumber: number
-    Country: string
-    BiddingZone: string
-    EventStatus: string
-    TypeOfEvent: string
-    TypeOfUnavailability: string
-    AffectedAssetOrUnit: string
-    Published: string
-    EventStart: string
-    EventEnd: string
-    AvailableCapacity: number
-    InstalledCapacity: number
-    UnavailableCapacity: number
-    UnitOfMeasure: string
-    FuelType: string
+    source: string
+    revisionNumber: number
+    country: string
+    biddingZone: string
+    eventStatus: string
+    typeOfEvent: string
+    typeOfUnavailability: string
+    affectedAssetOrUnit: string
+    published: string
+    eventStart: string
+    eventEnd: string
+    availableCapacity: number
+    installedCapacity: number
+    unavailableCapacity: number
+    unitOfMeasure: string
+    fuelType: string
+    countryCode: string
   }
   

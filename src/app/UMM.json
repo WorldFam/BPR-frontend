@@ -16,7 +16,8 @@
         "installedCapacity": 175,
         "unavailableCapacity": -470,
         "unitOfMeasure": "MAW",
-        "FuelType": null
+        "FuelType": null,
+        "countryCode":"SK"
     },
     {
         "mRID": "6o1QsSewccHrJpmnPrafyg",
