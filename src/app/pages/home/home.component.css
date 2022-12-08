@@ -28,3 +28,13 @@
     margin: auto;
     font-size: 14px;
 }
+
+.button-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.button-child-container {
+    padding: 10px;
+}

@@ -63,16 +63,19 @@ export const UnavailabilityMarketMessageTableColumns: UnavailabilityMarketMessag
       {
         key: getColumnKey(UnavailabilityMarketMessageColumnDef.availableCapacity),
         header: UnavailabilityMarketMessageColumnDef.availableCapacity,
+        sortingkey: 'available',
         sortable: true,
       },
       {
         key: getColumnKey(UnavailabilityMarketMessageColumnDef.installedCapacity),
         header: UnavailabilityMarketMessageColumnDef.installedCapacity,
+        sortingkey: 'installed',
         sortable: true,
       },
       {
         key: getColumnKey(UnavailabilityMarketMessageColumnDef.unavailableCapacity),
         header: UnavailabilityMarketMessageColumnDef.unavailableCapacity,
+        sortingkey: 'unavailable',
         sortable: true,
       },
     ],

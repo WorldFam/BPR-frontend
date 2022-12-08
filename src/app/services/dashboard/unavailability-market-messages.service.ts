@@ -27,11 +27,12 @@ export class UnavailabilityMarketMessagesService {
   };
 
   public getFilterOptions<T>(endpoint): Observable<T[]> {
-    return this.http
-      .get<T[]>(this.baseURL + `/infrastructure/${endpoint}`, {
-        headers: this.httpOptions.headers,
-      })
-      .pipe(catchError(this.handleError));
+    return null;
+    // return this.http
+    //   .get<T[]>(this.baseURL + `/infrastructure/${endpoint}`, {
+    //     headers: this.httpOptions.headers,
+    //   })
+    //   .pipe(catchError(this.handleError));
   }
 
   public getUMMS<T>(queryParams?): Observable<T[]> {

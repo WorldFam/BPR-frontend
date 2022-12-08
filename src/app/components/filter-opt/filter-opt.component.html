@@ -17,7 +17,7 @@
       </mat-option>
 
       <mat-divider></mat-divider>
-      <div class="input-container" *ngIf="filter.expanded">
+      <div class="input-container" *ngIf="filter.expandedSearch">
         <mat-optgroup>
           <mat-form-field style="width:100%;" floatLabel="never" appearance="none">
             <input matInput autocomplete="off" class="input-field" placeholder="Search" [formControl]="searchControl">

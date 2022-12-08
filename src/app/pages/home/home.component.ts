@@ -69,21 +69,22 @@ export class HomeComponent implements OnInit {
           ...filterOptionQuery,
           ...filterDateQuery,
         };
+        this.optionFormGroup.dirty
+
+        this.optionFormGroup.reset({
+
+        })
+        console.log(this.mergedFilterQuery)
       });
   }
+
+  resetFilter
 
   convertDateToQuery(data: DateFilterParams): QueryString {
     let filterValue: QueryString = {};
 
     Object.entries(data).forEach(([key, value]) => {
-      let dateNotSet: boolean = Object.values(data[key]).every(
-        (value) => value === null
-      );
-      if (dateNotSet) {
-        filterValue[key] = [];
-      } else {
-        filterValue[key] = JSON.stringify(value);
-      }
+      filterValue[key] = JSON.stringify(value);
     });
 
     return filterValue;
@@ -101,25 +102,9 @@ export class HomeComponent implements OnInit {
 
   addDateControls() {
     DateFilters.forEach((filter) => {
-      if (filter.endpoint === FilterInfrastructureQueryKeys.publicationDate) {
         this.dateFormGroup.addControl(
           filter.endpoint,
-          new FormGroup({
-            start: new FormControl(filter.defaultStartDate, {
-              nonNullable: true,
-            }),
-            end: new FormControl(filter.defaultEndDate, { nonNullable: true }),
-          })
-        );
-      } else
-        this.dateFormGroup.addControl(
-          filter.endpoint,
-          new FormGroup({
-            start: new FormControl(filter.defaultStartDate, {
-              nonNullable: true,
-            }),
-            end: new FormControl(filter.defaultEndDate, { nonNullable: true }),
-          })
+          new FormControl([], { nonNullable: true })
         );
     });
   }
@@ -141,17 +126,20 @@ export class HomeComponent implements OnInit {
     //   .subscribeToWebSocket(uri)
     //   .subscribe(
     //     (data : UnavailabilityMarketMessagesService[])=> {
+    //       this.isLoadingResults = false;
     //       this.dataSource.data = data;
     //     },
     //     (err) => console.error(err)
     //   );
 
+    this.isLoadingResults = false;
     this.data = UMMJSON as unknown as IUnavailabilityMarketMessage[]
     this.dataSource.data = this.data;
     console.log(this.dataSource.data)
   }
 
   filter() {
+    this.dateFormGroup.reset()
     this.urgentMarketMessage.getUMMS(this.mergedFilterQuery); 
   }
 

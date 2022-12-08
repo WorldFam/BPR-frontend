@@ -4,9 +4,19 @@
   color: #282b38;
 }
 
+.mat-input-element::placeholder{
+  font-size: 14px;
+  color: #282b38;
+
+}
+
 .mat-date-field {
   width: 104%;
 
+}
+
+::ng-deep .mat-form-field-wrapper{
+  margin-bottom: -0.1em;
 }
 
 ::ng-deep .mat-datepicker-content {
@@ -28,10 +38,6 @@ mat-form-field label {
   display: inherit;
   vertical-align: baseline !important;
   padding-top: 20px;
-}
-
-.mat-flat-button {
-  border-radius: 0;
 }
 
 ::ng-deep .mat-form-field .mat-form-field-flex {

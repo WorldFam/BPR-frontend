@@ -1,4 +1,3 @@
-import { LiveAnnouncer } from '@angular/cdk/a11y';
 import {
   AfterViewInit,
   Component,
@@ -6,7 +5,7 @@ import {
   OnInit,
   Input,
 } from '@angular/core';
-import { MatSort, Sort } from '@angular/material/sort';
+import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import {
   UnavailabilityMarketMessageTableColumn,
@@ -33,7 +32,6 @@ export class DashboardComponent implements AfterViewInit, OnInit {
   isLoadingResults: boolean;
 
   constructor(
-    private _liveAnnouncer: LiveAnnouncer,
     private urgentMarketMessage: UnavailabilityMarketMessagesService
   ) {}
 
@@ -47,6 +45,7 @@ export class DashboardComponent implements AfterViewInit, OnInit {
             key: subcolumn.key,
             header: subcolumn.header,
             sortable: subcolumn.sortable,
+            sortingkey: subcolumn.sortingkey,
           });
         });
       } else {
@@ -54,6 +53,7 @@ export class DashboardComponent implements AfterViewInit, OnInit {
           key: column.key,
           header: column.header,
           sortable: column.sortable,
+          sortingkey: column.sortingkey,
         });
       }
     });
@@ -81,12 +81,11 @@ export class DashboardComponent implements AfterViewInit, OnInit {
     this.dataSource.sort = this.sort;
   }
 
-  announceSortChange(sortState: Sort) {
-    if (sortState.direction) {
-      this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
-    } else {
-      this._liveAnnouncer.announce('Sorting cleared');
+  sortingKey(column : UnavailabilityMarketMessageTableColumn<TableColumn>){
+    if(column.sortingkey === undefined){
+      return column.header
     }
+    return column.key;
   }
 
   ngOnInit(): void {

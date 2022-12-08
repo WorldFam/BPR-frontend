@@ -1,14 +1,13 @@
-export interface Filter{
+interface Filter{
     name: string;
     endpoint: string;
 }
 
 export interface OptionFilter<T> extends Filter{
-    expanded: boolean;
+    expandedSearch: boolean;
     options: T[];
 }
 
 export interface DateFilter extends Filter{
-    defaultStartDate :  Date
-    defaultEndDate: Date
+    range: boolean
 }

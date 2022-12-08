@@ -4,20 +4,17 @@
     <mat-spinner *ngIf="isLoadingResults" color="primary"></mat-spinner>
   </div>
 
-  <table mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)" color="primary">
-    <ng-container *ngFor="let column of columns" [matColumnDef]="column.key">
-      <th mat-header-cell *matHeaderCellDef
+  <table mat-table [dataSource]="dataSource" matSort color="primary">
+    <ng-container *ngFor="let column of columns" [matColumnDef]="column.key" >
+      <th mat-header-cell *matHeaderCellDef [mat-sort-header]="sortingKey(column)"
+      [disabled]="!column.sortable"
         [ngStyle]="{'display':  column.key === 'availableCapacity' || column.key === 'installedCapacity' || column.key ===  'unavailableCapacity' ?  'flex-column' :'none', 
        'padding': column.key === 'availableCapacity' || column.key === 'installedCapacity' || column.key === 'unavailableCapacity' ? '5px' : 'none'}">
         {{column.header}}
       </th>
       <td mat-cell *matCellDef="let row">
-        <span class="capacity-unit" *ngIf="column.key === 'eventStart'">from</span>
-        <span class="capacity-unit" *ngIf="column.key === 'eventEnd'">to</span>
-
         <span class="fi fi-{{row['countryCode'] | lowercase | slice:0:2 }}" *ngIf="column.key === 'country'"></span>
         {{row[column.key]}}
-
       </td>
     </ng-container>
 

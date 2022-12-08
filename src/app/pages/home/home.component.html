@@ -10,10 +10,18 @@
         <app-filter-opt [form]="optionFormGroup" [filter]="filter" [isLoadingOptions]="isLoadingOptions">
         </app-filter-opt>
       </div>
-      <button mat-flat-button color="primary" class="text-center align-middle" (click)="filter()">
-        Filter Messages
-      </button>
-
+      <div class="button-container">
+        <div class="button-child-container">
+          <button mat-flat-button color="primary" (click)="filter()">
+            Clear
+          </button>
+        </div>
+        <div class="button-child-container">
+          <button mat-flat-button color="primary" (click)="filter()">
+            Filter
+          </button>
+        </div>
+      </div>
     </div>
   </mat-drawer>
   <mat-drawer-content>
