@@ -1,6 +1,6 @@
 <form [formGroup]="form">
 <mat-form-field floatLabel="never" appearance="none">
-  <mat-select #filterSelect (openedChange)="openedChange($event , searchControl)" placeholder="All {{filter.name}}"
+  <mat-select #filterSelect (openedChange)="openedChange()" placeholder="All {{filter.name}}"
     formControlName="{{filter.endpoint}}"  multiple (infiniteScroll)="getNextBatch()" [complete]="offset === filter.options.length" msInfiniteScroll>
     <mat-select-trigger>
       {{filterControl.value ? filteredValue : ''}}
@@ -20,11 +20,7 @@
       <div class="input-container" *ngIf="filter.expandedSearch">
         <mat-optgroup>
           <mat-form-field style="width:100%;" floatLabel="never" appearance="none">
-            <input matInput autocomplete="off" class="input-field" placeholder="Search" [formControl]="searchControl">
-            <button [disableRipple]="true" *ngIf="searchControl.value" matSuffix mat-icon-button aria-label="Clear"
-              (click)="clearSearch($event, searchControl)">
-              <mat-icon color="primary">close</mat-icon>
-            </button>
+            <input matInput autocomplete="off" class="input-field" placeholder="Search" [formControl]="searchControl" (input)="onSearchChange($event.target.value)">
           </mat-form-field>
         </mat-optgroup>
         <mat-divider></mat-divider>

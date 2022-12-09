@@ -59,7 +59,10 @@ export class HomeComponent implements OnInit {
     this.addDateControls();
     this.addOptionControls();
 
-    this.sub = merge(this.optionFormGroup.valueChanges, this.dateFormGroup.valueChanges)
+     merge(
+      this.optionFormGroup.valueChanges,
+      this.dateFormGroup.valueChanges
+    )
       .pipe(distinctUntilChanged(), throttleTime(10))
       .subscribe(() => {
         let filterOptionQuery: QueryString = this.convertOptionsToQuery(
@@ -72,18 +75,10 @@ export class HomeComponent implements OnInit {
           ...filterOptionQuery,
           ...filterDateQuery,
         };
-
-        console.log(this.mergedFilterQuery);
       });
 
-    this.optionFormGroup.valueChanges.subscribe((data) => {
-      console.log(data);
-    });
   }
 
-  ngOnDestroy() {
-    this.sub.unsubscribe()
-}
 
   convertDateToQuery(data: DateFilterParams): QueryString {
     let filterValue: QueryString = {};
@@ -139,7 +134,6 @@ export class HomeComponent implements OnInit {
     this.isLoadingResults = false;
     this.data = UMMJSON as unknown as IUnavailabilityMarketMessage[];
     this.dataSource.data = this.data;
-    console.log(this.dataSource.data);
   }
 
   filter() {
@@ -151,7 +145,7 @@ export class HomeComponent implements OnInit {
     OptionFilters.forEach((filter, index) => {
       let option = JSON.parse(localStorage.getItem(filter.endpoint));
       if (option === null) {
-         this.requestOptionFilter(filter);
+        this.requestOptionFilter(filter);
       } else {
         OptionFilters[index].options = option;
       }

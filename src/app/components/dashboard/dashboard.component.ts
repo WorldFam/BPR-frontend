@@ -71,7 +71,6 @@ export class DashboardComponent implements AfterViewInit, OnInit {
         sortable: column.sortable,
       });
     });
-    console.log(headers);
     return headers;
   }
 
