@@ -2,17 +2,12 @@ import {
   Component,
   OnInit,
   Input,
-  Output,
-  EventEmitter,
-  ViewChild,
 } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { MatSelect } from '@angular/material/select';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { map, scan, startWith, tap } from 'rxjs/operators';
-import { OptionFilter } from 'src/app/models/filter-infrastructure.model';
-import { OptionFilterParams } from 'src/app/models/filter-params.model';
-import { from } from 'rxjs';
+import {  scan, } from 'rxjs/operators';
+import { Filter } from 'src/app/models/filter-infrastructure.model';
+import { FilterParams } from 'src/app/models/filter-params.model';
 
 @Component({
   selector: 'app-filter-opt',
@@ -21,7 +16,7 @@ import { from } from 'rxjs';
 })
 export class FilterOptComponent implements OnInit {
   @Input()
-  filter: OptionFilter<OptionFilterParams>;
+  filter: Filter<FilterParams>;
 
   @Input()
   isLoadingOptions: boolean;
@@ -29,7 +24,7 @@ export class FilterOptComponent implements OnInit {
   filterControl = new FormControl();
   filteredValue: string;
 
-  filteredOptions$: Observable<OptionFilterParams[]>;
+  filteredOptions$: Observable<FilterParams[]>;
   searchControl = new FormControl();
 
   @Input()
@@ -38,10 +33,8 @@ export class FilterOptComponent implements OnInit {
   total = 100;
   limit = 10;
   offset = 0;
-  options = new BehaviorSubject<OptionFilterParams[]>([]);
-  filteredList: OptionFilterParams[] = [];
-
-  constructor() {}
+  options = new BehaviorSubject<FilterParams[]>([]);
+  filteredList: FilterParams[] = [];
 
   ngOnInit(): void {
 
@@ -53,8 +46,7 @@ export class FilterOptComponent implements OnInit {
     );
 
     this.filterControl = this.getFilterValue();
-    this.filterControl.valueChanges.subscribe((value: OptionFilterParams[]) => {
-     
+    this.filterControl.valueChanges.subscribe((value: FilterParams[]) => {
       if (value.length !== 0) {
         this.filteredValue = value[0].name;
       } else {
@@ -62,7 +54,6 @@ export class FilterOptComponent implements OnInit {
       }
     });
   }
-
 
   onSearchChange(searchValue: string): void {
     let filterList = this.filter.options.filter(

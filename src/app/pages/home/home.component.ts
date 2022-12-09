@@ -2,23 +2,17 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '@auth0/auth0-angular';
 import { UnavailabilityMarketMessagesService } from 'src/app/services/dashboard/unavailability-market-messages.service';
 import { MatTableDataSource } from '@angular/material/table';
-import {
-  OptionFilter,
-  DateFilter,
-} from 'src/app/models/filter-infrastructure.model';
-import {
-  OptionFilterParams,
-  QueryString,
-  DateFilterParams,
-} from 'src/app/models/filter-params.model';
-import { OptionFilters, DateFilters } from 'src/app/data/filter.data';
-import { forkJoin, merge } from 'rxjs';
+import { Filter } from 'src/app/models/filter-infrastructure.model';
+import { FilterParams, QueryString } from 'src/app/models/filter-params.model';
+import { FiltersInfrastructure } from 'src/app/data/filter.data';
 import UMMJSON from 'src/app/UMM.json';
 import { FormGroup, FormControl } from '@angular/forms';
-import { FilterInfrastructureQueryKeys } from 'src/app/enums/filter-infrastructure';
-import { distinctUntilChanged, throttleTime } from 'rxjs/operators';
 import { WebSocketConnectionService } from 'src/app/services/websocket-connection.service';
 import { IUnavailabilityMarketMessage } from 'src/app/models/api/unavailability-market-message.model';
+import {
+  FilterInfrastructure,
+  FilterInfrastructureQueryKeys,
+} from 'src/app/enums/filter-infrastructure';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -37,16 +31,12 @@ export class HomeComponent implements OnInit {
   isLoadingResults = true;
   isLoadingOptions = true;
 
-  optionFilters: OptionFilter<OptionFilterParams>[];
-  dateFilters: DateFilter[];
-  mergedFilterQuery: QueryString;
+  optionFilters: Filter<FilterParams>[];
 
   activeState: string;
-  optionFormGroup = new FormGroup({});
-  dateFormGroup = new FormGroup({});
+  filterFormGroup = new FormGroup({});
   data: IUnavailabilityMarketMessage[];
-
-  private sub: any;
+  filterQuery: QueryString;
 
   setStateAsActive(state) {
     this.activeState = state;
@@ -54,66 +44,46 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
     this.optionFilters = this.loadLocalOptionFilters();
-    this.dateFilters = DateFilters;
+    this.addFilterControls();
 
-    this.addDateControls();
-    this.addOptionControls();
-
-     merge(
-      this.optionFormGroup.valueChanges,
-      this.dateFormGroup.valueChanges
-    )
-      .pipe(distinctUntilChanged(), throttleTime(10))
-      .subscribe(() => {
-        let filterOptionQuery: QueryString = this.convertOptionsToQuery(
-          this.optionFormGroup.value as OptionFilterParams
-        );
-        let filterDateQuery: QueryString = this.convertDateToQuery(
-          this.dateFormGroup.value as DateFilterParams
-        );
-        this.mergedFilterQuery = {
-          ...filterOptionQuery,
-          ...filterDateQuery,
-        };
-      });
-
+    this.filterFormGroup.valueChanges.subscribe(() => {
+      this.resetFormContorls();
+      this.filterQuery = this.convertFilterParamsToQuery();
+    });
   }
 
+  resetFormContorls() {
+    Object.keys(this.filterFormGroup.controls).forEach((key) => {
+      const currentControl : FormControl = this.filterFormGroup.controls[key];
+      if (currentControl.touched) {
+        currentControl.reset();
+      }
+    });
+  }
 
-  convertDateToQuery(data: DateFilterParams): QueryString {
+  convertFilterParamsToQuery(): QueryString {
     let filterValue: QueryString = {};
 
-    Object.entries(data).forEach(([key, value]) => {
-      filterValue[key] = JSON.stringify(value);
+    Object.keys(this.filterFormGroup.controls).forEach((key) => {
+      if (key === FilterInfrastructureQueryKeys.publicationDate) {
+        filterValue[key] = JSON.stringify(
+          this.filterFormGroup.controls[key].value
+        );
+      } else {
+        filterValue[key] = this.filterFormGroup.controls[key].value.map(
+          (item) => item.code
+        );
+      }
     });
 
     return filterValue;
   }
 
-  convertOptionsToQuery(data: OptionFilterParams): QueryString {
-    let filterValue: QueryString = {};
-
-    Object.entries(data).forEach(([key, value]) => {
-      filterValue[key] = value.map((item) => item.code);
-    });
-
-    return filterValue;
-  }
-
-  addDateControls() {
-    DateFilters.forEach((filter) => {
-      this.dateFormGroup.addControl(
+  addFilterControls() {
+    FiltersInfrastructure.forEach((filter) => {
+      this.filterFormGroup.addControl(
         filter.endpoint,
-        new FormControl([], { nonNullable: true })
-      );
-    });
-  }
-
-  addOptionControls() {
-    OptionFilters.forEach((filter) => {
-      this.optionFormGroup.addControl(
-        filter.endpoint,
-        new FormControl([], { nonNullable: true })
+        new FormControl(filter.defaultValue ?? [], { nonNullable: true })
       );
     });
   }
@@ -137,28 +107,32 @@ export class HomeComponent implements OnInit {
   }
 
   filter() {
-    this.dateFormGroup.reset();
-    this.urgentMarketMessage.getUMMS(this.mergedFilterQuery);
+    this.urgentMarketMessage.getUMMS(this.filterQuery);
   }
 
-  loadLocalOptionFilters(): OptionFilter<OptionFilterParams>[] {
-    OptionFilters.forEach((filter, index) => {
-      let option = JSON.parse(localStorage.getItem(filter.endpoint));
-      if (option === null) {
-        this.requestOptionFilter(filter);
-      } else {
-        OptionFilters[index].options = option;
+  clear() {
+    console.log(this.filterFormGroup);
+    this.filterFormGroup.reset();
+  }
+
+  loadLocalOptionFilters(): Filter<FilterParams>[] {
+    FiltersInfrastructure.forEach((filter, index) => {
+      if (!filter.isDateFilter) {
+        let option = JSON.parse(localStorage.getItem(filter.endpoint));
+        if (option === null) {
+          this.requestOptionFilter(filter);
+        } else {
+          FiltersInfrastructure[index].options = option;
+        }
       }
     });
 
-    return OptionFilters;
+    return FiltersInfrastructure;
   }
 
-  requestOptionFilter(
-    filter: OptionFilter<OptionFilterParams>
-  ): OptionFilterParams[] {
+  requestOptionFilter(filter: Filter<FilterParams>): FilterParams[] {
     this.urgentMarketMessage.getFilterOptions(filter.endpoint).subscribe(
-      (data: OptionFilterParams[]) => {
+      (data: FilterParams[]) => {
         localStorage.setItem(filter.endpoint, JSON.stringify(data));
         return (filter.options = data);
       },

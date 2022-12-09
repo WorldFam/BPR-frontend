@@ -1,9 +1,4 @@
-export interface DateFilterParams  {
-    start : Date;
-    end : Date;
-}
-
-export interface OptionFilterParams  {
+export interface FilterParams  {
     name : string;
     code : string;
 }

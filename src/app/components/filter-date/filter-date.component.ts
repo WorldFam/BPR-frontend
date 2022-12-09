@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
-import { DateFilter } from 'src/app/models/filter-infrastructure.model';
+import { Filter } from 'src/app/models/filter-infrastructure.model';
+import { FilterParams } from 'src/app/models/filter-params.model';
 
 @Component({
   selector: 'app-filter-date',
@@ -17,9 +18,11 @@ export class FilterDateComponent implements OnInit {
   form: FormGroup;
 
   @Input()
-  filter: DateFilter;
+  filter: Filter<FilterParams>;
 
   dateControl = new FormControl();
   getFilterValue = () => this.form.get(this.filter.endpoint) as FormControl;
+
+
 
 }

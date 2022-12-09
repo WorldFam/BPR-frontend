@@ -1,18 +1,24 @@
 <mat-drawer-container class="home-component">
   <mat-drawer mode="side" opened class="sidebar-container">
     <div class="filter-container">
-      <div class="filter-field" *ngFor="let filter of dateFilters">
-        <app-filter-date [form]="dateFormGroup" [filter]="filter"></app-filter-date>
-      </div>
 
-      <mat-divider></mat-divider>
       <div class="filter-field" *ngFor="let filter of optionFilters">
-        <app-filter-opt [form]="optionFormGroup" [filter]="filter" [isLoadingOptions]="isLoadingOptions">
-        </app-filter-opt>
+
+        <ng-container *ngIf="filter.isDateFilter">
+          <app-filter-date [form]="filterFormGroup" [filter]="filter"></app-filter-date>
+        </ng-container>
+
+
+        <ng-container *ngIf="!filter.isDateFilter">
+          <app-filter-opt [form]="filterFormGroup" [filter]="filter" [isLoadingOptions]="isLoadingOptions">
+          </app-filter-opt>
+        </ng-container>
+
+
       </div>
       <div class="button-container">
         <div class="button-child-container">
-          <button mat-flat-button color="primary" (click)="filter()">
+          <button mat-flat-button color="primary" (click)="clear()">
             Clear
           </button>
         </div>

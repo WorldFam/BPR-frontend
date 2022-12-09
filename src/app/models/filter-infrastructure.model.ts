@@ -1,13 +1,8 @@
-interface Filter{
+export interface Filter<T>{
     name: string;
     endpoint: string;
-}
-
-export interface OptionFilter<T> extends Filter{
-    expandedSearch: boolean;
-    options: T[];
-}
-
-export interface DateFilter extends Filter{
-    range: boolean
+    isDateFilter : boolean
+    defaultValue?: any
+    expandedSearch?: boolean;
+    options?: T[];
 }
