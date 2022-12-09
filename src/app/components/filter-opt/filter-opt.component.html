@@ -1,7 +1,7 @@
 <form [formGroup]="form">
 <mat-form-field floatLabel="never" appearance="none">
   <mat-select #filterSelect (openedChange)="openedChange($event , searchControl)" placeholder="All {{filter.name}}"
-    formControlName="{{filter.endpoint}}"  multiple>
+    formControlName="{{filter.endpoint}}"  multiple (infiniteScroll)="getNextBatch()" [complete]="offset === filter.options.length" msInfiniteScroll>
     <mat-select-trigger>
       {{filterControl.value ? filteredValue : ''}}
       <span *ngIf="filterControl.value?.length > 1" class="additional-selection">
@@ -31,13 +31,13 @@
       </div>
 
 
-      <mat-optgroup *ngIf="(filteredOptions | async).length == 0">
+      <mat-optgroup *ngIf="(filteredOptions$ | async).length == 0">
         <div class="select-placeholder-container"> <span>Loading...</span>
           <mat-spinner matPrefix class="spinner" diameter="20"></mat-spinner>
         </div>
       </mat-optgroup>
 
-      <mat-option #opt *ngFor="let option of filteredOptions | async" [value]="option" [disabled]="option.code === 'null'">
+      <mat-option #opt *ngFor="let option of filteredOptions$ | async" [value]="option" [disabled]="option.code === 'null'">
         <mat-icon matSuffix *ngIf="opt.selected">close</mat-icon> {{option.name}}
       </mat-option>
     </div>

@@ -10,29 +10,29 @@ import { apiVersion } from 'src/app/constants/constants';
 })
 export class UnavailabilityMarketMessagesService {
   private baseURL: string =
-    'https://stoplight.io/mocks/bpr-infrastructure/infrastructure/109335189';
-    
-/// Inlucede for production
-/// + apiVersion;
+    ' http://localhost:7071/api';
 
   constructor(private http: HttpClient) {}
 
   httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',
-      // 'Accept':"application/json",
-      // 'Access-Control-Allow-Methods':'GET',
-      // 'Authorization':''
+      'Accept':"application/json",
+      'Access-Control-Allow-Origin' : '*',
+      'Access-Control-Allow-Methods':'GET',
+      'Authorization':''
     }),
+
   };
 
+  
   public getFilterOptions<T>(endpoint): Observable<T[]> {
-    return null;
-    // return this.http
-    //   .get<T[]>(this.baseURL + `/infrastructure/${endpoint}`, {
-    //     headers: this.httpOptions.headers,
-    //   })
-    //   .pipe(catchError(this.handleError));
+
+    return this.http
+      .get<T[]>(this.baseURL + `/infrastructure/${endpoint}`, {
+        headers: this.httpOptions.headers,
+      })
+      .pipe(catchError(this.handleError));
   }
 
   public getUMMS<T>(queryParams?): Observable<T[]> {

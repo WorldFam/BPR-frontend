@@ -18,7 +18,7 @@ import { FormGroup, FormControl } from '@angular/forms';
 import { FilterInfrastructureQueryKeys } from 'src/app/enums/filter-infrastructure';
 import { distinctUntilChanged, throttleTime } from 'rxjs/operators';
 import { WebSocketConnectionService } from 'src/app/services/websocket-connection.service';
-import { IUnavailabilityMarketMessage }  from 'src/app/models/api/unavailability-market-message.model'
+import { IUnavailabilityMarketMessage } from 'src/app/models/api/unavailability-market-message.model';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -39,24 +39,27 @@ export class HomeComponent implements OnInit {
 
   optionFilters: OptionFilter<OptionFilterParams>[];
   dateFilters: DateFilter[];
-  mergedFilterQuery: QueryString ;
+  mergedFilterQuery: QueryString;
 
   activeState: string;
   optionFormGroup = new FormGroup({});
   dateFormGroup = new FormGroup({});
-  data : IUnavailabilityMarketMessage[]
+  data: IUnavailabilityMarketMessage[];
+
+  private sub: any;
+
   setStateAsActive(state) {
     this.activeState = state;
   }
 
   ngOnInit() {
-    this.optionFilters = this.loadOptionFilters();
+    this.optionFilters = this.loadLocalOptionFilters();
     this.dateFilters = DateFilters;
 
     this.addDateControls();
     this.addOptionControls();
 
-    merge(this.optionFormGroup.valueChanges, this.dateFormGroup.valueChanges)
+    this.sub = merge(this.optionFormGroup.valueChanges, this.dateFormGroup.valueChanges)
       .pipe(distinctUntilChanged(), throttleTime(10))
       .subscribe(() => {
         let filterOptionQuery: QueryString = this.convertOptionsToQuery(
@@ -65,20 +68,22 @@ export class HomeComponent implements OnInit {
         let filterDateQuery: QueryString = this.convertDateToQuery(
           this.dateFormGroup.value as DateFilterParams
         );
-        this.mergedFilterQuery  = {
+        this.mergedFilterQuery = {
           ...filterOptionQuery,
           ...filterDateQuery,
         };
-        this.optionFormGroup.dirty
 
-        this.optionFormGroup.reset({
-
-        })
-        console.log(this.mergedFilterQuery)
+        console.log(this.mergedFilterQuery);
       });
+
+    this.optionFormGroup.valueChanges.subscribe((data) => {
+      console.log(data);
+    });
   }
 
-  resetFilter
+  ngOnDestroy() {
+    this.sub.unsubscribe()
+}
 
   convertDateToQuery(data: DateFilterParams): QueryString {
     let filterValue: QueryString = {};
@@ -102,10 +107,10 @@ export class HomeComponent implements OnInit {
 
   addDateControls() {
     DateFilters.forEach((filter) => {
-        this.dateFormGroup.addControl(
-          filter.endpoint,
-          new FormControl([], { nonNullable: true })
-        );
+      this.dateFormGroup.addControl(
+        filter.endpoint,
+        new FormControl([], { nonNullable: true })
+      );
     });
   }
 
@@ -119,7 +124,6 @@ export class HomeComponent implements OnInit {
   }
 
   loadMessages() {
-    
     // let uri : string = 'wss://bpr.webpubsub.azure.com:443/client/hubs/BPR?access_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYmYiOjE2NzAxNjUyMzMsImV4cCI6MTY3MDE2ODgzMywiaWF0IjoxNjcwMTY1MjMzLCJhdWQiOiJodHRwczovL2Jwci53ZWJwdWJzdWIuYXp1cmUuY29tL2NsaWVudC9odWJzL0JQUiJ9.XajZ82Zjb_-GVT5-PRXo4z1z8aKQIszqhSmzuQsyU3M'
 
     // this.webSocketConnectionService
@@ -133,28 +137,40 @@ export class HomeComponent implements OnInit {
     //   );
 
     this.isLoadingResults = false;
-    this.data = UMMJSON as unknown as IUnavailabilityMarketMessage[]
+    this.data = UMMJSON as unknown as IUnavailabilityMarketMessage[];
     this.dataSource.data = this.data;
-    console.log(this.dataSource.data)
+    console.log(this.dataSource.data);
   }
 
   filter() {
-    this.dateFormGroup.reset()
-    this.urgentMarketMessage.getUMMS(this.mergedFilterQuery); 
+    this.dateFormGroup.reset();
+    this.urgentMarketMessage.getUMMS(this.mergedFilterQuery);
   }
 
-  loadOptionFilters(): OptionFilter<OptionFilterParams>[] {
-    const forkRequest = OptionFilters.map((filter) =>
-      this.urgentMarketMessage.getFilterOptions(filter.endpoint)
-    );
-    forkJoin(forkRequest).subscribe(
-      (data) =>
-        data.forEach((option: OptionFilterParams[], index) => {
-          return (OptionFilters[index].options = option);
-        }),
+  loadLocalOptionFilters(): OptionFilter<OptionFilterParams>[] {
+    OptionFilters.forEach((filter, index) => {
+      let option = JSON.parse(localStorage.getItem(filter.endpoint));
+      if (option === null) {
+         this.requestOptionFilter(filter);
+      } else {
+        OptionFilters[index].options = option;
+      }
+    });
+
+    return OptionFilters;
+  }
+
+  requestOptionFilter(
+    filter: OptionFilter<OptionFilterParams>
+  ): OptionFilterParams[] {
+    this.urgentMarketMessage.getFilterOptions(filter.endpoint).subscribe(
+      (data: OptionFilterParams[]) => {
+        localStorage.setItem(filter.endpoint, JSON.stringify(data));
+        return (filter.options = data);
+      },
       (error) => console.log(error),
       () => (this.isLoadingOptions = false)
     );
-    return OptionFilters;
+    return filter.options;
   }
 }

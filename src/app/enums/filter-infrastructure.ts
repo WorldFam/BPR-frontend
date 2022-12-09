@@ -4,7 +4,7 @@ export enum FilterInfrastructureQueryKeys {
     fuelTypes = 'fuel-types',
     assets ='assets',
     status ='status',
-    sources ='source',
+    sources ='sources',
     eventTypes ='event-types',
     unavailabilityTypes ='unavailability-types',
     countries ='countries',

@@ -28,6 +28,8 @@ import { MatFormFieldModule } from "@angular/material/form-field";
 import { HeaderComponent } from './components/header/header.component';
 import { MapComponent } from './components/map/map.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
+import {MatSelectInfiniteScrollModule} from 'ng-mat-select-infinite-scroll';
+import {MatSelectModule} from '@angular/material/select';
 
 @NgModule({
   declarations: [
@@ -59,6 +61,8 @@ import { SidebarComponent } from './components/sidebar/sidebar.component';
     MaterialExampleModule,
     MatFormFieldModule,
     MatInputModule,
+    MatSelectModule,
+    MatSelectInfiniteScrollModule,
     AuthModule.forRoot({
       ...env.auth
     }),
