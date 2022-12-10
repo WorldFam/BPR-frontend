@@ -20,7 +20,7 @@
       <div class="input-container" *ngIf="filter.expandedSearch">
         <mat-optgroup>
           <mat-form-field style="width:100%;" floatLabel="never" appearance="none">
-            <input matInput autocomplete="off" class="input-field" placeholder="Search" [formControl]="searchControl" (input)="onSearchChange($event.target.value)">
+            <input matInput autocomplete="off" class="input-field" placeholder="Search"(input)="onSearchChange($event.target.value)">
           </mat-form-field>
         </mat-optgroup>
         <mat-divider></mat-divider>

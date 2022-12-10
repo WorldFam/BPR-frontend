@@ -11,7 +11,7 @@ import { FilterParams } from 'src/app/models/filter-params.model';
 export class FilterDateComponent implements OnInit {
   ngOnInit(): void {
     this.dateControl = this.getFilterValue();
-    this.dateControl.disable()
+    this.dateControl.disable();
   }
 
   @Input()
@@ -22,7 +22,4 @@ export class FilterDateComponent implements OnInit {
 
   dateControl = new FormControl();
   getFilterValue = () => this.form.get(this.filter.endpoint) as FormControl;
-
-
-
 }

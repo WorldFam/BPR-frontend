@@ -1,8 +1,7 @@
-import { Component, OnInit, Input, ViewChild } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { MatSelect } from '@angular/material/select';
-import { BehaviorSubject, combineLatest, Observable, of } from 'rxjs';
-import { debounceTime, map, scan, startWith, switchMap } from 'rxjs/operators';
+import { BehaviorSubject, Observable, of } from 'rxjs';
+import { scan } from 'rxjs/operators';
 import { Filter } from 'src/app/models/filter-infrastructure.model';
 import { FilterParams } from 'src/app/models/filter-params.model';
 
@@ -18,20 +17,17 @@ export class FilterOptComponent implements OnInit {
   @Input()
   isLoadingOptions: boolean;
 
-  filterControl = new FormControl();
-  filteredValue: string;
-
-  filteredOptions$: Observable<FilterParams[]>;
-  searchControl = new FormControl();
-
   @Input()
   form: FormGroup;
+
+  filterControl = new FormControl();
+  filteredValue: string;
 
   total = 100;
   limit = 10;
   offset = 0;
+  filteredOptions$: Observable<FilterParams[]>;
   options = new BehaviorSubject<FilterParams[]>([]);
-  filteredList: FilterParams[] = [];
 
   ngOnInit(): void {
     this.scanPosition()

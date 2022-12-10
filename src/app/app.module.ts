@@ -7,7 +7,6 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './pages/home/home.component';
-import { ProfileComponent } from './pages/profile/profile.component';
 import { ErrorComponent } from './pages/error/error.component';
 import { NavBarComponent } from './components/nav-bar/nav-bar.component';
 import { LoadingComponent } from './components/loading/loading.component';
@@ -27,7 +26,6 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { HeaderComponent } from './components/header/header.component';
 import { MapComponent } from './components/map/map.component';
-import { SidebarComponent } from './components/sidebar/sidebar.component';
 import {MatSelectInfiniteScrollModule} from 'ng-mat-select-infinite-scroll';
 import {MatSelectModule} from '@angular/material/select';
 
@@ -35,7 +33,6 @@ import {MatSelectModule} from '@angular/material/select';
   declarations: [
     AppComponent,
     HomeComponent,
-    ProfileComponent,
     NavBarComponent,
     LoadingComponent,
     ErrorComponent,
@@ -45,7 +42,6 @@ import {MatSelectModule} from '@angular/material/select';
     FilterDateComponent,
     HeaderComponent,
     MapComponent,
-    SidebarComponent,
   ],
   imports: [
     BrowserModule,

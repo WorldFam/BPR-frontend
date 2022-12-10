@@ -1,8 +1,6 @@
 import {
-  AfterViewInit,
   Component,
   ViewChild,
-  OnInit,
   Input,
 } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
@@ -10,7 +8,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import {
   UnavailabilityMarketMessageTableColumn,
   TableColumn,
-} from 'src/app/models/umm-entries.model';
+} from 'src/app/models/table-entries.model';
 import { UnavailabilityMarketMessagesService } from 'src/app/services/dashboard/unavailability-market-messages.service';
 import { UnavailabilityMarketMessageTableColumns } from 'src/app/data/table.data';
 
@@ -19,7 +17,7 @@ import { UnavailabilityMarketMessageTableColumns } from 'src/app/data/table.data
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css'],
 })
-export class DashboardComponent implements AfterViewInit, OnInit {
+export class DashboardComponent {
   columns = this.generateColumns();
   displayedColumns = this.columns.map((c) => c.key);
 
@@ -87,43 +85,7 @@ export class DashboardComponent implements AfterViewInit, OnInit {
     return column.key;
   }
 
-  ngOnInit(): void {
-    this.dataSource.filterPredicate = this.createFilters();
-  }
-
-  private createFilters<T>(): (data: T, filter: string) => boolean {
-    const filterFunction = function (data: T, filter: string): boolean {
-      const searchTerms: Partial<Record<keyof T, string>> = JSON.parse(filter);
-      if (searchTerms === null || searchTerms === undefined) {
-        return true;
-      }
-
-      return Object.keys(searchTerms).every((key) => {
-        if (Array.isArray(searchTerms[key])) {
-          return searchTerms[key]?.length > 0
-            ? searchTerms[key].every((term: string) =>
-                Array.isArray(data[key])
-                  ? data[key].includes(term)
-                  : data[key] === term
-              )
-            : true;
-        }
-
-        return (
-          data[key]?.toLowerCase()?.indexOf(searchTerms[key]?.toLowerCase()) !==
-          -1
-        );
-      });
-    };
-
-    return filterFunction;
-  }
-
   rowClick(umm) {
     console.log(umm)
-    // return this.urgentMarketMessage.getUMM(umm.id).subscribe((data) => {
-
-    //   // this.dataSource.data = data;
-    // });
   }
 }

@@ -10,14 +10,6 @@ import { takeUntil } from 'rxjs/operators';
 })
 export class ErrorComponent {
 
-  public error$: Observable<any> = this.auth.error$;
 
-  constructor(private auth: AuthService, private router: Router) {}
-
-  ngOnInit() {
-    timer(0).pipe(takeUntil(this.error$)).subscribe(() => {
-      this.router.navigateByUrl('/');
-    });
-  }
 }
 
