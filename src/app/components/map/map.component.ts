@@ -89,13 +89,11 @@ export class MapComponent implements AfterViewInit {
     });
 
     this.webSocketConnectionService.subscribeToWebSocket(
-      'wss://bpr.webpubsub.azure.com:443/client/hubs/BPR?access_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYmYiOjE2NzAxNjUyMzMsImV4cCI6MTY3MDE2ODgzMywiaWF0IjoxNjcwMTY1MjMzLCJhdWQiOiJodHRwczovL2Jwci53ZWJwdWJzdWIuYXp1cmUuY29tL2NsaWVudC9odWJzL0JQUiJ9.XajZ82Zjb_-GVT5-PRXo4z1z8aKQIszqhSmzuQsyU3M'
-    ).subscribe(
+    ).add(
       (data) => {
         this.countries = data;
         this.initStatesLayer();
       },
-      (err) => console.error('ERROR WHEN GETTING OBJECTS' + err)
     );
   }
 }

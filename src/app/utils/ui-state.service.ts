@@ -7,14 +7,13 @@ export class UiStateService {
 
   setState(state: UIState) {
     this.state = state;
-    console.log(this.state)
-    localStorage.setItem(state.key, JSON.stringify( this.state.state));
+    sessionStorage.setItem(state.key, JSON.stringify( this.state.state));
   }
 
   getState(props : UIState): UIState {
-    const state = localStorage.getItem(props.key)
+    const state = sessionStorage.getItem(props.key)
     if(state) {
-      return {state: JSON.parse(localStorage.getItem(props.key)) }
+      return {state: JSON.parse(sessionStorage.getItem(props.key)) }
     }
     return {state: props.defaultValue}
   }

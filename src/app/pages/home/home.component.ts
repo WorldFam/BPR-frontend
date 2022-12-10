@@ -90,19 +90,19 @@ export class HomeComponent implements OnInit {
   loadMessages() {
     // let uri : string = 'wss://bpr.webpubsub.azure.com:443/client/hubs/BPR?access_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYmYiOjE2NzAxNjUyMzMsImV4cCI6MTY3MDE2ODgzMywiaWF0IjoxNjcwMTY1MjMzLCJhdWQiOiJodHRwczovL2Jwci53ZWJwdWJzdWIuYXp1cmUuY29tL2NsaWVudC9odWJzL0JQUiJ9.XajZ82Zjb_-GVT5-PRXo4z1z8aKQIszqhSmzuQsyU3M'
 
-    // this.webSocketConnectionService
-    //   .subscribeToWebSocket(uri)
-    //   .subscribe(
-    //     (data : UnavailabilityMarketMessagesService[])=> {
-    //       this.isLoadingResults = false;
-    //       this.dataSource.data = data;
-    //     },
-    //     (err) => console.error(err)
-    //   );
+    this.webSocketConnectionService
+      .subscribeToWebSocket()
+      .add(
+        (data : UnavailabilityMarketMessagesService[])=> {
+          console.log(data);
+          this.isLoadingResults = false;
+          this.dataSource.data = data;
+        },
+      );
 
     this.isLoadingResults = false;
-    this.data = UMMJSON as unknown as IUnavailabilityMarketMessage[];
-    this.dataSource.data = this.data;
+    // this.data = UMMJSON as unknown as IUnavailabilityMarketMessage[];
+    // this.dataSource.data = this.data;
   }
 
   filter() {
@@ -116,7 +116,7 @@ export class HomeComponent implements OnInit {
   loadLocalOptionFilters(): Filter<FilterParams>[] {
     FiltersInfrastructure.forEach((filter, index) => {
       if (!filter.isDateFilter) {
-        let option = JSON.parse(localStorage.getItem(filter.endpoint));
+        let option = JSON.parse(sessionStorage.getItem(filter.endpoint));
         if (option === null) {
           this.requestOptionFilter(filter);
         } else {
@@ -131,7 +131,7 @@ export class HomeComponent implements OnInit {
   requestOptionFilter(filter: Filter<FilterParams>): FilterParams[] {
     this.urgentMarketMessage.getFilterOptions(filter.endpoint).subscribe(
       (data: FilterParams[]) => {
-        localStorage.setItem(filter.endpoint, JSON.stringify(data));
+        sessionStorage.setItem(filter.endpoint, JSON.stringify(data));
         return (filter.options = data);
       },
       (error) => console.log(error),
