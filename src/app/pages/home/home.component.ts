@@ -6,7 +6,7 @@ import { Filter } from 'src/app/models/filter-infrastructure.model';
 import { FilterParams, QueryString } from 'src/app/models/filter-params.model';
 import { FiltersInfrastructure } from 'src/app/data/filter.data';
 import UMMJSON from 'src/app/UMM.json';
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormGroup, FormControl, AbstractControl } from '@angular/forms';
 import { WebSocketConnectionService } from 'src/app/services/websocket-connection.service';
 import { IUnavailabilityMarketMessage } from 'src/app/models/api/unavailability-market-message.model';
 import {
@@ -34,9 +34,11 @@ export class HomeComponent implements OnInit {
   optionFilters: Filter<FilterParams>[];
 
   activeState: string;
-  filterFormGroup = new FormGroup({});
+  formGroup = new FormGroup({});
   data: IUnavailabilityMarketMessage[];
   filterQuery: QueryString;
+
+  selectedFilter: string;
 
   setStateAsActive(state) {
     this.activeState = state;
@@ -46,16 +48,16 @@ export class HomeComponent implements OnInit {
     this.optionFilters = this.loadLocalOptionFilters();
     this.addFilterControls();
 
-    this.filterFormGroup.valueChanges.subscribe(() => {
-      this.resetFormContorls();
+    this.formGroup.valueChanges.subscribe(() => {
       this.filterQuery = this.convertFilterParamsToQuery();
+      console.log(this.filterQuery);
     });
   }
 
-  resetFormContorls() {
-    Object.keys(this.filterFormGroup.controls).forEach((key) => {
-      const currentControl : FormControl = this.filterFormGroup.controls[key];
-      if (currentControl.touched) {
+  unselectFormControls(name: string) {
+    Object.keys(this.formGroup.controls).forEach((key) => {
+      const currentControl: FormControl = this.formGroup.controls[key];
+      if (currentControl.touched && key !== name) {
         currentControl.reset();
       }
     });
@@ -64,15 +66,12 @@ export class HomeComponent implements OnInit {
   convertFilterParamsToQuery(): QueryString {
     let filterValue: QueryString = {};
 
-    Object.keys(this.filterFormGroup.controls).forEach((key) => {
+    Object.keys(this.formGroup.controls).forEach((key) => {
+      const filter = this.formGroup.controls[key].value;
       if (key === FilterInfrastructureQueryKeys.publicationDate) {
-        filterValue[key] = JSON.stringify(
-          this.filterFormGroup.controls[key].value
-        );
+        filterValue[key] = JSON.stringify(filter);
       } else {
-        filterValue[key] = this.filterFormGroup.controls[key].value.map(
-          (item) => item.code
-        );
+        filterValue[key] = filter.map((item) => item.code);
       }
     });
 
@@ -81,7 +80,7 @@ export class HomeComponent implements OnInit {
 
   addFilterControls() {
     FiltersInfrastructure.forEach((filter) => {
-      this.filterFormGroup.addControl(
+      this.formGroup.addControl(
         filter.endpoint,
         new FormControl(filter.defaultValue ?? [], { nonNullable: true })
       );
@@ -111,8 +110,7 @@ export class HomeComponent implements OnInit {
   }
 
   clear() {
-    console.log(this.filterFormGroup);
-    this.filterFormGroup.reset();
+    this.formGroup.reset();
   }
 
   loadLocalOptionFilters(): Filter<FilterParams>[] {

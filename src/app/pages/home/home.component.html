@@ -5,12 +5,12 @@
       <div class="filter-field" *ngFor="let filter of optionFilters">
 
         <ng-container *ngIf="filter.isDateFilter">
-          <app-filter-date [form]="filterFormGroup" [filter]="filter"></app-filter-date>
+          <app-filter-date [form]="formGroup"  (click)="unselectFormControls(filter.endpoint)" [filter]="filter"></app-filter-date>
         </ng-container>
 
 
         <ng-container *ngIf="!filter.isDateFilter">
-          <app-filter-opt [form]="filterFormGroup" [filter]="filter" [isLoadingOptions]="isLoadingOptions">
+          <app-filter-opt [form]="formGroup" (click)="unselectFormControls(filter.endpoint)" [filter]="filter" [isLoadingOptions]="isLoadingOptions">
           </app-filter-opt>
         </ng-container>
 
