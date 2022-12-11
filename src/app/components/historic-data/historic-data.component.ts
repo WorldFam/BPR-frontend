@@ -10,16 +10,14 @@ import {
   TableColumn,
 } from 'src/app/models/table-entries.model';
 import { UnavailabilityMarketMessagesService } from 'src/app/services/dashboard/unavailability-market-messages.service';
-import { UnavailabilityMarketMessageTableColumns } from 'src/app/data/table.data';
-import { IUnavailabilityMarketMessage } from 'src/app/models/api/unavailability-market-message.model'
-import { Router } from '@angular/router';
+import { UnavailabilityMarketMessageTableColumns } from 'src/app/data/historic-table.data';
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css'],
 })
-export class DashboardComponent {
+export class HistoricDataComponent {
   columns = this.generateColumns();
   displayedColumns = this.columns.map((c) => c.key);
 
@@ -32,8 +30,7 @@ export class DashboardComponent {
   isLoadingResults: boolean;
 
   constructor(
-    private urgentMarketMessage: UnavailabilityMarketMessagesService,
-    private router: Router
+    private urgentMarketMessage: UnavailabilityMarketMessagesService
   ) {}
 
   private generateColumns(): UnavailabilityMarketMessageTableColumn<TableColumn>[] {
@@ -87,8 +84,5 @@ export class DashboardComponent {
     }
     return column.key;
   }
-
-  rowClick(umm: IUnavailabilityMarketMessage) {
-    this.router.navigate([`historic-data/${umm.mRID}`])
-  }
 }
+

@@ -28,6 +28,7 @@ import { HeaderComponent } from './components/header/header.component';
 import { MapComponent } from './components/map/map.component';
 import {MatSelectInfiniteScrollModule} from 'ng-mat-select-infinite-scroll';
 import {MatSelectModule} from '@angular/material/select';
+import { HistoricDataComponent } from './components/historic-data/historic-data.component';
 
 @NgModule({
   declarations: [
@@ -42,6 +43,7 @@ import {MatSelectModule} from '@angular/material/select';
     FilterDateComponent,
     HeaderComponent,
     MapComponent,
+    HistoricDataComponent,
   ],
   imports: [
     BrowserModule,

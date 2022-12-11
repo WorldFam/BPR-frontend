@@ -1,8 +1,5 @@
 import { Component, AfterViewInit } from '@angular/core';
 import * as L from 'leaflet';
-//kimport { filter } from 'rxjs';
-//import { MarkerService } from '../../services/marker.service';
-//import { MarkersWithColors } from '../markersWithColors';
 import { ShapeService } from '../../services/map/shape.service';
 import { WebSocketConnectionService } from '../../services/websocket-connection.service';
 
