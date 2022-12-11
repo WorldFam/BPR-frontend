@@ -3,7 +3,6 @@ import { HttpParams } from '@angular/common/http';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { apiVersion } from 'src/app/constants/constants';
 
 @Injectable({
   providedIn: 'root',
@@ -20,7 +19,8 @@ export class UnavailabilityMarketMessagesService {
       'Accept':"application/json",
       'Access-Control-Allow-Origin' : '*',
       'Access-Control-Allow-Methods':'GET',
-      'Authorization':''
+      'x-functions-key' :
+      /// process.env.X_FUNCTIONS_KEY
     }),
 
   };
@@ -40,7 +40,11 @@ export class UnavailabilityMarketMessagesService {
       fromObject: queryParams,
     });
 
-    return this.http
+    console.log(params);
+
+    return null
+    
+    this.http
       .get<T[]>(this.baseURL + `/messages`, {
         headers: this.httpOptions.headers,
         params: params,

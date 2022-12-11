@@ -50,7 +50,6 @@ export class HomeComponent implements OnInit {
 
     this.formGroup.valueChanges.subscribe(() => {
       this.filterQuery = this.convertFilterParamsToQuery();
-      console.log(this.filterQuery);
     });
   }
 
@@ -69,7 +68,7 @@ export class HomeComponent implements OnInit {
     Object.keys(this.formGroup.controls).forEach((key) => {
       const filter = this.formGroup.controls[key].value;
       if (key === FilterInfrastructureQueryKeys.publicationDate) {
-        filterValue[key] = JSON.stringify(filter);
+        filterValue[key] = filter;
       } else {
         filterValue[key] = filter.map((item) => item.code);
       }
@@ -82,35 +81,32 @@ export class HomeComponent implements OnInit {
     FiltersInfrastructure.forEach((filter) => {
       this.formGroup.addControl(
         filter.endpoint,
-        new FormControl(filter.defaultValue ?? [], { nonNullable: true })
+        new FormControl([], { nonNullable: true })
       );
     });
   }
 
   loadMessages() {
-    // let uri : string = 'wss://bpr.webpubsub.azure.com:443/client/hubs/BPR?access_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYmYiOjE2NzAxNjUyMzMsImV4cCI6MTY3MDE2ODgzMywiaWF0IjoxNjcwMTY1MjMzLCJhdWQiOiJodHRwczovL2Jwci53ZWJwdWJzdWIuYXp1cmUuY29tL2NsaWVudC9odWJzL0JQUiJ9.XajZ82Zjb_-GVT5-PRXo4z1z8aKQIszqhSmzuQsyU3M'
-
     this.webSocketConnectionService
       .subscribeToWebSocket()
-      .add(
+      .subscribe(
         (data : UnavailabilityMarketMessagesService[])=> {
-          console.log(data);
           this.isLoadingResults = false;
           this.dataSource.data = data;
         },
       );
-
-    this.isLoadingResults = false;
-    // this.data = UMMJSON as unknown as IUnavailabilityMarketMessage[];
-    // this.dataSource.data = this.data;
   }
 
   filter() {
-    this.urgentMarketMessage.getUMMS(this.filterQuery);
+    this.urgentMarketMessage.getUMMS(this.filterQuery).subscribe((data)=> {
+      this.isLoadingResults = false;
+      this.dataSource.data = data
+    });
   }
 
   clear() {
     this.formGroup.reset();
+    this.filter();
   }
 
   loadLocalOptionFilters(): Filter<FilterParams>[] {

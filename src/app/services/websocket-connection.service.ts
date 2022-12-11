@@ -2,7 +2,7 @@ import { Injectable, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { webSocket } from 'rxjs/webSocket';
 import { Observable, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -17,7 +17,7 @@ export class WebSocketConnectionService implements OnInit {
   getUriAndConnectToPubSub() {
     return this.http
       .get('http://localhost:7071/api/GeneratingUriForPubSub')
-      .subscribe((uri: string) => webSocket(uri));
+      .pipe(map((data) => data['uri']));
   }
 
   handleError(error: any) {
@@ -36,7 +36,8 @@ export class WebSocketConnectionService implements OnInit {
   }
 
   subscribeToWebSocket() {
-    return  this.getUriAndConnectToPubSub() 
+   return this.getUriAndConnectToPubSub();
+     
     // return webSocket(
     //   'wss://bpr.webpubsub.azure.com:443/client/hubs/BPR?access_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYmYiOjE2NzA0MTY1OTcsImV4cCI6MTY3MDQyMDE5NywiaWF0IjoxNjcwNDE2NTk3LCJhdWQiOiJodHRwczovL2Jwci53ZWJwdWJzdWIuYXp1cmUuY29tL2NsaWVudC9odWJzL0JQUiJ9.wnznEr1g-u14buZ9dfs7xBuUtHP_V2QtF_CiELyXiQ0'
     // );

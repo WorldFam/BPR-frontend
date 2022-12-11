@@ -1,4 +1,6 @@
-import { Filter } from '../models/filter-infrastructure.model';
+import {
+  Filter,
+} from '../models/filter-infrastructure.model';
 import { FilterParams } from '../models/filter-params.model';
 import {
   FilterInfrastructure,
@@ -8,7 +10,6 @@ export const FiltersInfrastructure: Filter<FilterParams>[] = [
   {
     name: FilterInfrastructure.publicationDate,
     endpoint: FilterInfrastructureQueryKeys.publicationDate,
-    defaultValue: "",
     isDateFilter: true,
   },
   {
@@ -74,3 +75,4 @@ export const FiltersInfrastructure: Filter<FilterParams>[] = [
     options: [],
   },
 ];
+

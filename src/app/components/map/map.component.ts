@@ -89,7 +89,7 @@ export class MapComponent implements AfterViewInit {
     });
 
     this.webSocketConnectionService.subscribeToWebSocket(
-    ).add(
+    ).subscribe(
       (data) => {
         this.countries = data;
         this.initStatesLayer();
