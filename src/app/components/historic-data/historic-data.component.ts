@@ -2,6 +2,7 @@ import {
   Component,
   ViewChild,
   Input,
+  OnInit,
 } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -11,27 +12,30 @@ import {
 } from 'src/app/models/table-entries.model';
 import { UnavailabilityMarketMessagesService } from 'src/app/services/dashboard/unavailability-market-messages.service';
 import { UnavailabilityMarketMessageTableColumns } from 'src/app/data/historic-table.data';
+import { ActivatedRoute } from '@angular/router';
+import { IUnavailabilityMarketMessage } from 'src/app/models/api/unavailability-market-message.model';
 
 @Component({
-  selector: 'app-dashboard',
-  templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.css'],
+  selector: 'app-historic-data',
+  templateUrl: './historic-data.component.html',
+  styleUrls: ['./historic-data.component.css'],
 })
-export class HistoricDataComponent {
+export class HistoricDataComponent implements OnInit {
   columns = this.generateColumns();
   displayedColumns = this.columns.map((c) => c.key);
 
   headers = this.generateHeaders();
   displayedHeaders = this.headers.map((c) => c.header);
 
-  @Input()
-  dataSource = new MatTableDataSource();
+  dataSource = new MatTableDataSource();;
+
   @Input()
   isLoadingResults: boolean;
 
   constructor(
     private urgentMarketMessage: UnavailabilityMarketMessagesService
-  ) {}
+,
+private route: ActivatedRoute  ) {}
 
   private generateColumns(): UnavailabilityMarketMessageTableColumn<TableColumn>[] {
     let columns: UnavailabilityMarketMessageTableColumn<TableColumn>[] = [];
@@ -74,7 +78,15 @@ export class HistoricDataComponent {
 
   @ViewChild(MatSort) sort: MatSort;
 
-  ngAfterViewInit() {
+  ngOnInit() {
+    const id = this.route.snapshot.paramMap.get('id');
+
+    const params = {
+      id : id
+    }
+    this.urgentMarketMessage.getUMM(params).subscribe((data :any)=> {
+      this.dataSource.data = data;
+    })
     this.dataSource.sort = this.sort;
   }
 

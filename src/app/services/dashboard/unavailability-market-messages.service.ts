@@ -10,7 +10,7 @@ import { apiVersion } from 'src/app/constants/constants';
 })
 export class UnavailabilityMarketMessagesService {
   private baseURL: string =
-    ' http://localhost:7071/api';
+    '  http://localhost:7071/api/EventController';
 
   constructor(private http: HttpClient) {}
 
@@ -41,17 +41,22 @@ export class UnavailabilityMarketMessagesService {
     });
 
     return this.http
-      .get<T[]>(this.baseURL + `/messages`, {
+      .get<T[]>(this.baseURL , {
         headers: this.httpOptions.headers,
         params: params,
       })
       .pipe(catchError(this.handleError));
   }
 
-  public getUMM<T>(id: string): Observable<T> {
+  public getUMM<T>(id): Observable<T> {
+    let params = new HttpParams({
+      fromObject: id,
+    });
+
     return this.http
-      .get<T>(this.baseURL + `/messages/${id}`, {
+      .get<T>(this.baseURL, {
         headers: this.httpOptions.headers,
+        params: params,
       })
       .pipe(catchError(this.handleError));
   }
