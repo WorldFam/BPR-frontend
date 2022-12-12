@@ -65,6 +65,7 @@ import {MatSelectModule} from '@angular/material/select';
     BrowserAnimationsModule,
   ],
   providers: [
+    HttpClientModule,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthHttpInterceptor,

@@ -5,12 +5,10 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Filter } from 'src/app/models/filter-infrastructure.model';
 import { FilterParams, QueryString } from 'src/app/models/filter-params.model';
 import { FiltersInfrastructure } from 'src/app/data/filter.data';
-import UMMJSON from 'src/app/UMM.json';
 import { FormGroup, FormControl, AbstractControl } from '@angular/forms';
 import { WebSocketConnectionService } from 'src/app/services/websocket-connection.service';
 import { IUnavailabilityMarketMessage } from 'src/app/models/api/unavailability-market-message.model';
 import {
-  FilterInfrastructure,
   FilterInfrastructureQueryKeys,
 } from 'src/app/enums/filter-infrastructure';
 @Component({
@@ -114,7 +112,7 @@ export class HomeComponent implements OnInit {
       if (!filter.isDateFilter) {
         let option = JSON.parse(sessionStorage.getItem(filter.endpoint));
         if (option === null) {
-          this.requestOptionFilter(filter);
+          //this.requestOptionFilter(filter);
         } else {
           FiltersInfrastructure[index].options = option;
         }

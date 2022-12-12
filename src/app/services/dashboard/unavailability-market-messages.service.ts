@@ -19,7 +19,7 @@ export class UnavailabilityMarketMessagesService {
       'Accept':"application/json",
       'Access-Control-Allow-Origin' : '*',
       'Access-Control-Allow-Methods':'GET',
-      'x-functions-key' :
+      //'x-functions-key' :
       /// process.env.X_FUNCTIONS_KEY
     }),
 
@@ -40,12 +40,9 @@ export class UnavailabilityMarketMessagesService {
       fromObject: queryParams,
     });
 
-    console.log(params);
-
-    return null
     
-    this.http
-      .get<T[]>(this.baseURL + `/messages`, {
+    return this.http
+      .get<T[]>(`http://localhost:7071/api/EventController`, {
         headers: this.httpOptions.headers,
         params: params,
       })
