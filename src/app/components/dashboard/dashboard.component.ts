@@ -8,7 +8,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import {
   UnavailabilityMarketMessageTableColumn,
   TableColumn,
-} from 'src/app/models/table-entries.model';
+} from 'src/app/models/dashboard/table-entries.model';
 import { UnavailabilityMarketMessagesService } from 'src/app/services/dashboard/unavailability-market-messages.service';
 import { UnavailabilityMarketMessageTableColumns } from 'src/app/data/table.data';
 

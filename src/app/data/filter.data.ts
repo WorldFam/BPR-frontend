@@ -1,11 +1,11 @@
 import {
   Filter,
-} from '../models/filter-infrastructure.model';
-import { FilterParams } from '../models/filter-params.model';
+} from '../models/dashboard/filter-infrastructure.model';
+import { FilterParams } from '../models/api/filter-params.model';
 import {
   FilterInfrastructure,
   FilterInfrastructureQueryKeys,
-} from 'src/app/enums/filter-infrastructure';
+} from 'src/app/models/enums/filter-infrastructure';
 export const FiltersInfrastructure: Filter<FilterParams>[] = [
   {
     name: FilterInfrastructure.publicationDate,

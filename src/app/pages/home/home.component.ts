@@ -2,15 +2,15 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '@auth0/auth0-angular';
 import { UnavailabilityMarketMessagesService } from 'src/app/services/dashboard/unavailability-market-messages.service';
 import { MatTableDataSource } from '@angular/material/table';
-import { Filter } from 'src/app/models/filter-infrastructure.model';
-import { FilterParams, QueryString } from 'src/app/models/filter-params.model';
+import { Filter } from 'src/app/models/dashboard/filter-infrastructure.model';
+import { FilterParams, QueryString } from 'src/app/models/api/filter-params.model';
 import { FiltersInfrastructure } from 'src/app/data/filter.data';
 import { FormGroup, FormControl, AbstractControl } from '@angular/forms';
 import { WebSocketConnectionService } from 'src/app/services/websocket-connection.service';
 import { IUnavailabilityMarketMessage } from 'src/app/models/api/unavailability-market-message.model';
 import {
   FilterInfrastructureQueryKeys,
-} from 'src/app/enums/filter-infrastructure';
+} from 'src/app/models/enums/filter-infrastructure';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
