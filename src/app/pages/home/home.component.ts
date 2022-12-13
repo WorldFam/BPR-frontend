@@ -8,6 +8,7 @@ import { FiltersInfrastructure } from 'src/app/data/filter.data';
 import { FormGroup, FormControl, AbstractControl } from '@angular/forms';
 import { WebSocketConnectionService } from 'src/app/services/websocket-connection.service';
 import { IUnavailabilityMarketMessage } from 'src/app/models/api/unavailability-market-message.model';
+import UMM from 'src/app/UMM.json'
 import {
   FilterInfrastructureQueryKeys,
 } from 'src/app/models/enums/filter-infrastructure';
@@ -22,7 +23,10 @@ export class HomeComponent implements OnInit {
     private urgentMarketMessage: UnavailabilityMarketMessagesService,
     private webSocketConnectionService: WebSocketConnectionService
   ) {
-    this.loadMessages();
+    //this.loadMessages();
+    this.isLoadingResults = false;
+    this.dataSource.data = UMM
+
   }
 
   dataSource = new MatTableDataSource();
@@ -96,10 +100,12 @@ export class HomeComponent implements OnInit {
   }
 
   filter() {
-    this.urgentMarketMessage.getUMMS(this.filterQuery).subscribe((data)=> {
-      this.isLoadingResults = false;
-      this.dataSource.data = data
-    });
+    // this.urgentMarketMessage.getUMMS(this.filterQuery).subscribe((data)=> {
+    //   this.isLoadingResults = false;
+    //   this.dataSource.data = data
+    // });
+
+    this.dataSource.data = UMM
   }
 
   clear() {

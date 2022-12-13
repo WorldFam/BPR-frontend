@@ -1,10 +1,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormControl, FormGroup } from '@angular/forms';
-import { FilterInfrastructure, FilterInfrastructureQueryKeys } from 'src/app/enums/filter-infrastructure';
-import { Filter } from 'src/app/models/filter-infrastructure.model';
+import { FilterInfrastructure, FilterInfrastructureQueryKeys } from 'src/app/models/enums/filter-infrastructure';
+import { Filter } from 'src/app/models/dashboard/filter-infrastructure.model';
 
 import { FilterOptComponent } from './filter-opt.component';
-import { FilterParams } from 'src/app/models/filter-params.model';
+import { FilterParams } from 'src/app/models/api/filter-params.model';
 
 describe('FilterOptComponent', () => {
   let component: FilterOptComponent;

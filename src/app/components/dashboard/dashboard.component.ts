@@ -33,7 +33,7 @@ export class DashboardComponent {
     private urgentMarketMessage: UnavailabilityMarketMessagesService
   ) {}
 
-  private generateColumns(): UnavailabilityMarketMessageTableColumn<TableColumn>[] {
+  generateColumns(): UnavailabilityMarketMessageTableColumn<TableColumn>[] {
     let columns: UnavailabilityMarketMessageTableColumn<TableColumn>[] = [];
 
     UnavailabilityMarketMessageTableColumns.forEach((column) => {

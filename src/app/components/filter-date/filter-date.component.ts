@@ -1,8 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
-import { FaProps } from '@fortawesome/angular-fontawesome';
-import { Filter } from 'src/app/models/filter-infrastructure.model';
-import { FilterParams } from 'src/app/models/filter-params.model';
+import { Filter } from 'src/app/models/dashboard/filter-infrastructure.model';
+import { FilterParams } from 'src/app/models/api/filter-params.model';
 
 @Component({
   selector: 'app-filter-date',

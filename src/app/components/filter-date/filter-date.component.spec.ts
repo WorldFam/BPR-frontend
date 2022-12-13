@@ -3,10 +3,10 @@ import { FormControl, FormGroup } from '@angular/forms';
 import {
   FilterInfrastructure,
   FilterInfrastructureQueryKeys,
-} from 'src/app/enums/filter-infrastructure';
-import { FilterParams } from 'src/app/models/filter-params.model';
+} from 'src/app/models/enums/filter-infrastructure';
+import { FilterParams } from 'src/app/models/api/filter-params.model';
 import { HomeComponent } from 'src/app/pages/home/home.component';
-import { Filter } from 'src/app/models/filter-infrastructure.model';
+import { Filter } from 'src/app/models/dashboard/filter-infrastructure.model';
 
 import { FilterDateComponent } from './filter-date.component';
 

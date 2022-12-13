@@ -62,7 +62,6 @@ import {MatSelectModule} from '@angular/material/select';
     AuthModule.forRoot({
       ...env.auth
     }),
-    BrowserAnimationsModule,
   ],
   providers: [
     HttpClientModule,
