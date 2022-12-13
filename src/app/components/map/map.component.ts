@@ -1,3 +1,4 @@
+import { UnavailabilityMarketMessagesService } from 'src/app/services/dashboard/unavailability-market-messages.service';
 import { Component, AfterViewInit } from '@angular/core';
 import * as L from 'leaflet';
 import { ShapeService } from '../../services/map/shape.service';
@@ -27,13 +28,12 @@ export class MapComponent implements AfterViewInit {
   private map: any;
   private states: any;
   private filteredCountries: any[] = [];
-  private countries: any;
+  private countries: any = [];
   //Sides
   private initStatesLayer() {
     this.states.features.forEach((element: any) => {
       if (this.countries != null) {
         this.countries.forEach((country) => {
-          console.log(country + ' AM I COMING');
           if (element.properties.name === country) {
             return this.filteredCountries.push(element);
           }
@@ -86,10 +86,15 @@ export class MapComponent implements AfterViewInit {
     });
 
     this.webSocketConnectionService.subscribeToWebSocket(
-      'wss://bpr.webpubsub.azure.com:443/client/hubs/BPR?access_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYmYiOjE2NzAxNjUyMzMsImV4cCI6MTY3MDE2ODgzMywiaWF0IjoxNjcwMTY1MjMzLCJhdWQiOiJodHRwczovL2Jwci53ZWJwdWJzdWIuYXp1cmUuY29tL2NsaWVudC9odWJzL0JQUiJ9.XajZ82Zjb_-GVT5-PRXo4z1z8aKQIszqhSmzuQsyU3M'
+      'wss://bpr.webpubsub.azure.com:443/client/hubs/BPR?access_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYmYiOjE2NzA5NDY0NDIsImV4cCI6MTY3MDk1MDA0MiwiaWF0IjoxNjcwOTQ2NDQyLCJhdWQiOiJodHRwczovL2Jwci53ZWJwdWJzdWIuYXp1cmUuY29tL2NsaWVudC9odWJzL0JQUiJ9.DOilvTehVVEDuhsNRFQA0LOWevty5TqpTEC6gy_5izo'
     ).subscribe(
-      (data) => {
-        this.countries = data;
+      (data : UnavailabilityMarketMessagesService[]) => {
+        data.map(obj => {
+          if(obj["country"] != null)
+          {
+            this.countries.push(obj["country"])
+          }
+        })
         this.initStatesLayer();
       },
       (err) => console.error('ERROR WHEN GETTING OBJECTS' + err)
