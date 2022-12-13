@@ -14,24 +14,11 @@ export class UnavailabilityMarketMessagesService {
 
   constructor(private http: HttpClient) {}
 
-  httpOptions = {
-    headers: new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Accept':"application/json",
-      'Access-Control-Allow-Origin' : '*',
-      'Access-Control-Allow-Methods':'GET',
-      'Authorization':''
-    }),
-
-  };
-
   
   public getFilterOptions<T>(endpoint): Observable<T[]> {
 
     return this.http
-      .get<T[]>(this.baseURL + `/infrastructure/${endpoint}`, {
-        headers: this.httpOptions.headers,
-      })
+      .get<T[]>(this.baseURL + `/infrastructure/${endpoint}`)
       .pipe(catchError(this.handleError));
   }
 
@@ -42,7 +29,6 @@ export class UnavailabilityMarketMessagesService {
 
     return this.http
       .get<T[]>(this.baseURL , {
-        headers: this.httpOptions.headers,
         params: params,
       })
       .pipe(catchError(this.handleError));
@@ -55,7 +41,6 @@ export class UnavailabilityMarketMessagesService {
 
     return this.http
       .get<T>(this.baseURL, {
-        headers: this.httpOptions.headers,
         params: params,
       })
       .pipe(catchError(this.handleError));

@@ -88,25 +88,26 @@ export class HomeComponent implements OnInit {
   }
 
   loadMessages() {
-    // let uri : string = 'wss://bpr.webpubsub.azure.com:443/client/hubs/BPR?access_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYmYiOjE2NzAxNjUyMzMsImV4cCI6MTY3MDE2ODgzMywiaWF0IjoxNjcwMTY1MjMzLCJhdWQiOiJodHRwczovL2Jwci53ZWJwdWJzdWIuYXp1cmUuY29tL2NsaWVudC9odWJzL0JQUiJ9.XajZ82Zjb_-GVT5-PRXo4z1z8aKQIszqhSmzuQsyU3M'
+    let uri : string = 'wss://bpr.webpubsub.azure.com:443/client/hubs/BPR?access_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYmYiOjE2NzA5MjgyMjQsImV4cCI6MTY3MDkzMTgyNCwiaWF0IjoxNjcwOTI4MjI0LCJhdWQiOiJodHRwczovL2Jwci53ZWJwdWJzdWIuYXp1cmUuY29tL2NsaWVudC9odWJzL0JQUiJ9.szw-I0pYVuF94PcIpq_HicYHPr8m0oNrRYfsr0fNgMs'
 
-    // this.webSocketConnectionService
-    //   .subscribeToWebSocket(uri)
-    //   .subscribe(
-    //     (data : UnavailabilityMarketMessagesService[])=> {
-    //       this.isLoadingResults = false;
-    //       this.dataSource.data = data;
-    //     },
-    //     (err) => console.error(err)
-    //   );
+    this.webSocketConnectionService
+      .subscribeToWebSocket(uri)
+      .subscribe(
+        (data : UnavailabilityMarketMessagesService[])=> {
+          this.isLoadingResults = false;
+          this.dataSource.data = data;
+        },
+        (err) => console.error(err)
+      );
 
     this.isLoadingResults = false;
-    this.data = UMMJSON as unknown as IUnavailabilityMarketMessage[];
-    this.dataSource.data = this.data;
+    // this.data = UMMJSON as unknown as IUnavailabilityMarketMessage[];
+    // this.dataSource.data = this.data;
   }
 
   filter() {
     this.urgentMarketMessage.getUMMS(this.filterQuery).subscribe((data) =>{
+      console.log(data)
       this.dataSource.data = data
     });
   }

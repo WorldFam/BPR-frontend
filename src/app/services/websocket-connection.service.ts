@@ -38,7 +38,7 @@ export class WebSocketConnectionService implements OnInit {
   }
 
   subscribeToWebSocket(uri){
-    return webSocket('wss://bpr.webpubsub.azure.com:443/client/hubs/BPR?access_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYmYiOjE2NzA0MTY1OTcsImV4cCI6MTY3MDQyMDE5NywiaWF0IjoxNjcwNDE2NTk3LCJhdWQiOiJodHRwczovL2Jwci53ZWJwdWJzdWIuYXp1cmUuY29tL2NsaWVudC9odWJzL0JQUiJ9.wnznEr1g-u14buZ9dfs7xBuUtHP_V2QtF_CiELyXiQ0')
+    return webSocket(uri)
   }
   
 }
