@@ -1,8 +1,4 @@
-import {
-  Component,
-  ViewChild,
-  Input,
-} from '@angular/core';
+import { Component, ViewChild, Input } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import {
@@ -11,8 +7,8 @@ import {
 } from 'src/app/models/dashboard/table-entries.model';
 import { UnavailabilityMarketMessagesService } from 'src/app/services/dashboard/unavailability-market-messages.service';
 import { UnavailabilityMarketMessageTableColumns } from 'src/app/data/table.data';
-import { IUnavailabilityMarketMessage } from 'src/app/models/api/unavailability-market-message.model'
-import { Router } from '@angular/router';
+import { IUnavailabilityMarketMessage } from 'src/app/models/api/unavailability-market-message.model';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
@@ -31,10 +27,26 @@ export class DashboardComponent {
   @Input()
   isLoadingResults: boolean;
 
+  paramId: string;
+
   constructor(
     private urgentMarketMessage: UnavailabilityMarketMessagesService,
-    private router: Router
-  ) {}
+    private router: Router,
+    private params: ActivatedRoute
+  ) {
+    this.paramId = params.snapshot.params['id'];
+
+    if (this.paramId) {
+      const params = {
+        id: this.paramId,
+      };
+      this.urgentMarketMessage
+        .getUrgentMarketMessages(params)
+        .subscribe((data: any) => {
+          this.dataSource.data = data;
+        });
+    }
+  }
 
   generateColumns(): UnavailabilityMarketMessageTableColumn<TableColumn>[] {
     let columns: UnavailabilityMarketMessageTableColumn<TableColumn>[] = [];
@@ -62,7 +74,7 @@ export class DashboardComponent {
     return columns;
   }
 
-  generateHeaders(): UnavailabilityMarketMessageTableColumn<TableColumn>[]{
+  generateHeaders(): UnavailabilityMarketMessageTableColumn<TableColumn>[] {
     let headers: UnavailabilityMarketMessageTableColumn<TableColumn>[] = [];
 
     UnavailabilityMarketMessageTableColumns.forEach((column) => {
@@ -81,14 +93,16 @@ export class DashboardComponent {
     this.dataSource.sort = this.sort;
   }
 
-  sortingKey(column : UnavailabilityMarketMessageTableColumn<TableColumn>){
-    if(column.sortingkey === undefined){
-      return column.header
+  sortingKey(column: UnavailabilityMarketMessageTableColumn<TableColumn>) {
+    if (column.sortingkey === undefined) {
+      return column.header;
     }
     return column.key;
   }
 
   rowClick(umm: IUnavailabilityMarketMessage) {
-    this.router.navigate([`historic-data/${umm.mRID}`])
+    if (!this.paramId) {
+      this.router.navigate([`historic-data/${umm.mRID}`]);
+    }
   }
 }

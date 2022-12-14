@@ -1,10 +1,10 @@
-import { HistoricDataComponent } from './components/historic-data/historic-data.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { HomeComponent } from './pages/home/home.component';
 import { ErrorComponent } from './pages/error/error.component';
 import { AuthGuard } from '@auth0/auth0-angular';
 import { MapComponent } from './components/map/map.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
 const routes: Routes = [
   {
     path: '',
@@ -23,7 +23,7 @@ const routes: Routes = [
   },
   {
     path: 'historic-data/:id',
-    component: HistoricDataComponent,
+    component: DashboardComponent,
     canActivate: [AuthGuard],
   },
   {
