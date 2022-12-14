@@ -1,8 +1,8 @@
 import {
   UnavailabilityMarketMessageTableColumn,
   TableColumn,
-} from '../models/table-entries.model';
-import { UnavailabilityMarketMessageColumnDef } from '../enums/umm-entries';
+} from '../models/dashboard/table-entries.model';
+import { UnavailabilityMarketMessageColumnDef } from '../models/enums/umm-entries';
 
 export const UnavailabilityMarketMessageTableColumns: UnavailabilityMarketMessageTableColumn<TableColumn>[] = [
   {

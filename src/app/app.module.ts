@@ -64,9 +64,9 @@ import { HistoricDataComponent } from './components/historic-data/historic-data.
     AuthModule.forRoot({
       ...env.auth
     }),
-    BrowserAnimationsModule,
   ],
   providers: [
+    HttpClientModule,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthHttpInterceptor,

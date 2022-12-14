@@ -2,17 +2,16 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '@auth0/auth0-angular';
 import { UnavailabilityMarketMessagesService } from 'src/app/services/dashboard/unavailability-market-messages.service';
 import { MatTableDataSource } from '@angular/material/table';
-import { Filter } from 'src/app/models/filter-infrastructure.model';
-import { FilterParams, QueryString } from 'src/app/models/filter-params.model';
+import { Filter } from 'src/app/models/dashboard/filter-infrastructure.model';
+import { FilterParams, QueryString } from 'src/app/models/api/filter-params.model';
 import { FiltersInfrastructure } from 'src/app/data/filter.data';
-import UMMJSON from 'src/app/UMM.json';
-import { FormGroup, FormControl, AbstractControl } from '@angular/forms';
-import { WebSocketConnectionService } from 'src/app/services/websocket-connection.service';
+import { FormGroup, FormControl } from '@angular/forms';
+import { WebSocketConnectionService } from 'src/app/services/websocket/websocket-connection.service';
 import { IUnavailabilityMarketMessage } from 'src/app/models/api/unavailability-market-message.model';
+import UMM from 'src/app/UMM.json'
 import {
-  FilterInfrastructure,
   FilterInfrastructureQueryKeys,
-} from 'src/app/enums/filter-infrastructure';
+} from 'src/app/models/enums/filter-infrastructure';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -24,7 +23,10 @@ export class HomeComponent implements OnInit {
     private urgentMarketMessage: UnavailabilityMarketMessagesService,
     private webSocketConnectionService: WebSocketConnectionService
   ) {
-    this.loadMessages();
+    //this.loadMessages();
+    this.isLoadingResults = false;
+    this.dataSource.data = UMM
+
   }
 
   dataSource = new MatTableDataSource();
@@ -50,7 +52,6 @@ export class HomeComponent implements OnInit {
 
     this.formGroup.valueChanges.subscribe(() => {
       this.filterQuery = this.convertFilterParamsToQuery();
-      console.log(this.filterQuery);
     });
   }
 
@@ -69,7 +70,7 @@ export class HomeComponent implements OnInit {
     Object.keys(this.formGroup.controls).forEach((key) => {
       const filter = this.formGroup.controls[key].value;
       if (key === FilterInfrastructureQueryKeys.publicationDate) {
-        filterValue[key] = JSON.stringify(filter);
+        filterValue[key] = filter;
       } else {
         filterValue[key] = filter.map((item) => item.code);
       }
@@ -82,44 +83,42 @@ export class HomeComponent implements OnInit {
     FiltersInfrastructure.forEach((filter) => {
       this.formGroup.addControl(
         filter.endpoint,
-        new FormControl(filter.defaultValue ?? [], { nonNullable: true })
+        new FormControl([], { nonNullable: true })
       );
     });
   }
 
-  loadMessages() {
-    let uri : string = 'wss://bpr.webpubsub.azure.com:443/client/hubs/BPR?access_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYmYiOjE2NzA5MjgyMjQsImV4cCI6MTY3MDkzMTgyNCwiaWF0IjoxNjcwOTI4MjI0LCJhdWQiOiJodHRwczovL2Jwci53ZWJwdWJzdWIuYXp1cmUuY29tL2NsaWVudC9odWJzL0JQUiJ9.szw-I0pYVuF94PcIpq_HicYHPr8m0oNrRYfsr0fNgMs'
-
+  async loadMessages() {
     this.webSocketConnectionService
-      .subscribeToWebSocket(uri)
+      .subscribeToWebSocket(
+        await this.webSocketConnectionService.getUriAndConnectToPubSub()
+      )
       .subscribe(
         (data : UnavailabilityMarketMessagesService[])=> {
           this.isLoadingResults = false;
           this.dataSource.data = data;
         },
-        (err) => console.error(err)
       );
-
-    this.isLoadingResults = false;
-    // this.data = UMMJSON as unknown as IUnavailabilityMarketMessage[];
-    // this.dataSource.data = this.data;
   }
 
   filter() {
-    this.urgentMarketMessage.getUMMS(this.filterQuery).subscribe((data) =>{
-      console.log(data)
+    this.urgentMarketMessage.getUrgentMarketMessages(this.filterQuery).subscribe((data)=> {
+      this.isLoadingResults = false;
       this.dataSource.data = data
     });
+
+    this.dataSource.data = UMM
   }
 
   clear() {
     this.formGroup.reset();
+    this.filter();
   }
 
   loadLocalOptionFilters(): Filter<FilterParams>[] {
     FiltersInfrastructure.forEach((filter, index) => {
       if (!filter.isDateFilter) {
-        let option = JSON.parse(localStorage.getItem(filter.endpoint));
+        let option = JSON.parse(sessionStorage.getItem(filter.endpoint));
         if (option === null) {
           this.requestOptionFilter(filter);
         } else {
@@ -134,7 +133,7 @@ export class HomeComponent implements OnInit {
   requestOptionFilter(filter: Filter<FilterParams>): FilterParams[] {
     this.urgentMarketMessage.getFilterOptions(filter.endpoint).subscribe(
       (data: FilterParams[]) => {
-        localStorage.setItem(filter.endpoint, JSON.stringify(data));
+        sessionStorage.setItem(filter.endpoint, JSON.stringify(data));
         return (filter.options = data);
       },
       (error) => console.log(error),

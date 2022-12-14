@@ -1,6 +1,6 @@
-<div class="example-container">
+<div class="table-container">
 
-  <div class="example-loading-shade" *ngIf="isLoadingResults">
+  <div class="table-loading-shade" *ngIf="isLoadingResults">
     <mat-spinner *ngIf="isLoadingResults" color="primary"></mat-spinner>
   </div>
 
@@ -21,7 +21,6 @@
     <ng-container *ngFor="let header of headers" [matColumnDef]="header.header">
       <th mat-header-cell *matHeaderCellDef [mat-sort-header]="header.key"
         [disabled]="!header.sortable"
-        [ngStyle]="{'border-top': header.key === 'capacity' ? '1px' : 'none'}"
         [attr.rowspan]="header.key === 'capacity' ? 1 : 2" [attr.colspan]="header.key === 'capacity' ? 3 : 1">
         {{header.header}}
       </th>
@@ -32,7 +31,7 @@
     <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="rowClick(row)"></tr>
 
     <tr class="mat-row" *matNoDataRow>
-      <td class="mat-cell" colspan="4">No data</td>
+      <td class="mat-cell" colspan="14">No data</td>
     </tr>
   </table>
 </div>

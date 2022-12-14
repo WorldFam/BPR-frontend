@@ -1,3 +1,4 @@
+import { HttpClientModule } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AuthService } from '@auth0/auth0-angular';
 import { HomeComponent } from './home.component';
@@ -11,6 +12,7 @@ describe('HomeComponent', () => {
     authServiceSpy = jasmine.createSpyObj('AuthService', ['loginWithRedirect']);
 
     TestBed.configureTestingModule({
+      imports: [HttpClientModule],
       declarations: [HomeComponent],
       providers: [
         {
@@ -25,7 +27,5 @@ describe('HomeComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+
 });

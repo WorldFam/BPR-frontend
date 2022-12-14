@@ -3,14 +3,13 @@ import { HttpParams } from '@angular/common/http';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { apiVersion } from 'src/app/constants/constants';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UnavailabilityMarketMessagesService {
   private baseURL: string =
-    '  http://localhost:7071/api/EventController';
+    'http://localhost:7071/api/EventController';
 
   constructor(private http: HttpClient) {}
 
@@ -22,7 +21,7 @@ export class UnavailabilityMarketMessagesService {
       .pipe(catchError(this.handleError));
   }
 
-  public getUMMS<T>(queryParams?): Observable<T[]> {
+  public getUrgentMarketMessages<T>(queryParams?): Observable<T[]> {
     let params = new HttpParams({
       fromObject: queryParams,
     });
@@ -34,9 +33,9 @@ export class UnavailabilityMarketMessagesService {
       .pipe(catchError(this.handleError));
   }
 
-  public getUMM<T>(id): Observable<T> {
+  public getUrgentMarketMessageHistoricData<T>(id: string): Observable<T> {
     let params = new HttpParams({
-      fromObject: id,
+      fromString: id,
     });
 
     return this.http

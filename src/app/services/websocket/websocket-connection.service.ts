@@ -2,7 +2,7 @@ import { Injectable, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { webSocket } from 'rxjs/webSocket';
 import { Observable, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -15,7 +15,7 @@ export class WebSocketConnectionService implements OnInit {
   }
   
   async getUriAndConnectToPubSub()  {
-    return await this.http.get('http://localhost:7071/api/GeneratingUriForPubSub')
+    return await this.http.get('http://localhost:7071/api/generate-uri')
     .toPromise().then(res => res["uri"]);
   }
 

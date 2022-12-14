@@ -2,7 +2,7 @@ import { UnavailabilityMarketMessagesService } from 'src/app/services/dashboard/
 import { Component, AfterViewInit } from '@angular/core';
 import * as L from 'leaflet';
 import { ShapeService } from '../../services/map/shape.service';
-import { WebSocketConnectionService } from '../../services/websocket-connection.service';
+import { WebSocketConnectionService } from '../../services/websocket/websocket-connection.service';
 
 const iconRetinaUrl = 'assets/marker-icon-2x.png';
 const iconUrl = 'assets/marker-icon.png';
@@ -97,7 +97,6 @@ export class MapComponent implements AfterViewInit {
         })
         this.initStatesLayer();
       },
-      (err) => console.error('ERROR WHEN GETTING OBJECTS' + err)
     );
   }
 }
