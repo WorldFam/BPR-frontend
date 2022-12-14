@@ -1,8 +1,6 @@
+import { UnavailabilityMarketMessagesService } from 'src/app/services/dashboard/unavailability-market-messages.service';
 import { Component, AfterViewInit } from '@angular/core';
 import * as L from 'leaflet';
-//kimport { filter } from 'rxjs';
-//import { MarkerService } from '../../services/marker.service';
-//import { MarkersWithColors } from '../markersWithColors';
 import { ShapeService } from '../../services/map/shape.service';
 import { WebSocketConnectionService } from '../../services/websocket/websocket-connection.service';
 
@@ -30,13 +28,13 @@ export class MapComponent implements AfterViewInit {
   private map: any;
   private states: any;
   private filteredCountries: any[] = [];
-  private countries: any;
+  private countries: any = [];
   //Sides
+  //CHECK THIS
   private initStatesLayer() {
     this.states.features.forEach((element: any) => {
       if (this.countries != null) {
         this.countries.forEach((country) => {
-          console.log(country + ' AM I COMING');
           if (element.properties.name === country) {
             return this.filteredCountries.push(element);
           }
@@ -81,17 +79,22 @@ export class MapComponent implements AfterViewInit {
     private webSocketConnectionService: WebSocketConnectionService
   ) {}
 
-  ngAfterViewInit(): void {
+  async ngAfterViewInit() {
     this.initMap();
-
     this.shapeService.getStateShapes().subscribe((states) => {
       this.states = states;
     });
 
     this.webSocketConnectionService.subscribeToWebSocket(
+      await this.webSocketConnectionService.getUriAndConnectToPubSub()
     ).subscribe(
-      (data) => {
-        this.countries = data;
+      (data : UnavailabilityMarketMessagesService[]) => {
+        data.map(obj => {
+          if(obj["country"] != null)
+          {
+            this.countries.push(obj["country"])
+          }
+        })
         this.initStatesLayer();
       },
     );

@@ -85,6 +85,11 @@ export const UnavailabilityMarketMessageTableColumns: UnavailabilityMarketMessag
     header: UnavailabilityMarketMessageColumnDef.unitOfMeasure,
     sortable: true,
   },
+  {
+    key: getColumnKey(UnavailabilityMarketMessageColumnDef.fuelType),
+    header: UnavailabilityMarketMessageColumnDef.fuelType,
+    sortable: true,
+  },
 ];
 
 function getColumnKey(column: UnavailabilityMarketMessageColumnDef) {

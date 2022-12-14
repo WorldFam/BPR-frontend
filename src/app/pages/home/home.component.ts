@@ -88,9 +88,11 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  loadMessages() {
+  async loadMessages() {
     this.webSocketConnectionService
-      .subscribeToWebSocket()
+      .subscribeToWebSocket(
+        await this.webSocketConnectionService.getUriAndConnectToPubSub()
+      )
       .subscribe(
         (data : UnavailabilityMarketMessagesService[])=> {
           this.isLoadingResults = false;

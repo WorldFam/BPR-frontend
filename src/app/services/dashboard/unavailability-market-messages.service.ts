@@ -9,28 +9,15 @@ import { catchError } from 'rxjs/operators';
 })
 export class UnavailabilityMarketMessagesService {
   private baseURL: string =
-    'http://localhost:7071/api';
+    'http://localhost:7071/api/EventController';
 
   constructor(private http: HttpClient) {}
 
-  httpOptions = {
-    headers: new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Accept':"application/json",
-      'Access-Control-Allow-Origin' : '*',
-      'Access-Control-Allow-Methods':'GET',
-      //'x-functions-key' :
-      /// process.env.X_FUNCTIONS_KEY
-    }),
-
-  };
   
   public getFilterOptions<T>(endpoint): Observable<T[]> {
 
     return this.http
-      .get<T[]>(this.baseURL + `/infrastructure/${endpoint}`, {
-        headers: this.httpOptions.headers,
-      })
+      .get<T[]>(this.baseURL + `/infrastructure/${endpoint}`)
       .pipe(catchError(this.handleError));
   }
 
@@ -40,17 +27,20 @@ export class UnavailabilityMarketMessagesService {
     });
 
     return this.http
-      .get<T[]>( this.baseURL + `/messages`, {
-        headers: this.httpOptions.headers,
+      .get<T[]>(this.baseURL , {
         params: params,
       })
       .pipe(catchError(this.handleError));
   }
 
   public getUrgentMarketMessageHistoricData<T>(id: string): Observable<T> {
+    let params = new HttpParams({
+      fromString: id,
+    });
+
     return this.http
-      .get<T>(this.baseURL + `/message/${id}`, {
-        headers: this.httpOptions.headers,
+      .get<T>(this.baseURL, {
+        params: params,
       })
       .pipe(catchError(this.handleError));
   }

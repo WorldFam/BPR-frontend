@@ -14,5 +14,7 @@ export enum UnavailabilityMarketMessageColumnDef {
     installedCapacity = 'Installed',
     unavailableCapacity = 'Unavailable',
     unitOfMeasure = 'Unit of Measure',
+    fuelType = 'Fuel Type',
+    revisionNumber = 'Revision Number'
 }
 
