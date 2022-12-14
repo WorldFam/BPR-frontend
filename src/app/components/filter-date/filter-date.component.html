@@ -2,7 +2,7 @@
   <div class="mat-date-container">
     <div>{{filter.name}}</div>
     <mat-form-field appearance="none" class="mat-date-field" >
-      <input matInput [matDatepicker]="picker" placeholder="All" [formControlName]="filter.endpoint" disabled="true">
+      <input matInput [matDatepicker]="picker" placeholder="All" [formControlName]="filter.endpoint">
       <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
       <mat-datepicker #picker disabled="false"></mat-datepicker>
     </mat-form-field>

@@ -100,10 +100,10 @@ export class HomeComponent implements OnInit {
   }
 
   filter() {
-    // this.urgentMarketMessage.getUMMS(this.filterQuery).subscribe((data)=> {
-    //   this.isLoadingResults = false;
-    //   this.dataSource.data = data
-    // });
+    this.urgentMarketMessage.getUMMS(this.filterQuery).subscribe((data)=> {
+      this.isLoadingResults = false;
+      this.dataSource.data = data
+    });
 
     this.dataSource.data = UMM
   }
@@ -118,7 +118,7 @@ export class HomeComponent implements OnInit {
       if (!filter.isDateFilter) {
         let option = JSON.parse(sessionStorage.getItem(filter.endpoint));
         if (option === null) {
-          //this.requestOptionFilter(filter);
+          this.requestOptionFilter(filter);
         } else {
           FiltersInfrastructure[index].options = option;
         }
