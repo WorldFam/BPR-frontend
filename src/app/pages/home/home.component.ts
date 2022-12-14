@@ -5,8 +5,8 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Filter } from 'src/app/models/dashboard/filter-infrastructure.model';
 import { FilterParams, QueryString } from 'src/app/models/api/filter-params.model';
 import { FiltersInfrastructure } from 'src/app/data/filter.data';
-import { FormGroup, FormControl, AbstractControl } from '@angular/forms';
-import { WebSocketConnectionService } from 'src/app/services/websocket-connection.service';
+import { FormGroup, FormControl } from '@angular/forms';
+import { WebSocketConnectionService } from 'src/app/services/websocket/websocket-connection.service';
 import { IUnavailabilityMarketMessage } from 'src/app/models/api/unavailability-market-message.model';
 import UMM from 'src/app/UMM.json'
 import {
