@@ -11,15 +11,12 @@ export class WebSocketConnectionService implements OnInit {
   constructor(private http: HttpClient) {
   
   }
-
-  pubSubUri: Object
-
   ngOnInit(){
   }
   
-  getUriAndConnectToPubSub()  {
-   return this.http.get('http://localhost:7071/api/GeneratingUriForPubSub')
-   .subscribe((data) => console.log(data) );
+  async getUriAndConnectToPubSub()  {
+    return await this.http.get('http://localhost:7071/api/GeneratingUriForPubSub')
+    .toPromise().then(res => res["uri"]);
   }
 
   handleError(error: any) {
@@ -40,5 +37,4 @@ export class WebSocketConnectionService implements OnInit {
   subscribeToWebSocket(uri){
     return webSocket(uri)
   }
-  
 }

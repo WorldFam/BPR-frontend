@@ -30,6 +30,7 @@ export class MapComponent implements AfterViewInit {
   private filteredCountries: any[] = [];
   private countries: any = [];
   //Sides
+  //CHECK THIS
   private initStatesLayer() {
     this.states.features.forEach((element: any) => {
       if (this.countries != null) {
@@ -78,15 +79,14 @@ export class MapComponent implements AfterViewInit {
     private webSocketConnectionService: WebSocketConnectionService
   ) {}
 
-  ngAfterViewInit(): void {
+  async ngAfterViewInit() {
     this.initMap();
-
     this.shapeService.getStateShapes().subscribe((states) => {
       this.states = states;
     });
 
     this.webSocketConnectionService.subscribeToWebSocket(
-      'wss://bpr.webpubsub.azure.com:443/client/hubs/BPR?access_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYmYiOjE2NzA5NDY0NDIsImV4cCI6MTY3MDk1MDA0MiwiaWF0IjoxNjcwOTQ2NDQyLCJhdWQiOiJodHRwczovL2Jwci53ZWJwdWJzdWIuYXp1cmUuY29tL2NsaWVudC9odWJzL0JQUiJ9.DOilvTehVVEDuhsNRFQA0LOWevty5TqpTEC6gy_5izo'
+      await this.webSocketConnectionService.getUriAndConnectToPubSub()
     ).subscribe(
       (data : UnavailabilityMarketMessagesService[]) => {
         data.map(obj => {
