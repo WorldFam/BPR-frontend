@@ -100,7 +100,7 @@ export class HomeComponent implements OnInit {
   }
 
   filter() {
-    this.urgentMarketMessage.getUMMS(this.filterQuery).subscribe((data)=> {
+    this.urgentMarketMessage.getUrgentMarketMessages(this.filterQuery).subscribe((data)=> {
       this.isLoadingResults = false;
       this.dataSource.data = data
     });

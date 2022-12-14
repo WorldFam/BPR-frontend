@@ -30,7 +30,7 @@ describe('UnavailabilityMarketMessagesService', () => {
   });
 
   it('should return messages as an Observable', () => {
-    service.getUMMS().subscribe((messages) => {
+    service.getUrgentMarketMessages().subscribe((messages) => {
       expect(messages.length).toBe(UMM.length);
       expect(messages).toEqual(UMM);
     });
@@ -46,7 +46,7 @@ describe('UnavailabilityMarketMessagesService', () => {
     };
 
     service
-      .getUMMS(queryParams)
+      .getUrgentMarketMessages(queryParams)
       .subscribe((messages: IUnavailabilityMarketMessage[]) => {
         expect(messages.length).toBe(UMM.length);
         expect(messages[0].source).toBe('ENTSOE');
@@ -85,7 +85,7 @@ describe('UnavailabilityMarketMessagesService', () => {
       },
     ];
 
-    service.getUMM(messagemRID).subscribe((data) => {
+    service.getUrgentMarketMessageHistoricData(messagemRID).subscribe((data) => {
       expect(data).toEqual(excpedtedMessage);
     });
 

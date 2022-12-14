@@ -24,7 +24,6 @@ export class UnavailabilityMarketMessagesService {
     }),
 
   };
-
   
   public getFilterOptions<T>(endpoint): Observable<T[]> {
 
@@ -35,7 +34,7 @@ export class UnavailabilityMarketMessagesService {
       .pipe(catchError(this.handleError));
   }
 
-  public getUMMS<T>(queryParams?): Observable<T[]> {
+  public getUrgentMarketMessages<T>(queryParams?): Observable<T[]> {
     let params = new HttpParams({
       fromObject: queryParams,
     });
@@ -48,7 +47,7 @@ export class UnavailabilityMarketMessagesService {
       .pipe(catchError(this.handleError));
   }
 
-  public getUMM<T>(id: string): Observable<T> {
+  public getUrgentMarketMessageHistoricData<T>(id: string): Observable<T> {
     return this.http
       .get<T>(this.baseURL + `/message/${id}`, {
         headers: this.httpOptions.headers,
