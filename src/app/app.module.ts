@@ -8,7 +8,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './pages/home/home.component';
 import { ErrorComponent } from './pages/error/error.component';
-import { NavBarComponent } from './components/nav-bar/nav-bar.component';
 import { LoadingComponent } from './components/loading/loading.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthHttpInterceptor, AuthModule } from '@auth0/auth0-angular';
@@ -34,7 +33,6 @@ import { HistoricDataComponent } from './components/historic-data/historic-data.
   declarations: [
     AppComponent,
     HomeComponent,
-    NavBarComponent,
     LoadingComponent,
     ErrorComponent,
     Auth0LoginComponent,

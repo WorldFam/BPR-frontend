@@ -9,7 +9,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import {
   UnavailabilityMarketMessageTableColumn,
   TableColumn,
-} from 'src/app/models/table-entries.model';
+} from 'src/app/models/dashboard/table-entries.model';
 import { UnavailabilityMarketMessagesService } from 'src/app/services/dashboard/unavailability-market-messages.service';
 import { UnavailabilityMarketMessageTableColumns } from 'src/app/data/historic-table.data';
 import { ActivatedRoute } from '@angular/router';
@@ -84,7 +84,7 @@ private route: ActivatedRoute  ) {}
     const params = {
       id : id
     }
-    this.urgentMarketMessage.getUMM(params).subscribe((data :any)=> {
+    this.urgentMarketMessage.getUrgentMarketMessages(params).subscribe((data :any)=> {
       this.dataSource.data = data;
     })
     this.dataSource.sort = this.sort;

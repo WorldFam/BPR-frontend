@@ -1,10 +1,8 @@
-.en-logo{
-    width: 30%;
-    max-width: 200px;
-    height: auto;
-  }
+img {
+    width: 200px;
+}
 
-.mat-toolbar{
+.mat-toolbar {
     font-size: 14px;
 }
 
@@ -12,9 +10,19 @@
     flex: 1 1 auto;
 }
 
-.nav-spacer{
-    width: 20px;
-}
-.mat-flat-button{
+.mat-button-toggle-group {
+    outline: none !important;
+    -webkit-box-shadow: none !important;
+    box-shadow: none !important;
     border-radius: 0;
+}
+
+.mat-button-toggle {
+    background-color: #E2E2E2;
+    color: #282b39;
+}
+
+.mat-button-toggle-checked {
+    background-color: #282b39;
+    color: #ffff;
 }

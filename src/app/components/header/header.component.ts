@@ -7,14 +7,10 @@ import { Router } from '@angular/router';
   styleUrls: ['./header.component.css'],
 })
 export class HeaderComponent {
-  constructor(private router: Router) {}
-
-  activeState = 'dashboard';
-
-  states = ['dashboard', 'map'];
-
-  setTab(tabname: string) {
-    this.activeState = tabname;
-    this.router.navigate([`/${tabname}`]);
+  route : string
+  constructor(private router: Router) {
+    console.log(router.url);
+    this.route = router.url  
   }
+
 }

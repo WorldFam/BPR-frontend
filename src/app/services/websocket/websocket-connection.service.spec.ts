@@ -24,20 +24,22 @@ describe('WebSocketConnectionService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should call getUriAndConnectToPubSub', () => {
+  it('should call getUriAndConnectToPubSub', async () => {
     spyOn(service, 'getUriAndConnectToPubSub').and.callThrough();
 
-    service.subscribeToWebSocket();
+    service.subscribeToWebSocket(await service.getUriAndConnectToPubSub());
 
     expect(service.getUriAndConnectToPubSub).toHaveBeenCalled();
   });
 
-  it('should return the correct data', () => {
+  it('should return the correct data', async () => {
     const expectedData = 'wss://umm/api/generate-uri';
 
-    service.subscribeToWebSocket().subscribe((data) => {
-      expect(data).toEqual(expectedData);
-    });
+    service
+      .subscribeToWebSocket(await service.getUriAndConnectToPubSub())
+      .subscribe((data) => {
+        expect(data).toEqual(expectedData);
+      });
 
     const req = httpMock.expectOne('http://localhost:7071/api/generate-uri');
     req.flush({ uri: expectedData });

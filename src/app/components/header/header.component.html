@@ -1,8 +1,10 @@
 <mat-toolbar>
-    <img class="en-logo" src="../../assets/logo.png" alt="Energi Denmark logo" />
+    <a routerLink="/"><img src="../../assets/logo.png" alt="Energi Denmark logo"/></a>
     <span class="spacer"></span>
     <span>
-        <app-nav-bar (activeState)="setTab($event)"></app-nav-bar>
+        <mat-button-toggle-group appearance="legacy" value="{{route}}">
+            <mat-button-toggle routerLink="/dashboard" value="/dashboard">Dashboard</mat-button-toggle>
+            <mat-button-toggle routerLink="/map" value="/map">Map</mat-button-toggle>
+        </mat-button-toggle-group>
     </span>
-
 </mat-toolbar>
