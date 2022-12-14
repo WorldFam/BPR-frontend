@@ -21,13 +21,13 @@ table th {
 }
 
 tr.mat-header-row {
-  height: 20px !important;
+  height: 30px !important;
 }
 
-
-::ng-deep .table thead th {
+th.mat-header-cell,
+td.mat-cell {
   border-bottom: none;
-  border-top:1px solid #fff
+  border-top:1px solid #fff;
 }
 
 
@@ -47,7 +47,7 @@ td{
   background: rgba(200,200,200);
 }
 
-.example-container {
+.table-container {
   display: block;
   height: calc(100vh - 80px);
   overflow-y:scroll;
@@ -62,6 +62,7 @@ padding-left: 8px;
 .mat-cell{
   border-bottom: 1px solid rgb(184,185,183);
   vertical-align: middle;
+  min-width: 30%
 }
 
 .mat-row:hover {
@@ -70,7 +71,7 @@ padding-left: 8px;
 
 /* IMPORTED */
 
-.example-loading-shade {
+.table-loading-shade {
   position: absolute;
   top: 55px;
   left: 0;
@@ -82,10 +83,6 @@ padding-left: 8px;
   align-items: center;
   justify-content: center;
 }
-
-.example-container {
-  position: relative;
-} 
 
 ::ng-deep .mat-sort-header-arrow {
   color: #fff;

@@ -2,17 +2,16 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '@auth0/auth0-angular';
 import { UnavailabilityMarketMessagesService } from 'src/app/services/dashboard/unavailability-market-messages.service';
 import { MatTableDataSource } from '@angular/material/table';
-import { Filter } from 'src/app/models/filter-infrastructure.model';
-import { FilterParams, QueryString } from 'src/app/models/filter-params.model';
+import { Filter } from 'src/app/models/dashboard/filter-infrastructure.model';
+import { FilterParams, QueryString } from 'src/app/models/api/filter-params.model';
 import { FiltersInfrastructure } from 'src/app/data/filter.data';
-import UMMJSON from 'src/app/UMM.json';
 import { FormGroup, FormControl, AbstractControl } from '@angular/forms';
 import { WebSocketConnectionService } from 'src/app/services/websocket-connection.service';
 import { IUnavailabilityMarketMessage } from 'src/app/models/api/unavailability-market-message.model';
+import UMM from 'src/app/UMM.json'
 import {
-  FilterInfrastructure,
   FilterInfrastructureQueryKeys,
-} from 'src/app/enums/filter-infrastructure';
+} from 'src/app/models/enums/filter-infrastructure';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -24,7 +23,10 @@ export class HomeComponent implements OnInit {
     private urgentMarketMessage: UnavailabilityMarketMessagesService,
     private webSocketConnectionService: WebSocketConnectionService
   ) {
-    this.loadMessages();
+    //this.loadMessages();
+    this.isLoadingResults = false;
+    this.dataSource.data = UMM
+
   }
 
   dataSource = new MatTableDataSource();
@@ -102,6 +104,8 @@ export class HomeComponent implements OnInit {
       this.isLoadingResults = false;
       this.dataSource.data = data
     });
+
+    this.dataSource.data = UMM
   }
 
   clear() {

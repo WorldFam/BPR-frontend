@@ -9,7 +9,7 @@ import { catchError } from 'rxjs/operators';
 })
 export class UnavailabilityMarketMessagesService {
   private baseURL: string =
-    ' http://localhost:7071/api';
+    'http://localhost:7071/api';
 
   constructor(private http: HttpClient) {}
 
@@ -19,7 +19,7 @@ export class UnavailabilityMarketMessagesService {
       'Accept':"application/json",
       'Access-Control-Allow-Origin' : '*',
       'Access-Control-Allow-Methods':'GET',
-      'x-functions-key' :
+      //'x-functions-key' :
       /// process.env.X_FUNCTIONS_KEY
     }),
 
@@ -40,12 +40,8 @@ export class UnavailabilityMarketMessagesService {
       fromObject: queryParams,
     });
 
-    console.log(params);
-
-    return null
-    
-    this.http
-      .get<T[]>(this.baseURL + `/messages`, {
+    return this.http
+      .get<T[]>( this.baseURL + `/messages`, {
         headers: this.httpOptions.headers,
         params: params,
       })
@@ -54,7 +50,7 @@ export class UnavailabilityMarketMessagesService {
 
   public getUMM<T>(id: string): Observable<T> {
     return this.http
-      .get<T>(this.baseURL + `/messages/${id}`, {
+      .get<T>(this.baseURL + `/message/${id}`, {
         headers: this.httpOptions.headers,
       })
       .pipe(catchError(this.handleError));

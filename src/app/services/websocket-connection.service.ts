@@ -16,7 +16,7 @@ export class WebSocketConnectionService implements OnInit {
 
   getUriAndConnectToPubSub() {
     return this.http
-      .get('http://localhost:7071/api/GeneratingUriForPubSub')
+      .get('http://localhost:7071/api/generate-uri')
       .pipe(map((data) => data['uri']));
   }
 
