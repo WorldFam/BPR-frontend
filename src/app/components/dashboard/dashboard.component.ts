@@ -1,4 +1,4 @@
-import { Component, ViewChild, Input } from '@angular/core';
+import { Component, ViewChild, Input, OnInit } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import {
@@ -7,6 +7,7 @@ import {
 } from 'src/app/models/dashboard/table-entries.model';
 import { UnavailabilityMarketMessagesService } from 'src/app/services/dashboard/unavailability-market-messages.service';
 import { UnavailabilityMarketMessageTableColumns } from 'src/app/data/table.data';
+import { HistoricMessageTableColumns } from 'src/app/data/historic-table.data';
 import { IUnavailabilityMarketMessage } from 'src/app/models/api/unavailability-market-message.model';
 import { ActivatedRoute, Router } from '@angular/router';
 
@@ -15,12 +16,11 @@ import { ActivatedRoute, Router } from '@angular/router';
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css'],
 })
-export class DashboardComponent {
-  columns = this.generateColumns();
-  displayedColumns = this.columns.map((c) => c.key);
-
-  headers = this.generateHeaders();
-  displayedHeaders = this.headers.map((c) => c.header);
+export class DashboardComponent implements OnInit {
+  columns: UnavailabilityMarketMessageTableColumn<TableColumn>[];
+  displayedColumns: string[];
+  headers: UnavailabilityMarketMessageTableColumn<TableColumn>[];
+  displayedHeaders: string[];
 
   @Input()
   dataSource = new MatTableDataSource();
@@ -33,8 +33,10 @@ export class DashboardComponent {
     private urgentMarketMessage: UnavailabilityMarketMessagesService,
     private router: Router,
     private params: ActivatedRoute
-  ) {
-    this.paramId = params.snapshot.params['id'];
+  ) {}
+
+  ngOnInit(): void {
+    this.paramId = this.params.snapshot.params['id'];
 
     if (this.paramId) {
       const params = {
@@ -46,12 +48,21 @@ export class DashboardComponent {
           this.dataSource.data = data;
         });
     }
+
+    this.columns = this.generateColumns();
+    this.displayedColumns = this.columns.map((c) => c.key);
+
+    this.headers = this.generateHeaders();
+    this.displayedHeaders = this.headers.map((c) => c.header);
   }
 
   generateColumns(): UnavailabilityMarketMessageTableColumn<TableColumn>[] {
     let columns: UnavailabilityMarketMessageTableColumn<TableColumn>[] = [];
 
-    UnavailabilityMarketMessageTableColumns.forEach((column) => {
+    let tableColumns = this.paramId
+      ? HistoricMessageTableColumns
+      : UnavailabilityMarketMessageTableColumns;
+    tableColumns.forEach((column) => {
       if (column.hasOwnProperty('subcolumns')) {
         column.subcolumns.forEach((subcolumn) => {
           columns.push({
@@ -77,7 +88,11 @@ export class DashboardComponent {
   generateHeaders(): UnavailabilityMarketMessageTableColumn<TableColumn>[] {
     let headers: UnavailabilityMarketMessageTableColumn<TableColumn>[] = [];
 
-    UnavailabilityMarketMessageTableColumns.forEach((column) => {
+    let tableHeaders = this.paramId
+      ? HistoricMessageTableColumns
+      : UnavailabilityMarketMessageTableColumns;
+
+    tableHeaders.forEach((column) => {
       headers.push({
         key: column.key,
         header: column.header,

@@ -4,7 +4,7 @@ import {
   } from '../models/dashboard/table-entries.model';
   import { UnavailabilityMarketMessageColumnDef } from '../models/enums/umm-entries';
   
-  export const UnavailabilityMarketMessageTableColumns: UnavailabilityMarketMessageTableColumn<TableColumn>[] = [
+  export const HistoricMessageTableColumns: UnavailabilityMarketMessageTableColumn<TableColumn>[] = [
     {
       key: getColumnKey(UnavailabilityMarketMessageColumnDef.source),
       header: UnavailabilityMarketMessageColumnDef.source,
