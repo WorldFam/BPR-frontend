@@ -39,12 +39,22 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
     this.filter();
-    this.loadMessages();
     this.optionFilters = this.loadLocalOptionFilters();
     this.addFilterControls();
 
     this.formGroup.valueChanges.subscribe(() => {
       this.filterQuery = this.convertFilterParamsToQuery();
+    });
+  }
+
+  async ngAfterViewInit() {
+    this.webSocketConnectionService
+    .subscribeToWebSocket(
+      await this.webSocketConnectionService.getUriAndConnectToPubSub()
+    )
+    .subscribe((data: UnavailabilityMarketMessagesService[]) => {
+      this.isLoadingResults = false;
+      this.dataSource.data = data;
     });
   }
 
