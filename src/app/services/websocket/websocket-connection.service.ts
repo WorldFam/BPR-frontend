@@ -16,7 +16,11 @@ export class WebSocketConnectionService implements OnInit {
   
   async getUriAndConnectToPubSub()  {
     return await this.http.get('http://localhost:7071/api/generate-uri')
-    .toPromise().then(res => res["uri"]);
+    .toPromise().then(res => console.log(res["uri"]));
+  }
+  
+  subscribeToWebSocket(uri){
+    return webSocket(uri)
   }
 
   handleError(error: any) {
@@ -34,7 +38,4 @@ export class WebSocketConnectionService implements OnInit {
     });
   }
 
-  subscribeToWebSocket(uri){
-    return webSocket(uri)
-  }
 }

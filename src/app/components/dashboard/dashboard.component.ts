@@ -27,7 +27,7 @@ export class DashboardComponent implements OnInit {
   @Input()
   isLoadingResults: boolean;
 
-  paramId: string;
+  messageId: string;
 
   constructor(
     private urgentMarketMessage: UnavailabilityMarketMessagesService,
@@ -36,18 +36,9 @@ export class DashboardComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.paramId = this.params.snapshot.params['id'];
+    this.messageId = this.params.snapshot.params['id'];
 
-    if (this.paramId) {
-      const params = {
-        id: this.paramId,
-      };
-      this.urgentMarketMessage
-        .getUrgentMarketMessages(params)
-        .subscribe((data: any) => {
-          this.dataSource.data = data;
-        });
-    }
+    this.getHistoricMessages()
 
     this.columns = this.generateColumns();
     this.displayedColumns = this.columns.map((c) => c.key);
@@ -56,10 +47,23 @@ export class DashboardComponent implements OnInit {
     this.displayedHeaders = this.headers.map((c) => c.header);
   }
 
+  getHistoricMessages(){
+    if (this.messageId) {
+      const params = {
+        id: this.messageId,
+      };
+      this.urgentMarketMessage
+        .getUrgentMarketMessages(params)
+        .subscribe((data: any) => {
+          this.dataSource.data = data;
+        });
+    }
+  }
+
   generateColumns(): UnavailabilityMarketMessageTableColumn<TableColumn>[] {
     let columns: UnavailabilityMarketMessageTableColumn<TableColumn>[] = [];
 
-    let tableColumns = this.paramId
+    let tableColumns = this.messageId
       ? HistoricMessageTableColumns
       : UnavailabilityMarketMessageTableColumns;
     tableColumns.forEach((column) => {
@@ -88,7 +92,7 @@ export class DashboardComponent implements OnInit {
   generateHeaders(): UnavailabilityMarketMessageTableColumn<TableColumn>[] {
     let headers: UnavailabilityMarketMessageTableColumn<TableColumn>[] = [];
 
-    let tableHeaders = this.paramId
+    let tableHeaders = this.messageId
       ? HistoricMessageTableColumns
       : UnavailabilityMarketMessageTableColumns;
 
@@ -116,7 +120,8 @@ export class DashboardComponent implements OnInit {
   }
 
   rowClick(umm: IUnavailabilityMarketMessage) {
-    if (!this.paramId) {
+    if (!this.messageId) {
+      console.log(umm)
       this.router.navigate([`historic-data/${umm.mRID}`]);
     }
   }

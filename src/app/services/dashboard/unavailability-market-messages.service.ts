@@ -9,15 +9,14 @@ import { catchError } from 'rxjs/operators';
 })
 export class UnavailabilityMarketMessagesService {
   private baseURL: string =
-    'http://localhost:7071/api/EventController';
+    'http://localhost:7071/api';
 
   constructor(private http: HttpClient) {}
-
   
-  public getFilterOptions<T>(endpoint): Observable<T[]> {
+  public getFilterOptions<T>(id : string): Observable<T[]> {
 
     return this.http
-      .get<T[]>(this.baseURL + `/infrastructure/${endpoint}`)
+      .get<T[]>(this.baseURL + `/infrastructure/${id}`)
       .pipe(catchError(this.handleError));
   }
 
@@ -27,7 +26,7 @@ export class UnavailabilityMarketMessagesService {
     });
 
     return this.http
-      .get<T[]>(this.baseURL , {
+      .get<T[]>(this.baseURL + `/messages`, {
         params: params,
       })
       .pipe(catchError(this.handleError));
@@ -39,7 +38,7 @@ export class UnavailabilityMarketMessagesService {
     });
 
     return this.http
-      .get<T>(this.baseURL, {
+      .get<T>(this.baseURL + `/messages`, {
         params: params,
       })
       .pipe(catchError(this.handleError));

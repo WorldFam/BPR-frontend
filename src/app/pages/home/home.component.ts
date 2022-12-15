@@ -3,15 +3,16 @@ import { AuthService } from '@auth0/auth0-angular';
 import { UnavailabilityMarketMessagesService } from 'src/app/services/dashboard/unavailability-market-messages.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { Filter } from 'src/app/models/dashboard/filter-infrastructure.model';
-import { FilterParams, QueryString } from 'src/app/models/api/filter-params.model';
+import {
+  FilterParams,
+  QueryString,
+} from 'src/app/models/api/filter-params.model';
 import { FiltersInfrastructure } from 'src/app/data/filter.data';
 import { FormGroup, FormControl } from '@angular/forms';
 import { WebSocketConnectionService } from 'src/app/services/websocket/websocket-connection.service';
 import { IUnavailabilityMarketMessage } from 'src/app/models/api/unavailability-market-message.model';
-import UMM from 'src/app/UMM.json'
-import {
-  FilterInfrastructureQueryKeys,
-} from 'src/app/models/enums/filter-infrastructure';
+import UMM from 'src/app/UMM.json';
+import { FilterInfrastructureQueryKeys } from 'src/app/models/enums/filter-infrastructure';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -20,14 +21,9 @@ import {
 export class HomeComponent implements OnInit {
   constructor(
     public auth: AuthService,
-    private urgentMarketMessage: UnavailabilityMarketMessagesService,
+    private unavailabilityMarketMessagesService: UnavailabilityMarketMessagesService,
     private webSocketConnectionService: WebSocketConnectionService
-  ) {
-    //this.loadMessages();
-    this.isLoadingResults = false;
-    this.dataSource.data = UMM
-
-  }
+  ) {}
 
   dataSource = new MatTableDataSource();
   isLoadingResults = true;
@@ -35,18 +31,15 @@ export class HomeComponent implements OnInit {
 
   optionFilters: Filter<FilterParams>[];
 
-  activeState: string;
   formGroup = new FormGroup({});
   data: IUnavailabilityMarketMessage[];
   filterQuery: QueryString;
 
   selectedFilter: string;
 
-  setStateAsActive(state) {
-    this.activeState = state;
-  }
-
   ngOnInit() {
+    this.filter();
+    this.loadMessages();
     this.optionFilters = this.loadLocalOptionFilters();
     this.addFilterControls();
 
@@ -70,7 +63,9 @@ export class HomeComponent implements OnInit {
     Object.keys(this.formGroup.controls).forEach((key) => {
       const filter = this.formGroup.controls[key].value;
       if (key === FilterInfrastructureQueryKeys.publicationDate) {
-        filterValue[key] = filter;
+        if (filter.length !== 0) {
+          filterValue[key] = filter.toLocaleDateString('fr-CA')  ;
+        }
       } else {
         filterValue[key] = filter.map((item) => item.code);
       }
@@ -93,21 +88,20 @@ export class HomeComponent implements OnInit {
       .subscribeToWebSocket(
         await this.webSocketConnectionService.getUriAndConnectToPubSub()
       )
-      .subscribe(
-        (data : UnavailabilityMarketMessagesService[])=> {
-          this.isLoadingResults = false;
-          this.dataSource.data = data;
-        },
-      );
+      .subscribe((data: UnavailabilityMarketMessagesService[]) => {
+        this.isLoadingResults = false;
+        this.dataSource.data = data;
+      });
   }
 
   filter() {
-    this.urgentMarketMessage.getUrgentMarketMessages(this.filterQuery).subscribe((data)=> {
-      this.isLoadingResults = false;
-      this.dataSource.data = data
-    });
-
-    this.dataSource.data = UMM
+    console.log(this.filterQuery);
+    this.unavailabilityMarketMessagesService
+      .getUrgentMarketMessages(this.filterQuery)
+      .subscribe((data) => {
+        this.isLoadingResults = false;
+        this.dataSource.data = data;
+      });
   }
 
   clear() {
@@ -131,14 +125,16 @@ export class HomeComponent implements OnInit {
   }
 
   requestOptionFilter(filter: Filter<FilterParams>): FilterParams[] {
-    this.urgentMarketMessage.getFilterOptions(filter.endpoint).subscribe(
-      (data: FilterParams[]) => {
-        sessionStorage.setItem(filter.endpoint, JSON.stringify(data));
-        return (filter.options = data);
-      },
-      (error) => console.log(error),
-      () => (this.isLoadingOptions = false)
-    );
+    this.unavailabilityMarketMessagesService
+      .getFilterOptions(filter.endpoint)
+      .subscribe(
+        (data: FilterParams[]) => {
+          sessionStorage.setItem(filter.endpoint, JSON.stringify(data));
+          return (filter.options = data);
+        },
+        (error) => console.log(error),
+        () => (this.isLoadingOptions = false)
+      );
     return filter.options;
   }
 }
